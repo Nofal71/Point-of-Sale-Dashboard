@@ -1,24 +1,23 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Avatar, Breadcrumbs } from '@mui/material';
+import { Avatar, Breadcrumbs, Divider } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName, setNestedComponent } from '../../redux/Reducers/currentComponentSlice';
-import { tabs } from '../../Pages/Tabs/DashboardTabs';
-import { useComponent } from '../../Pages/Tabs/DashBoardComponents';
+import { setName } from '../../redux/Reducers/currentComponentSlice';
+import { tabs } from '../Tabs/DashboardTabs';
+import { useComponent } from '../Tabs/DashBoardComponents';
+import AppBarComponent from './AppBarComponent';
+import UserProfile from './UserProfile';
 
 const drawerWidth = 240;
 
@@ -52,11 +51,16 @@ function Dashboard(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
     const name = useSelector(state => state.currentSelection.name)
+    const [color, setColor] = React.useState('#0000f5');
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
     const nestedComponent = useSelector(state => state.currentSelection.nestedComponent)
     const dispatch = useDispatch()
     const component = useComponent();
 
-
+    const setColorTest = (index) => {
+        setSelectedIndex(index);
+        setColor('#0000f5');  // You can customize the color here
+    };
 
     function handleClickBreadcrumbs(event) {
         event.preventDefault();
@@ -77,9 +81,14 @@ function Dashboard(props) {
         }
     };
 
+
     const drawer = (
         <div>
-            <Toolbar />
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'center', height: '8rem' }}>
+                <img style={{ height: '7rem', objectFit: 'cover' }} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0GP0qeo8LA7I0QCjoyqI1bBJoABbzRj25kg&s' />
+            </Box>
+            {/* <Toolbar /> */}
+            {/* <Divider /> */}
             <List>
                 {tabs.map((item, index) => (
                     <div key={index}>
@@ -89,17 +98,22 @@ function Dashboard(props) {
                                     onClick={() => {
                                         dispatch(setName(item.name));
                                         handleDrawerClose();
+                                        setColorTest(index);
                                     }}
                                 >
-                                    <ListItemText primary={item.name} />
+                                    <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
                                 </ListItemButton>
                             </ListItem>
                         ) : (
                             <Toggler
                                 renderToggle={({ open, setOpen }) => (
                                     <ListItem disablePadding>
-                                        <ListItemButton onClick={() => setOpen(!open)}>
-                                            <ListItemText primary={item.name} />
+                                        <ListItemButton onClick={() => {
+                                            setOpen(!open)
+                                            setColorTest(index);
+                                        }}
+                                        >
+                                            <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
                                             {open ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
                                     </ListItem>
@@ -126,32 +140,11 @@ function Dashboard(props) {
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar
-                position="fixed"
-                sx={{
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    ml: { sm: `${drawerWidth}px` },
-                    backgroundColor: '#424242'
-                }}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Admin Site
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <AppBarComponent handleDrawerToggle={handleDrawerToggle} drawerWidth={drawerWidth} />
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -182,14 +175,9 @@ function Dashboard(props) {
                     }}
                     open
                 >
+
                     {drawer}
-                    <Box sx={{
-                        position: 'absolute',
-                        bottom: 0, right: 0, left: 0,
-                    }}>
-                        <Avatar
-                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-gukc7EnLg2lXrV35IoDl3SrhFbupHeJhuw&s' />
-                    </Box>
+                    <UserProfile Width={drawerWidth} />
                 </Drawer>
             </Box>
 

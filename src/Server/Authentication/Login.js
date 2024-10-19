@@ -1,32 +1,38 @@
 import axios from 'axios';
 
-const authUser = async (credentials) => {
-  const { username, password } = credentials; 
-
-  if (!username || !password) {
-    console.error('Username and password are required');
-    return false;
-  }
+export const authUser = async (email, password) => {
 
   try {
     const response = await axios.get('http://localhost:3000/user');
     const users = response.data;
 
     const authenticatedUser = users.find(
-      (user) => user.username === username && user.password === password 
+      (user) => user.email === email && user.password === password
     );
 
     if (authenticatedUser) {
       console.log('User authenticated successfully');
-      return true; 
+      return true;
     } else {
       console.error('Invalid credentials');
-      return false; 
+      return false;
     }
   } catch (error) {
     console.error('Error fetching users:', error);
-    return false; 
+    return false;
   }
 };
 
-export default authUser;
+
+export const getUserDetials = async (email) => {
+    try {
+        const response = await axios.get('http://localhost:3000/user');
+        const users = response.data;
+        const userData = users.find(user => user.email === email);
+        return userData || null; 
+    } catch (error) {
+        console.error('Error in fetching data:', error);
+        return null; 
+    }
+};
+

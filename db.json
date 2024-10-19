@@ -1,10 +1,32 @@
 {
-    "user": [
-        {
-            "type": "admin",
-            "username": "Nofal",
-            "email": "hafiznofal76@gmail.com",
-            "password": "123456"
-        }
-    ]
+  "user": [
+    {
+      "id": "8d70",
+      "name": "Nofal",
+      "username": "Nofal123",
+      "email": "nofal76@gmail.com",
+      "password": "nofal123"
+    },
+    {
+      "id": "5d77",
+      "email": "nofal123@gmail.com",
+      "username": "Nofal71",
+      "name": "Nofal Hassaan",
+      "password": "nofal123"
+    },
+    {
+      "id": "1b81",
+      "email": "nofal70@gmail.com",
+      "username": "Nofal71",
+      "name": "nofal Hassaan",
+      "password": "nofal123"
+    },
+    {
+      "id": "e47b",
+      "email": "nofal9898@gmail.com",
+      "username": "Nofal888",
+      "name": "Nofal Hassan",
+      "password": "nofal123"
+    }
+  ]
 }

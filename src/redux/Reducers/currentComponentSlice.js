@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { tabs } from "../../Pages/Tabs/DashboardTabs";
+import { tabs } from "../../Components/Tabs/DashboardTabs";
 
 export const currentSelectionSlice = createSlice({
     name: 'currentSelection',

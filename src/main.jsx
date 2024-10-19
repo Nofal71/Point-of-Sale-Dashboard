@@ -2,12 +2,21 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
-import { store } from './redux/Store/Store.js'
+import { persistor, store } from './redux/Store/Store.js'
+import { PersistGate } from 'redux-persist/lib/integration/react.js'
+import AlertComponent from './Components/common/AlertComponent.jsx'
+import { DashboardTheme } from './MUI_Theme/themeConfig.jsx'
+import { ThemeProvider } from '@mui/material'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={DashboardTheme}>
+          <AlertComponent />
+          <App />
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   </StrictMode>,
 )
