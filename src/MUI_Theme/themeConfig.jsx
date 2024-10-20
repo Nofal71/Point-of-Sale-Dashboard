@@ -53,7 +53,7 @@ export const AuthTheme = createTheme({
                         borderBottom: 'none',
                     },
                     '& .MuiInputBase-input': {
-                        fontSize: '0.75rem', // Change this value for different text sizes
+                        fontSize: '0.85rem', // Change this value for different text sizes
                     },
                     // '& .MuiInputBase-input': {
                     //     color: '#ffffff', // Change input text color to white

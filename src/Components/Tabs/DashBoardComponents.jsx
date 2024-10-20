@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { Analytics, Pending, Placed, Products, UserAccounts, UserCarts, Settings } from '../../Pages/page-components';
+
 
 
 export const useComponent = () => {
@@ -19,13 +21,19 @@ export const useComponent = () => {
 
         return (
             selectOption === 'Dashboard' ? (
-                <h1>Main Dashboard</h1>
-            ) : selectOption === 'item1' ? (
-                <h1>Item 1</h1>
-            ) : selectOption === 'item2' ? (
-                <h1>Item 2</h1>
-            ) : selectOption === 'Dashboard Settings' ? (
-                <h1>Settings</h1>
+                <Analytics />
+            ) : selectOption === 'Pending Orders' ? (
+                <Pending />
+            ) : selectOption === 'Placed Orders' ? (
+                <Placed />
+            ) : selectOption === 'Products' ? (
+                <Products />
+            ) : selectOption === 'User Accounts' ? (
+                <UserAccounts />
+            ) : selectOption === 'User Carts' ? (
+                <UserCarts />
+            ) : selectOption === 'Site Settings' ? (
+                <Settings />
             ) : null
         );
     };
