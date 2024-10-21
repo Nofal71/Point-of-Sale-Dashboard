@@ -1,20 +1,21 @@
 import { Container, InputLabel, Stack, Input, Typography, Button, Card, TextField } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUserDetials } from '../../Server/Authentication/Login';
 import { registerUser } from '../../Server/Authentication/Register';
-import { userData } from '../../redux/Reducers/userSlice';
-import { setAlert } from '../../redux/Reducers/AlertSlice';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
+import { useInfo } from '../../Hooks/useInfo';
+import { useCustoms } from '../../Hooks/useCustom';
 
 
 const SignupForm = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { setAlert } = useInfo()
     const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
+    const { updateUser } = useCustoms()
+
 
     const onSubmit = async (data) => {
         try {
@@ -31,8 +32,8 @@ const SignupForm = () => {
                 }
                 const response = await registerUser(userDetails);
                 const updatedUser = await getUserDetials(data.email);
-                dispatch(userData(updatedUser));
-                dispatch(setAlert({ msg: 'SignUp Successfully', type: 'success' }));
+                updateUser(updatedUser)
+                setAlert('SignUp Successfully', 'success')
                 navigate('/');
             };
         } catch (error) {

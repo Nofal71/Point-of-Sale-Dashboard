@@ -1,9 +1,9 @@
-import axios from "axios";
+import { makeRequest } from "../api/instance";
 
 export const registerUser = async (userDetails) => {
     try {
-        const response = await axios.post('http://localhost:3000/user', userDetails);
-        return response.data;
+        const users = await makeRequest('POST', '/user', userDetails)
+        return users.data;
     } catch (error) {
         console.error('Error registering user:', error);
         throw new Error('Registration failed. Please try again.');

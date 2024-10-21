@@ -5,18 +5,20 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { AlertReducer } from "../Reducers/AlertSlice";
+import { loaderReducer } from "../Reducers/loaderSlice";
 
 const persistConfig = {
     key: 'root',
     storage,
     whitelist: ['user'],
-    blacklist: ['Alert'],
+    blacklist: ['Alert', 'loader'],
 };
 
 const rootReducer = combineReducers({
     currentSelection: currentSelectionReducer,
     user: userReducer,
-    Alert: AlertReducer
+    Alert: AlertReducer,
+    loader: loaderReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

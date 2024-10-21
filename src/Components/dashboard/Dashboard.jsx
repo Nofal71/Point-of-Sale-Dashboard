@@ -9,7 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Avatar, Breadcrumbs, Divider } from '@mui/material';
+import { Breadcrumbs } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,8 @@ import { tabs } from '../Tabs/DashboardTabs';
 import { useComponent } from '../Tabs/DashBoardComponents';
 import AppBarComponent from './AppBarComponent';
 import UserProfile from './UserProfile';
+import { Loader } from '../common/Loader';
+import { useInfo } from '../../Hooks/useInfo';
 
 const drawerWidth = 240;
 
@@ -55,11 +57,12 @@ function Dashboard(props) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const nestedComponent = useSelector(state => state.currentSelection.nestedComponent)
     const dispatch = useDispatch()
+    const { setLoader } = useInfo()
     const component = useComponent();
 
     const setColorTest = (index) => {
         setSelectedIndex(index);
-        setColor('#0000f5');  // You can customize the color here
+        setColor('#0000f5');
     };
 
     function handleClickBreadcrumbs(event) {
@@ -99,6 +102,7 @@ function Dashboard(props) {
                                         dispatch(setName(item.name));
                                         handleDrawerClose();
                                         setColorTest(index);
+                                        selectedIndex !== index && setLoader(false)
                                     }}
                                 >
                                     <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
@@ -125,6 +129,7 @@ function Dashboard(props) {
                                             onClick={() => {
                                                 dispatch(setName(subItem));
                                                 handleDrawerClose();
+                                                selectedIndex !== subIndex && setLoader(false)
                                             }}
                                         >
                                             <ListItemText primary={subItem} />
@@ -184,9 +189,10 @@ function Dashboard(props) {
 
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, position: 'relative' }}
             >
                 <Toolbar />
+                <Loader />
                 <div role="presentation" onClick={handleClickBreadcrumbs}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <Typography color="inherit" sx={{ cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}>

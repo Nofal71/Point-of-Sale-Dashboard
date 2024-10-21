@@ -1,12 +1,11 @@
 import axios from 'axios';
+import { makeRequest } from '../api/instance';
 
 export const authUser = async (email, password) => {
 
   try {
-    const response = await axios.get('http://localhost:3000/user');
-    const users = response.data;
-
-    const authenticatedUser = users.find(
+    const users = await makeRequest('GET', '/user')
+    const authenticatedUser = users?.find(
       (user) => user.email === email && user.password === password
     );
 
@@ -25,14 +24,13 @@ export const authUser = async (email, password) => {
 
 
 export const getUserDetials = async (email) => {
-    try {
-        const response = await axios.get('http://localhost:3000/user');
-        const users = response.data;
-        const userData = users.find(user => user.email === email);
-        return userData || null; 
-    } catch (error) {
-        console.error('Error in fetching data:', error);
-        return null; 
-    }
+  try {
+    const users = await makeRequest('GET', '/user')
+    const userData = users.find(user => user.email === email);
+    return userData || null;
+  } catch (error) {
+    console.error('Error in fetching data:', error);
+    return null;
+  }
 };
 

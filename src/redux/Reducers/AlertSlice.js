@@ -7,7 +7,7 @@ export const AlertSlice = createSlice({
         message: null,   
     },
     reducers: {
-        setAlert: (state, action) => {
+        setAlertAction: (state, action) => {
             const { msg, type } = action.payload;
             state.message = msg;
             state.severity = type;
@@ -19,5 +19,5 @@ export const AlertSlice = createSlice({
     },
 });
 
-export const { setAlert, clearAlert } = AlertSlice.actions;
+export const { setAlertAction, clearAlert } = AlertSlice.actions;
 export const AlertReducer = AlertSlice.reducer;

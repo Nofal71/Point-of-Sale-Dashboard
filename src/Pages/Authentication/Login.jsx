@@ -4,20 +4,17 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { authUser, getUserDetials } from '../../Server/Authentication/Login';
-import { useDispatch, useSelector } from 'react-redux';
-import { userData } from '../../redux/Reducers/userSlice';
-import { setAlert } from '../../redux/Reducers/AlertSlice';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
-
-
+import { useInfo } from '../../Hooks/useInfo';
+import { useCustoms } from '../../Hooks/useCustom';
 
 
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = React.useState(false);
-    const dispatch = useDispatch()
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const user = useSelector(state => state.user)
+    const { updateUser , getUser } = useCustoms()
+    const { setAlert } = useInfo()
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -36,8 +33,8 @@ const LoginForm = () => {
                 throw new Error();
             } else {
                 const userDetails = await getUserDetials(data.email)
-                dispatch(userData(userDetails))
-                dispatch(setAlert({ msg: 'Login Success', type: 'success' }))
+                updateUser(userDetails)
+                setAlert('Login Success', 'success')
                 navigate('/')
             }
         } catch (error) {
@@ -46,10 +43,10 @@ const LoginForm = () => {
     }
 
     useEffect(() => {
-        if (user) {
+        if (getUser) {
             navigate('/');
         }
-    }, [user, navigate]);
+    }, [getUser, navigate]);
 
     return (
         <ThemeProvider theme={AuthTheme}>

@@ -4,16 +4,17 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { userData } from '../../redux/Reducers/userSlice';
 import { persistor } from '../../redux/Store/Store';
-import { setAlert } from '../../redux/Reducers/AlertSlice';
+import { useInfo } from '../../Hooks/useInfo';
 
 
 const UserProfile = ({ Width }) => {
     const dispatch = useDispatch()
+    const { setAlert } = useInfo()
     const userDetails = useSelector(state => state.user)
     const handleLogout = () => {
         dispatch(userData(false))
         persistor.purge(['user'])
-        dispatch(setAlert({ msg: 'Logout Success', type: 'success' }))
+        setAlert('Logout Success', 'success')
     }
     return (
         <Box sx={{ position: 'fixed', bottom: '0', left: '0', p: 4, width: Width }}>

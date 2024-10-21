@@ -5,7 +5,6 @@ import { clearAlert } from '../../redux/Reducers/AlertSlice';
 import { motion } from 'framer-motion';
 
 
-const SnackbarAnimate = motion(Snackbar)
 
 const AlertComponent = () => {
     const dispatch = useDispatch();

@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react.js'
 import AlertComponent from './Components/common/AlertComponent.jsx'
 import { DashboardTheme } from './MUI_Theme/themeConfig.jsx'
 import { ThemeProvider } from '@mui/material'
+import { Loader } from './Components/common/Loader.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')).render(
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={DashboardTheme}>
           <AlertComponent />
+          {/* <Loader /> */}
           <App />
         </ThemeProvider>
       </PersistGate>

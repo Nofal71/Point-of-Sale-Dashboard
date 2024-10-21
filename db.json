@@ -8,25 +8,12 @@
       "password": "nofal123"
     },
     {
-      "id": "5d77",
+      "id": "521e",
       "email": "nofal123@gmail.com",
-      "username": "Nofal71",
-      "name": "Nofal Hassaan",
-      "password": "nofal123"
-    },
-    {
-      "id": "1b81",
-      "email": "nofal70@gmail.com",
-      "username": "Nofal71",
-      "name": "nofal Hassaan",
-      "password": "nofal123"
-    },
-    {
-      "id": "e47b",
-      "email": "nofal9898@gmail.com",
-      "username": "Nofal888",
+      "username": "nofal1111",
       "name": "Nofal Hassan",
       "password": "nofal123"
     }
-  ]
+  ],
+  "products": []
 }

@@ -6,7 +6,7 @@ const Analytics = () => {
   return (
     <>
       <Typography variant='h3'>Analytics</Typography>
-      <Graph xAxis={[0, 1, 2, 3, 4, 5]} yAxis={[0, 1, 2, 3, 4, 5]} />
+      {/* <Graph xAxis={[0, 1, 2, 3, 4, 5]} yAxis={[0, 1, 2, 3, 4, 5]} /> */}
     </>
   )
 }

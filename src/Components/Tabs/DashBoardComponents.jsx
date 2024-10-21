@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Analytics, Pending, Placed, Products, UserAccounts, UserCarts, Settings } from '../../Pages/page-components';
+import { Analytics, Pending, Placed, Products, UserAccounts, UserCarts, Settings } from '../../Pages/page-components/index';
 
 
 
