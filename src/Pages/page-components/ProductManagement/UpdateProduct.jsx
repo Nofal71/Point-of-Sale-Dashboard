@@ -3,17 +3,35 @@ import React from 'react';
 import { useInfo } from '../../../Hooks/useInfo';
 import { makeRequest } from '../../../Server/api/instance';
 import { useForm } from 'react-hook-form';
+import { setName, setValues } from '../../../redux/Reducers/currentComponentSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-const AddProducts = ({ handleClose }) => {
+const UpdateProducts = () => {
     const { setLoader, setAlert } = useInfo();
-    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm()
+    const product = useSelector(state => state.currentSelection.values)
+    const dispatch = useDispatch()
+    const setDefaultValue = () => {
+        return {
+            name: product.name,
+            description: product.description,
+        }
+    }
+    const { register, handleSubmit, formState: { errors, isSubmitting }, setError } = useForm({
+        defaultValues: product && setDefaultValue()
+    })
 
-    const onSubmit = async (product) => {
+    const onSubmit = async (value) => {
         try {
             setLoader(true);
-            const data = await makeRequest('POST', '/products',  product );
-            setAlert('Add Success', 'success');
-            handleClose();
+            if (product) {
+                const data = await makeRequest('PUT', `/products/${product.id}`, value)
+                setAlert('Edit Success', 'success');
+            } else {
+                const data = await makeRequest('POST', '/products', value);
+                setAlert('Add Success', 'success');
+            }
+            dispatch(setName('Products'))
+            dispatch(setValues(null))
         } catch (error) {
             console.log(error, 'Error in Adding Product');
             setAlert('Failed to Add', 'error');
@@ -54,11 +72,11 @@ const AddProducts = ({ handleClose }) => {
                     )}
                 </Container>
                 <Button disabled={isSubmitting} type='submit' variant="contained" color="primary" sx={{ marginTop: '20px', width: '100%' }}>
-                    {isSubmitting ? 'Loading...' : 'Add Product'}
+                    {isSubmitting ? 'Loading...' : product ? 'Edit Product' : 'Add Product'}
                 </Button>
             </Stack>
         </form>
     );
 };
 
-export default AddProducts;
+export default UpdateProducts;

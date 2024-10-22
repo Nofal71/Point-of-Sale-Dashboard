@@ -6,19 +6,21 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { AlertReducer } from "../Reducers/AlertSlice";
 import { loaderReducer } from "../Reducers/loaderSlice";
+import { ThemeReducer } from "../Reducers/themeSlice";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user'],
-    blacklist: ['Alert', 'loader'],
+    whitelist: ['user', 'theme'],
+    blacklist: ['Alert', 'loader', 'currentSelection'],
 };
 
 const rootReducer = combineReducers({
     currentSelection: currentSelectionReducer,
     user: userReducer,
     Alert: AlertReducer,
-    loader: loaderReducer
+    loader: loaderReducer,
+    theme: ThemeReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

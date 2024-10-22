@@ -14,7 +14,7 @@ const LoginForm = () => {
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const { updateUser , getUser } = useCustoms()
-    const { setAlert } = useInfo()
+    const { setAlert , theme } = useInfo()
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -49,7 +49,7 @@ const LoginForm = () => {
     }, [getUser, navigate]);
 
     return (
-        <ThemeProvider theme={AuthTheme}>
+        <ThemeProvider theme={() => AuthTheme(theme)}>
             <CssBaseline />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Container sx={{ width: '100%', height: '100vh', placeItems: 'center', display: 'grid' }}>

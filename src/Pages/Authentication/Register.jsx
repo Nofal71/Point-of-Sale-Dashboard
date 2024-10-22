@@ -12,7 +12,7 @@ import { useCustoms } from '../../Hooks/useCustom';
 
 const SignupForm = () => {
     const navigate = useNavigate();
-    const { setAlert } = useInfo()
+    const { setAlert, theme } = useInfo()
     const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
     const { updateUser } = useCustoms()
 
@@ -42,7 +42,7 @@ const SignupForm = () => {
     };
 
     return (
-        <ThemeProvider theme={AuthTheme}>
+        <ThemeProvider theme={() => AuthTheme(theme)}>
             <CssBaseline />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Container sx={{ width: '100%', height: '100vh', placeItems: 'center', display: 'grid' }}>

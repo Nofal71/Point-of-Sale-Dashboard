@@ -15,5 +15,18 @@
       "password": "nofal123"
     }
   ],
-  "products": []
+  "products": [
+    {
+      "name": "product name",
+      "description": "value",
+      "id": "d266",
+      "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQDQRlFiFtRhBXr26Re2JSe6oBN1cKeGpvgw&s"
+    },
+    {
+      "id": "3d12",
+      "name": "product",
+      "description": "value",
+      "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXgz9Emvr38Z0a31MnbUXMCw62qAbQm3GiNw&s"
+    }
+  ]
 }

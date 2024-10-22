@@ -5,7 +5,8 @@ export const currentSelectionSlice = createSlice({
     name: 'currentSelection',
     initialState: {
         name: tabs[0]?.subItems ? tabs[0].subItems[0] : tabs[0]?.name,
-        nestedComponent: []
+        nestedComponent: [],
+        values: null
     },
     reducers: {
         setName: (state, action) => {
@@ -14,9 +15,13 @@ export const currentSelectionSlice = createSlice({
         },
         setNestedComponent: (state, action) => {
             state.nestedComponent.push(action.payload);
+            state.values = null;
         },
+        setValues: (state, action) => {
+            state.values = action.payload
+        }
     }
 });
 
-export const { setName, setNestedComponent } = currentSelectionSlice.actions;
+export const { setName, setNestedComponent, setValues } = currentSelectionSlice.actions;
 export const currentSelectionReducer = currentSelectionSlice.reducer;

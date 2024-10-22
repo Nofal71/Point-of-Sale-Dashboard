@@ -88,7 +88,7 @@ function Dashboard(props) {
     const drawer = (
         <div>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'center', height: '8rem' }}>
-                <img style={{ height: '7rem', objectFit: 'cover' }} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0GP0qeo8LA7I0QCjoyqI1bBJoABbzRj25kg&s' />
+                <img style={{ height: '7rem', objectFit: 'cover' }} src='https://img.freepik.com/free-vector/gradient-colored-computer-logo-template_23-2149182751.jpg' />
             </Box>
             {/* <Toolbar /> */}
             {/* <Divider /> */}
@@ -189,11 +189,14 @@ function Dashboard(props) {
 
             <Box
                 component="main"
+                key={Math.random()}
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, position: 'relative' }}
             >
                 <Toolbar />
                 <Loader />
-                <div role="presentation" onClick={handleClickBreadcrumbs}>
+                <div role="presentation"
+                    key={Math.random()}
+                    onClick={handleClickBreadcrumbs}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <Typography color="inherit" sx={{ cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}>
                             Dashboard

@@ -1,9 +1,6 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-import { useInfo } from '../../Hooks/useInfo';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -61,36 +58,10 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
-const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
-    const { setGlobalTheme, theme } = useInfo()
+
+
+export default function CustomizedSwitches() {
     return (
-        <AppBar
-            position="fixed"
-            sx={{
-                width: { sm: `calc(100% - ${drawerWidth}px)` },
-                ml: { sm: `${drawerWidth}px` },
-                backgroundColor: '#424242',
-                zIndex: 1100,
-            }}
-        >
-            <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    sx={{ mr: 2, display: { sm: 'none' } }}
-                >
-                    <MenuIcon />
-                </IconButton>
-
-                <Typography variant="h6" noWrap component="div">
-                    Admin Site
-                </Typography>
-                <MaterialUISwitch sx={{ ml: 'auto' }} checked={theme === 'dark' ? true : false} onClick={() => setGlobalTheme(theme === 'light' ? 'dark' : 'light')} />
-            </Toolbar>
-        </AppBar>
+            <MaterialUISwitch sx={{ m: 1 }} defaultChecked />
     );
-};
-
-export default AppBarComponent;
+}

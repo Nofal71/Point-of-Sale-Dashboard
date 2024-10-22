@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material";
 
-export const DashboardTheme = createTheme({
+
+export const DashboardTheme = (mode) => createTheme({
     components: {
         MuiListItemButton: {
             styleOverrides: {
@@ -16,15 +17,18 @@ export const DashboardTheme = createTheme({
             },
         },
     },
+    palette: {
+        mode: mode
+    }
 });
 
 
-export const AuthTheme = createTheme({
+export const AuthTheme = (mode) => createTheme({
     components: {
         MuiCard: {
             styleOverrides: {
                 root: {
-                    width: '50%',
+                    minWidth: '50%',
                     boxShadow: '1px 1px 8px gray',
                     padding: 20,
                     borderRadius: 20,
@@ -69,5 +73,8 @@ export const AuthTheme = createTheme({
         //         },
         //     },
         // },
+    },
+    palette: {
+        mode: mode
     }
 })
