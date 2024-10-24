@@ -4,16 +4,16 @@ import UpdateProducts from "../../Pages/page-components/ProductManagement/Update
 
 
 
-export const useComponent = () => {
+export const getComponent = () => {
     const selectOption = useSelector(state => state.currentSelection.name);
     const nestedComponents = useSelector(state => state.currentSelection.nestedComponent);
 
-    const getComponent = () => {
+    const getCurrentComponent = () => {
         return (
             nestedComponents.length > 0 ? (
                 nestedComponents.map((c, index) =>
                     c === 'Add Product' || c === 'Edit Product' ? (
-                        <UpdateProducts />
+                        <UpdateProducts key={index} />
                     ) : null
                 )
             ) : selectOption === 'Dashboard' ? (
@@ -34,5 +34,5 @@ export const useComponent = () => {
         );
     };
 
-    return getComponent();
+    return getCurrentComponent();
 };

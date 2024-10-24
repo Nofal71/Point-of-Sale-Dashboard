@@ -17,16 +17,11 @@
   ],
   "products": [
     {
-      "name": "product name",
-      "description": "value",
-      "id": "d266",
-      "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQDQRlFiFtRhBXr26Re2JSe6oBN1cKeGpvgw&s"
-    },
-    {
-      "id": "3d12",
-      "name": "product",
-      "description": "value",
-      "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXgz9Emvr38Z0a31MnbUXMCw62qAbQm3GiNw&s"
+      "id": "a615",
+      "name": "name",
+      "price": "300",
+      "description": "description",
+      "img": "blob:http://localhost:5173/f4840429-3997-47cd-9971-c1c82e0fc21e"
     }
   ]
 }

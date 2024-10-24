@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { api } from './api';
+import { globalApi } from './api';
 
 // Base URL for your users API
-const baseURL = api;
+const baseURL = globalApi;
 
 // Create an Axios instance
 export const instance = axios.create({

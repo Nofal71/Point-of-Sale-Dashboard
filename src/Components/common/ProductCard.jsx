@@ -12,7 +12,7 @@ export default function ProductCard({ product, buttons }) {
         <Card sx={{ maxWidth: 250, minWidth: 250, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
             <CardMedia
                 sx={{ height: 140 }}
-                image={product.image && product.image}
+                image={product.img && product.img}
                 title="green iguana"
             />
             <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexGrow: 1 }}>
@@ -23,6 +23,13 @@ export default function ProductCard({ product, buttons }) {
                         textOverflow: 'ellipsis'
                     }}>
                         {product.name}
+                    </Typography>
+                    <Typography gutterBottom variant="h5" component="div" sx={{
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                    }}>
+                        {product.price}
                     </Typography>
                     <Typography variant="body2" sx={{
                         color: 'text.secondary',

@@ -10,5 +10,5 @@ export const useCustoms = () => {
     }
  
 
-    return { updateUser , getUser };
+    return { updateUser , getUser }; 
 };

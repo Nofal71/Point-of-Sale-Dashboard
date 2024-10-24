@@ -16,6 +16,21 @@ export const DashboardTheme = (mode) => createTheme({
                 },
             },
         },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: 'lightblue',
+                    color: 'black'
+                }
+            }
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+
+                }
+            }
+        }
     },
     palette: {
         mode: mode

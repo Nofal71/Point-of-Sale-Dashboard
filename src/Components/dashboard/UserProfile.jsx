@@ -1,23 +1,21 @@
 import React from 'react'
 import { Avatar, Box, Divider, IconButton, Typography } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useDispatch, useSelector } from 'react-redux';
-import { userData } from '../../redux/Reducers/userSlice';
 import { persistor } from '../../redux/Store/Store';
 import { useInfo } from '../../Hooks/useInfo';
+import { useCustoms } from '../../Hooks/useCustom';
 
 
-const UserProfile = ({ Width }) => {
-    const dispatch = useDispatch()
+const UserProfile = ({ Width, Height }) => {
     const { setAlert } = useInfo()
-    const userDetails = useSelector(state => state.user)
+    const { getUser, updateUser } = useCustoms()
     const handleLogout = () => {
-        dispatch(userData(false))
+        updateUser(false)
         persistor.purge(['user'])
         setAlert('Logout Success', 'success')
     }
     return (
-        <Box sx={{ position: 'fixed', bottom: '0', left: '0', p: 4, width: Width }}>
+        <Box sx={{ position:{xs: 'sticky' , sm:'sticky'}, bottom: '0', left: '0', p: 4, width: '100%' , height: Height }}>
             <Divider />
             <Box sx={{ display: "flex", gap: 1, alignItems: "center", mt: 3 }}>
                 <Avatar
@@ -31,13 +29,13 @@ const UserProfile = ({ Width }) => {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         maxWidth: '20ch',
-                    }}> {userDetails.name} </Typography>
+                    }}> {getUser.name} </Typography>
                     <Typography level="body-xs" sx={{
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         maxWidth: '20ch',
-                    }} >{userDetails.email} </Typography>
+                    }} >{getUser.email} </Typography>
                 </Box>
                 <IconButton
                     size="sm"

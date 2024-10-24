@@ -1,4 +1,6 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import AppBarComponent from './AppBarComponent';
+import UserProfile from './UserProfile';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,20 +14,18 @@ import Typography from '@mui/material/Typography';
 import { Breadcrumbs } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import { useDispatch, useSelector } from 'react-redux';
-import { setName } from '../../redux/Reducers/currentComponentSlice';
 import { tabs } from '../Tabs/DashboardTabs';
-import { useComponent } from '../Tabs/DashBoardComponents';
-import AppBarComponent from './AppBarComponent';
-import UserProfile from './UserProfile';
 import { Loader } from '../common/Loader';
-import { useInfo } from '../../Hooks/useInfo';
+import { useComponent } from '../../Hooks/useComponent';
+import CompanyLogo from './CompanyLogo';
 
 const drawerWidth = 240;
+const drawerHeight = 500;
+const companyLogoHeight = 100
 
 function Toggler({ defaultExpanded = false, renderToggle, children }) {
-    const [open, setOpen] = React.useState(defaultExpanded);
-    React.useEffect(() => {
+    const [open, setOpen] = useState(defaultExpanded);
+    useEffect(() => {
         open && setTimeout(() => setOpen(false), 20000)
     }, [open])
     return (
@@ -50,18 +50,16 @@ function Toggler({ defaultExpanded = false, renderToggle, children }) {
 
 function Dashboard(props) {
     const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [isClosing, setIsClosing] = React.useState(false);
-    const name = useSelector(state => state.currentSelection.name)
-    const [color, setColor] = React.useState('#0000f5');
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const nestedComponent = useSelector(state => state.currentSelection.nestedComponent)
-    const dispatch = useDispatch()
-    const { setLoader } = useInfo()
-    const component = useComponent();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [color, setColor] = useState('#0000f5');
+    const { getCurrentComponent, setCurrentComponent, currentComponentName, nestedComponent } = useComponent();
+    const lastIndex = localStorage.getItem('lastIndex')
+    const [selectedIndex, setSelectedIndex] = useState(() => lastIndex ? JSON.parse(localStorage.getItem('lastIndex')) : 0);
 
-    const setColorTest = (index) => {
+    const setListItemColor = (index) => {
         setSelectedIndex(index);
+        localStorage.setItem('lastIndex', JSON.stringify(index))
         setColor('#0000f5');
     };
 
@@ -86,12 +84,7 @@ function Dashboard(props) {
 
 
     const drawer = (
-        <div>
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: 'center', height: '8rem' }}>
-                <img style={{ height: '7rem', objectFit: 'cover' }} src='https://img.freepik.com/free-vector/gradient-colored-computer-logo-template_23-2149182751.jpg' />
-            </Box>
-            {/* <Toolbar /> */}
-            {/* <Divider /> */}
+        <Box sx={{ overflowX: 'hidden', overflowY: 'auto', scrollbarWidth: 'none', position: 'relative', mb: 'auto' }}>
             <List>
                 {tabs.map((item, index) => (
                     <div key={index}>
@@ -99,10 +92,9 @@ function Dashboard(props) {
                             <ListItem disablePadding>
                                 <ListItemButton
                                     onClick={() => {
-                                        dispatch(setName(item.name));
+                                        setCurrentComponent(item.name)
                                         handleDrawerClose();
-                                        setColorTest(index);
-                                        selectedIndex !== index && setLoader(false)
+                                        setListItemColor(index);
                                     }}
                                 >
                                     <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
@@ -114,7 +106,6 @@ function Dashboard(props) {
                                     <ListItem disablePadding>
                                         <ListItemButton onClick={() => {
                                             setOpen(!open)
-                                            setColorTest(index);
                                         }}
                                         >
                                             <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
@@ -127,9 +118,9 @@ function Dashboard(props) {
                                     <ListItem key={subIndex} disablePadding>
                                         <ListItemButton
                                             onClick={() => {
-                                                dispatch(setName(subItem));
+                                                setCurrentComponent(subItem)
                                                 handleDrawerClose();
-                                                selectedIndex !== subIndex && setLoader(false)
+                                                setListItemColor(index);
                                             }}
                                         >
                                             <ListItemText primary={subItem} />
@@ -141,8 +132,12 @@ function Dashboard(props) {
                     </div>
                 ))}
             </List>
-        </div>
+        </Box >
     );
+
+    useEffect(() => {
+
+    }, [])
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -155,6 +150,7 @@ function Dashboard(props) {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
             >
+
                 <Drawer
                     container={container}
                     variant="temporary"
@@ -170,26 +166,29 @@ function Dashboard(props) {
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
                 >
+                    <CompanyLogo companyLogoHeight={companyLogoHeight} />
                     {drawer}
+                    <UserProfile Width={drawerWidth} Height={150} />
                 </Drawer>
+
                 <Drawer
                     variant="permanent"
                     sx={{
+                        position: 'relative',
                         display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, minHeight: drawerHeight },
                     }}
                     open
                 >
-
+                    <CompanyLogo companyLogoHeight={companyLogoHeight} />
                     {drawer}
-                    <UserProfile Width={drawerWidth} />
+                    <UserProfile Width={drawerWidth} Height={`100% - ${drawerHeight}px)`} />
                 </Drawer>
             </Box>
 
 
             <Box
                 component="main"
-                key={Math.random()}
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, position: 'relative' }}
             >
                 <Toolbar />
@@ -197,11 +196,11 @@ function Dashboard(props) {
                 <div role="presentation"
                     key={Math.random()}
                     onClick={handleClickBreadcrumbs}>
-                    <Breadcrumbs aria-label="breadcrumb">
+                    <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }} >
                         <Typography color="inherit" sx={{ cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}>
                             Dashboard
                         </Typography>
-                        <Typography sx={{ color: 'text.primary', cursor: 'pointer' }} onClick={() => dispatch(setName(name))}> {name} </Typography>
+                        <Typography sx={{ color: 'text.primary', cursor: 'pointer' }} onClick={() => setCurrentComponent(currentComponentName)}> {currentComponentName} </Typography>
                         {nestedComponent && nestedComponent.map((c, index) => (
                             <Typography
                                 key={index}
@@ -211,8 +210,9 @@ function Dashboard(props) {
                             </Typography>
                         ))}
                     </Breadcrumbs>
+
                 </div>
-                {component}
+                {getCurrentComponent()}
             </Box>
         </Box>
     );

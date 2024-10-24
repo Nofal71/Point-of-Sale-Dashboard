@@ -11,8 +11,8 @@ import { ThemeReducer } from "../Reducers/themeSlice";
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'theme'],
-    blacklist: ['Alert', 'loader', 'currentSelection'],
+    whitelist: ['user', 'theme', 'currentSelection'],
+    blacklist: ['Alert', 'loader'],
 };
 
 const rootReducer = combineReducers({
