@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import ProductCard from '../../../Components/common/ProductCard'
 import { makeRequest } from '../../../Server/api/instance'
 import { useInfo } from '../../../Hooks/useInfo'
-import ModalComponent from '../../../Components/common/ModalComponent'
-import DeleteProduct from './DeleteProduct'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -13,7 +11,7 @@ import { setNestedComponent, setValues } from '../../../redux/Reducers/currentCo
 
 const Products = () => {
   const [products, setProducts] = useState(null)
-  const { setLoader, setAlert } = useInfo()
+  const { setLoader, setAlert, setConfirm } = useInfo()
   const dispatch = useDispatch()
 
 
@@ -29,6 +27,21 @@ const Products = () => {
       setLoader(false)
     }
   }
+
+  const deleteProduct = (productId) => {
+    setConfirm('Are You Sure To Delete This Product ?', async () => {
+      try {
+        await makeRequest('DELETE', `products/${productId}`)
+        setAlert('Product Deleted', 'info')
+        loadProducts()
+      } catch (error) {
+        console.log(error, 'Error in Deleting Product')
+      } finally {
+        setLoader(false)
+      }
+    })
+  }
+
   useEffect(() => {
     loadProducts();
   }, [])
@@ -43,7 +56,7 @@ const Products = () => {
         {
           products && products.map((product, index) => (
             <ProductCard key={index} product={product} buttons={[
-              (<ModalComponent reCall={loadProducts} component={(<DeleteProduct productId={product.id} />)} lable={(<DeleteIcon />)} buttonVariant={'text'} />),
+              (<Button onClick={() => deleteProduct(product.id)} > <DeleteIcon /> </Button>),
               (<Button onClick={() => {
                 dispatch(setNestedComponent('Edit Product'))
                 dispatch(setValues(product))

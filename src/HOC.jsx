@@ -12,7 +12,7 @@ export const HOC = ({ children }) => {
         <StoreProvider>
             <ThemeProvider theme={selectedTheme}>
                 <Theme>
-                    {/* <Confirm /> */}
+                    <Confirm />
                     <AlertComponent />
                     {children}
                 </Theme>

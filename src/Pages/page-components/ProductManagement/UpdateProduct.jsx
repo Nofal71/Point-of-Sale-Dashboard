@@ -35,6 +35,7 @@ const UpdateProducts = () => {
             try {
                 const imgUrl = await uploadImageToCloudinary(file);
                 setValue('img', imgUrl);
+                console.log('upload success')
             } catch (error) {
                 console.log('upload failed', error)
             }
@@ -87,7 +88,7 @@ const UpdateProducts = () => {
         if (component && !dataLossPrevention) {
             setCurrentComponent('Products')
         }
-    }, [component , dataLossPrevention])
+    }, [component, dataLossPrevention])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -99,14 +100,15 @@ const UpdateProducts = () => {
                 flexWrap: 'wrap'
             }}>
                 {/* General Information Box */}
-                <Paper elevation={1}
+                <Paper elevation={3}
                     sx={{
                         p: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 3,
                         flex: 1,
-                        minWidth: { xs: '100%', md: 1 / 2 }
+                        minWidth: { xs: '100%', md: 1 / 2 },
+                        borderRadius: '20px'
                     }}
                 >
                     <Typography variant='body2'>General Information</Typography>
@@ -135,7 +137,7 @@ const UpdateProducts = () => {
                                     message: "Please Enter a Valid Price",
                                 },
                             })}
-                            type='text'
+                            type='number'
                             fullWidth
                             placeholder='Enter Price'
                         />
@@ -164,38 +166,42 @@ const UpdateProducts = () => {
                     </Container>
 
                 </Paper>
-                <Paper elevation={1} sx={{
+                <Paper elevation={3} sx={{
+                    borderRadius: '20px',
                     minWidth: { xs: '100%', md: 1 / 4 },
                     maxWidth: 1 / 3,
-                    textAlign: 'center'
+                    display: 'flex',
+                    justifyContent: "center",
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    p:4
                 }}>
-                    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', p: 5 }}>
+                    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 6 }}>
                         {
                             product && product.img || imagePreview ? (
                                 <img src={imagePreview} style={{ objectFit: 'cover', width: '100%' }} />
                             ) : (
-                                <Skeleton variant="wave">
-                                    <Avatar sx={{
-                                        width: '100%',
-                                        height: '12rem',
-                                        aspectRatio: '4/4'
-                                    }} />
-
+                                <Skeleton variant="wave" sx={{
+                                    borderRadius: '10px',
+                                    height: '12rem',
+                                    aspectRatio: '4/4',
+                                }}>
+                                    <Avatar />
                                 </Skeleton>
                             )
 
                         }
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '20px' }}>
                             <Input type="file" onChange={handleImageChange} > Upload Image</Input>
-                            <input style={{ display: 'none', width: 0, padding: 0 }} {...register('img', { required: 'Image is Required' })} value={imagePreview || ''} />
                             {errors.img && (
                                 <Typography mt={1} color="error" variant="body2">
                                     {errors.img.message}
                                 </Typography>
                             )}
+                            <input style={{ display: 'none', width: 0, padding: 0 }} {...register('img', { required: 'Image is Required' })} value={imagePreview || ''} />
                         </Box>
                     </Container>
-                    <Box display={'flex'} flexDirection={'row'} justifyContent={'space-around'}>
+                    <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} gap={3}>
                         <Button onClick={handleCancel} type='button' variant="contained" sx={{ marginTop: '20px', textWrap: 'nowrap' }}>
                             Cancel
                         </Button>

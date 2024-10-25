@@ -24,11 +24,28 @@
   ],
   "products": [
     {
-      "id": "6d8f",
-      "name": "Name",
-      "price": "30000",
-      "description": "des",
-      "img": "blob:http://localhost:3001/6beb155c-18c3-459a-b7d3-070ddd0ae51c"
+      "id": "67c7",
+      "name": "sss",
+      "price": "22",
+      "description": "ee",
+      "img": "blob:http://localhost:3001/35f4580a-46e7-4596-876c-8abafb73f5e2"
+    }
+  ],
+  "assets": [
+    {
+      "profilePhoto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s"
+    },
+    {
+      "id": "b047",
+      "image": {}
+    },
+    {
+      "id": "e625",
+      "image": {}
+    },
+    {
+      "id": "2934",
+      "image": {}
     }
   ]
 }

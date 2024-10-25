@@ -1,49 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import ModalComponent from './ModalComponent';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { useInfo } from '../../Hooks/useInfo';
+import { Divider } from '@mui/material';
 
+export default function Confirm() {
 
-const Component = ({ handleClose, handleSubmit, message }) => {
+    const { getConfirm, setOpenState } = useInfo()
 
-    return (
-        <Stack spacing={5} direction={'column'} p={3}>
-            <Typography variant="body1" > {message} </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                <Button onClick={() => handleClose()}>No</Button>
-                <Button onClick={() => {
-                    handleSubmit()
-                    handleClose()
-                }}>Yes</Button>
-            </Box>
-        </Stack>
-    )
-}
-
-const Confirm = () => {
-    const { getConfirm, ResetConfirmValue } = useInfo();
-    const message = getConfirm.message;
-    const process = getConfirm.process;
-    const [open, setOpen] = useState(false)
-    
+    const handleClose = () => {
+        setOpenState(false);
+    };
     const handleSubmit = () => {
-        process()
-        ResetConfirmValue()
-        setOpen(true)
-    }
-    
-    useEffect(() => {
-        console.log('.....', message, '////', process)
-        setOpen(true)
-    }, [message])
+        setOpenState(false);
+        getConfirm.process()
+    };
 
     return (
-        <>
-            {message && (
-                <ModalComponent type="confirm" setHardOpen={open} important={true} component={(<Component handleSubmit={handleSubmit} message={message} />)} />
-            )}
-        </>
-    );
-};
+        <React.Fragment>
+            <Dialog
+                open={getConfirm?.open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {getConfirm?.message}
 
-export default Confirm;
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                    </DialogContentText>
+                </DialogContent>
+                <Divider />
+                <DialogActions>
+                    <Button onClick={handleClose}>No</Button>
+                    <Button onClick={handleSubmit} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
+    );
+}

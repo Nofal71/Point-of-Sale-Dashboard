@@ -7,7 +7,7 @@ import { useInfo } from "./useInfo";
 
 export const useComponent = () => {
     const dispatch = useDispatch()
-    const { setLoader, setConfirm , setAlert } = useInfo()
+    const { setLoader, setConfirm } = useInfo()
     const currentComponentName = useSelector(state => state.currentSelection.name)
     const nestedComponent = useSelector(state => state.currentSelection.nestedComponent)
     const dataLossPrevention = useSelector(state => state.currentSelection.dataLossPrevention)
@@ -28,12 +28,14 @@ export const useComponent = () => {
         if (!dataLossPrevention) {
             dispatch(setName(option))
         } else {
-            // const process = () => setPreventLoss(false)
-            // setConfirm('Are You Sure to Lose All Progress', process)
-            setAlert('Save Your Changes', 'info')
+            const process = () => {
+                setPreventLoss(false)
+                dispatch(setName(option))
+            }
+            setConfirm('Are You Sure to Lose All Progress', process)
         }
     }
 
 
-    return { setCurrentComponent, getCurrentComponent, currentComponentName, nestedComponent, selectedIndex, setSelectedIndex, setPreventLoss ,dataLossPrevention};
+    return { setCurrentComponent, getCurrentComponent, currentComponentName, nestedComponent, selectedIndex, setSelectedIndex, setPreventLoss, dataLossPrevention };
 };

@@ -3,8 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const confirmSlice = createSlice({
     name: 'confirm',
     initialState: {
-        message: null,
-        process: null
+        message: 'Hi This is confirm dialogue',
+        process: null,
+        open: false,
     },
     reducers: {
         setConfirmState: (state, action) => {
@@ -12,13 +13,12 @@ export const confirmSlice = createSlice({
             state.message = message ? message : 'Confirm Popup'
             state.process = process ? process : () => console.log('Process Empty')
         },
-        ResetConfirm: (state) => {
-            state.message = null
-            state.process = null
+        setOpen: (state, action) => {
+            state.open = action.payload
         }
 
     },
 });
 
-export const { setConfirmState , ResetConfirm } = confirmSlice.actions;
+export const { setConfirmState, setOpen } = confirmSlice.actions;
 export const ConfirmReducer = confirmSlice.reducer;
