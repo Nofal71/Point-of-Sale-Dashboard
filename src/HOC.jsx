@@ -3,6 +3,7 @@ import { DashboardTheme } from "./MUI_Theme/themeConfig";
 import { useInfo } from "./Hooks/useInfo";
 import AlertComponent from "./Components/common/AlertComponent";
 import StoreProvider from './redux/Provider/StoreProvider'
+import Confirm from "./Components/common/Confirm";
 
 export const HOC = ({ children }) => {
     const selectedTheme = DashboardTheme('light');
@@ -10,8 +11,11 @@ export const HOC = ({ children }) => {
     return (
         <StoreProvider>
             <ThemeProvider theme={selectedTheme}>
-                <AlertComponent />
-                <Theme>{children}</Theme>
+                <Theme>
+                    {/* <Confirm /> */}
+                    <AlertComponent />
+                    {children}
+                </Theme>
             </ThemeProvider>
         </StoreProvider>
     );

@@ -15,13 +15,21 @@ const style = {
     p: 4,
 };
 
-export default function ModalComponent({ component, lable, buttonVariant , reCall }) {
-    const [open, setOpen] = React.useState(false);
+export default function ModalComponent({ component, lable, buttonVariant, reCall, type, important, setHardOpen }) {
+    const [open, setOpen] = React.useState(type === 'confirm' ? true : false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-        setOpen(false)
-        reCall && reCall()
+    const handleClose = (e, reason) => {
+        if (reason === 'backdropClick' && important) return;
+        setOpen(false);
+        reCall && reCall();
     };
+
+    React.useEffect(() => {
+        console.log(open)
+        if (setHardOpen) {
+            setOpen(true)
+        }
+    }, [setHardOpen])
 
     return (
         <div>

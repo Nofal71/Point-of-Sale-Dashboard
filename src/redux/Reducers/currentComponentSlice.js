@@ -6,7 +6,9 @@ export const currentSelectionSlice = createSlice({
     initialState: {
         name: tabs[0]?.subItems ? tabs[0].subItems[0] : tabs[0]?.name,
         nestedComponent: [],
-        values: null
+        values: null,
+        dataLossPrevention: false,
+        selectedIndex: null
     },
     reducers: {
         setName: (state, action) => {
@@ -19,9 +21,15 @@ export const currentSelectionSlice = createSlice({
         },
         setValues: (state, action) => {
             state.values = action.payload
+        },
+        setIndexState: (state, action) => {
+            state.selectedIndex = action.payload
+        },
+        setDataLossPreventionState: (state, action) => {
+            state.dataLossPrevention = action.payload
         }
     }
 });
 
-export const { setName, setNestedComponent, setValues } = currentSelectionSlice.actions;
+export const { setName, setNestedComponent, setValues, setIndexState, setDataLossPreventionState } = currentSelectionSlice.actions;
 export const currentSelectionReducer = currentSelectionSlice.reducer;

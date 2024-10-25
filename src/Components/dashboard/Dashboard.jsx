@@ -53,13 +53,10 @@ function Dashboard(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [color, setColor] = useState('#0000f5');
-    const { getCurrentComponent, setCurrentComponent, currentComponentName, nestedComponent } = useComponent();
-    const lastIndex = localStorage.getItem('lastIndex')
-    const [selectedIndex, setSelectedIndex] = useState(() => lastIndex ? JSON.parse(localStorage.getItem('lastIndex')) : 0);
+    const { getCurrentComponent, setCurrentComponent, currentComponentName, nestedComponent, setSelectedIndex, selectedIndex } = useComponent();
 
     const setListItemColor = (index) => {
         setSelectedIndex(index);
-        localStorage.setItem('lastIndex', JSON.stringify(index))
         setColor('#0000f5');
     };
 

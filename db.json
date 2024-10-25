@@ -13,15 +13,22 @@
       "username": "nofal1111",
       "name": "Nofal Hassan",
       "password": "nofal123"
+    },
+    {
+      "id": "ffde",
+      "email": "nofal75@gmail.com",
+      "username": "Nofal0909",
+      "name": "Nofal Hassaan",
+      "password": "nofal123"
     }
   ],
   "products": [
     {
-      "id": "a615",
-      "name": "name",
-      "price": "300",
-      "description": "description",
-      "img": "blob:http://localhost:5173/f4840429-3997-47cd-9971-c1c82e0fc21e"
+      "id": "6d8f",
+      "name": "Name",
+      "price": "30000",
+      "description": "des",
+      "img": "blob:http://localhost:3001/6beb155c-18c3-459a-b7d3-070ddd0ae51c"
     }
   ]
 }

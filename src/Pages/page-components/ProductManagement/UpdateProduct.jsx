@@ -3,15 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useInfo } from '../../../Hooks/useInfo';
 import { makeRequest } from '../../../Server/api/instance';
 import { useForm } from 'react-hook-form';
-import { setName, setValues } from '../../../redux/Reducers/currentComponentSlice';
+import { setValues } from '../../../redux/Reducers/currentComponentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
+import { useComponent } from '../../../Hooks/useComponent';
 
 
 const UpdateProducts = () => {
     const { setLoader, setAlert } = useInfo();
     const product = useSelector(state => state.currentSelection.values)
     const dispatch = useDispatch()
+    const { setPreventLoss, setCurrentComponent, dataLossPrevention } = useComponent()
+    const [component, setComponent] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => {
         return product?.img ? product.img : null
     });
@@ -39,6 +42,7 @@ const UpdateProducts = () => {
     }
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
+        setPreventLoss(true)
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImagePreview(imageUrl);
@@ -58,8 +62,9 @@ const UpdateProducts = () => {
                 await makeRequest('POST', '/products', value);
                 setAlert('Add Success', 'success');
             }
-            dispatch(setName('Products'))
+            setComponent('Products')
             dispatch(setValues(null))
+            setPreventLoss(false)
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
@@ -67,11 +72,22 @@ const UpdateProducts = () => {
         }
     };
 
+    const handleCancel = () => {
+        setPreventLoss(false)
+        setComponent('Products')
+    }
+
     useEffect(() => {
         if (imagePreview) {
             setValue('img', imagePreview);
         }
     }, [imagePreview, product])
+
+    useEffect(() => {
+        if (component && !dataLossPrevention) {
+            setCurrentComponent('Products')
+        }
+    }, [component , dataLossPrevention])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -98,6 +114,7 @@ const UpdateProducts = () => {
                         <InputLabel shrink>Product Name</InputLabel>
                         <TextField
                             {...register('name', { required: "Name is Required" })}
+                            onChange={() => setPreventLoss(true)}
                             type='text'
                             fullWidth
                             placeholder='Enter Your Product Name'
@@ -111,6 +128,7 @@ const UpdateProducts = () => {
                     <Container sx={{ paddingBottom: '10px' }}>
                         <InputLabel shrink>Product Price</InputLabel>
                         <TextField
+                            onChange={() => setPreventLoss(true)}
                             {...register('price', {
                                 required: "Price is Required", pattern: {
                                     value: /^[0-9]+(\.[0-9]+)?$/,
@@ -131,6 +149,7 @@ const UpdateProducts = () => {
                         <InputLabel shrink>Product Description</InputLabel>
                         <TextField
                             {...register('description', { required: "Description is Required" })}
+                            onChange={() => setPreventLoss(true)}
                             type='text'
                             fullWidth
                             placeholder='Enter Description'
@@ -176,9 +195,14 @@ const UpdateProducts = () => {
                             )}
                         </Box>
                     </Container>
-                    <Button disabled={isSubmitting} type='submit' variant="contained" sx={{ marginTop: '20px' }}>
-                        {isSubmitting ? 'Loading...' : product ? 'Edit Product' : 'Add Product'}
-                    </Button>
+                    <Box display={'flex'} flexDirection={'row'} justifyContent={'space-around'}>
+                        <Button onClick={handleCancel} type='button' variant="contained" sx={{ marginTop: '20px', textWrap: 'nowrap' }}>
+                            Cancel
+                        </Button>
+                        <Button disabled={isSubmitting} type='submit' variant="contained" sx={{ marginTop: '20px', textWrap: 'nowrap' }}>
+                            {isSubmitting ? 'Loading...' : product ? 'Save Changes' : 'Add Product'}
+                        </Button>
+                    </Box>
                 </Paper>
             </Box>
         </form>
