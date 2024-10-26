@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { makeRequest } from '../api/instance';
 
 export const authUser = async (email, password) => {

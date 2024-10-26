@@ -8,64 +8,59 @@ import { useDispatch, useSelector } from 'react-redux';
 import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
 import { useComponent } from '../../../Hooks/useComponent';
 
-
 const UpdateProducts = () => {
     const { setLoader, setAlert } = useInfo();
-    const product = useSelector(state => state.currentSelection.values)
-    const dispatch = useDispatch()
-    const { setPreventLoss, setCurrentComponent, dataLossPrevention } = useComponent()
-    const [component, setComponent] = useState(null)
-    const [imagePreview, setImagePreview] = useState(() => {
-        return product?.img ? product.img : null
+    const product = useSelector(state => state.currentSelection.values);
+    const dispatch = useDispatch();
+    const { setCurrentComponent } = useComponent();
+    const [imagePreview, setImagePreview] = useState(() => product?.img || null);
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false); // Use this state
+
+    const setDefaultValue = () => ({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        img: product.img
     });
-    const setDefaultValue = () => {
-        return {
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            img: product.img
-        }
-    }
-    const { register, handleSubmit, setValue, formState: { errors, isSubmitting }, setError } = useForm({
+
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm({
         defaultValues: product && setDefaultValue()
-    })
+    });
 
     const uploadImage = async (file) => {
         if (imagePreview) {
             try {
                 const imgUrl = await uploadImageToCloudinary(file);
                 setValue('img', imgUrl);
-                console.log('upload success')
+                console.log('upload success');
             } catch (error) {
-                console.log('upload failed', error)
+                console.log('upload failed', error);
             }
-        }
-    }
-    const handleImageChange = async (e) => {
-        const file = e.target.files[0];
-        setPreventLoss(true)
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setImagePreview(imageUrl);
-            uploadImage(file)
         }
     };
 
-
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        setHasUnsavedChanges(true);
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setImagePreview(imageUrl);
+            uploadImage(file);
+        }
+    };
 
     const onSubmit = async (value) => {
         try {
             setLoader(true);
             if (product) {
-                await makeRequest('PATCH', `/products/${product.id}`, value)
+                await makeRequest('PATCH', `/products/${product.id}`, value);
                 setAlert('Edit Success', 'success');
             } else {
                 await makeRequest('POST', '/products', value);
                 setAlert('Add Success', 'success');
             }
-            setComponent('Products')
-            dispatch(setValues(null))
-            setPreventLoss(false)
+            dispatch(setValues(null));
+            setHasUnsavedChanges(false); 
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
@@ -74,21 +69,23 @@ const UpdateProducts = () => {
     };
 
     const handleCancel = () => {
-        setPreventLoss(false)
-        setComponent('Products')
-    }
+        setHasUnsavedChanges(false);
+        setCurrentComponent('Products');
+    };
 
     useEffect(() => {
         if (imagePreview) {
             setValue('img', imagePreview);
         }
-    }, [imagePreview, product])
+    }, [imagePreview, product]);
 
     useEffect(() => {
-        if (component && !dataLossPrevention) {
-            setCurrentComponent('Products')
+        if (hasUnsavedChanges) {
+            localStorage.setItem('DataLossPrevention', JSON.stringify(true));
+        } else {
+            localStorage.setItem('DataLossPrevention', JSON.stringify(false));
         }
-    }, [component, dataLossPrevention])
+    }, [hasUnsavedChanges]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -100,23 +97,21 @@ const UpdateProducts = () => {
                 flexWrap: 'wrap'
             }}>
                 {/* General Information Box */}
-                <Paper elevation={3}
-                    sx={{
-                        p: 4,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 3,
-                        flex: 1,
-                        minWidth: { xs: '100%', md: 1 / 2 },
-                        borderRadius: '20px'
-                    }}
-                >
+                <Paper elevation={3} sx={{
+                    p: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 3,
+                    flex: 1,
+                    minWidth: { xs: '100%', md: 1 / 2 },
+                    borderRadius: '20px'
+                }}>
                     <Typography variant='body2'>General Information</Typography>
                     <Container sx={{ paddingBottom: '10px' }}>
                         <InputLabel shrink>Product Name</InputLabel>
                         <TextField
                             {...register('name', { required: "Name is Required" })}
-                            onChange={() => setPreventLoss(true)}
+                            onChange={() => setHasUnsavedChanges(true)} 
                             type='text'
                             fullWidth
                             placeholder='Enter Your Product Name'
@@ -130,9 +125,10 @@ const UpdateProducts = () => {
                     <Container sx={{ paddingBottom: '10px' }}>
                         <InputLabel shrink>Product Price</InputLabel>
                         <TextField
-                            onChange={() => setPreventLoss(true)}
+                            onChange={() => setHasUnsavedChanges(true)} 
                             {...register('price', {
-                                required: "Price is Required", pattern: {
+                                required: "Price is Required",
+                                pattern: {
                                     value: /^[0-9]+(\.[0-9]+)?$/,
                                     message: "Please Enter a Valid Price",
                                 },
@@ -151,7 +147,7 @@ const UpdateProducts = () => {
                         <InputLabel shrink>Product Description</InputLabel>
                         <TextField
                             {...register('description', { required: "Description is Required" })}
-                            onChange={() => setPreventLoss(true)}
+                            onChange={() => setHasUnsavedChanges(true)} 
                             type='text'
                             fullWidth
                             placeholder='Enter Description'
@@ -164,8 +160,8 @@ const UpdateProducts = () => {
                             </Typography>
                         )}
                     </Container>
-
                 </Paper>
+                {/* Image Upload Section */}
                 <Paper elevation={3} sx={{
                     borderRadius: '20px',
                     minWidth: { xs: '100%', md: 1 / 4 },
@@ -174,25 +170,22 @@ const UpdateProducts = () => {
                     justifyContent: "center",
                     alignItems: 'center',
                     flexDirection: 'column',
-                    p:4
+                    p: 4
                 }}>
                     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 6 }}>
-                        {
-                            product && product.img || imagePreview ? (
-                                <img src={imagePreview} style={{ objectFit: 'cover', width: '100%' }} />
-                            ) : (
-                                <Skeleton variant="wave" sx={{
-                                    borderRadius: '10px',
-                                    height: '12rem',
-                                    aspectRatio: '4/4',
-                                }}>
-                                    <Avatar />
-                                </Skeleton>
-                            )
-
-                        }
+                        {product && product.img || imagePreview ? (
+                            <img src={imagePreview} style={{ objectFit: 'cover', width: '100%' }} />
+                        ) : (
+                            <Skeleton variant="wave" sx={{
+                                borderRadius: '10px',
+                                height: '12rem',
+                                aspectRatio: '4/4',
+                            }}>
+                                <Avatar />
+                            </Skeleton>
+                        )}
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '20px' }}>
-                            <Input type="file" onChange={handleImageChange} > Upload Image</Input>
+                            <Input type="file" onChange={handleImageChange}> Upload Image</Input>
                             {errors.img && (
                                 <Typography mt={1} color="error" variant="body2">
                                     {errors.img.message}
@@ -212,7 +205,6 @@ const UpdateProducts = () => {
                 </Paper>
             </Box>
         </form>
-
     );
 };
 

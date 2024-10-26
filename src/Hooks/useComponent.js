@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setDataLossPreventionState, setIndexState, setName } from "../redux/Reducers/currentComponentSlice";
+import { setIndexState, setName } from "../redux/Reducers/currentComponentSlice";
 import { getComponent } from "../Components/Tabs/DashBoardComponents";
 import { useInfo } from "./useInfo";
 
@@ -10,26 +10,24 @@ export const useComponent = () => {
     const { setLoader, setConfirm } = useInfo()
     const currentComponentName = useSelector(state => state.currentSelection.name)
     const nestedComponent = useSelector(state => state.currentSelection.nestedComponent)
-    const dataLossPrevention = useSelector(state => state.currentSelection.dataLossPrevention)
     const selectedIndex = useSelector(state => state.currentSelection.selectedIndex)
 
     const getCurrentComponent = () => getComponent()
 
     const setSelectedIndex = (index) => {
-        if (!dataLossPrevention) {
+        if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
             dispatch(setIndexState(index))
         }
     }
 
-    const setPreventLoss = (val) => dispatch(setDataLossPreventionState(val))
 
     const setCurrentComponent = (option) => {
         currentComponentName !== option && setLoader(false)
-        if (!dataLossPrevention) {
+        if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
             dispatch(setName(option))
         } else {
             const process = () => {
-                setPreventLoss(false)
+                localStorage.setItem('DataLossPrevention', JSON.stringify(false))
                 dispatch(setName(option))
             }
             setConfirm('Are You Sure to Lose All Progress', process)
@@ -37,5 +35,5 @@ export const useComponent = () => {
     }
 
 
-    return { setCurrentComponent, getCurrentComponent, currentComponentName, nestedComponent, selectedIndex, setSelectedIndex, setPreventLoss, dataLossPrevention };
+    return { setCurrentComponent, getCurrentComponent, currentComponentName, nestedComponent, selectedIndex, setSelectedIndex };
 };

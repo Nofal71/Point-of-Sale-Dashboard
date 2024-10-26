@@ -8,11 +8,12 @@ import { AlertReducer } from "../Reducers/AlertSlice";
 import { loaderReducer } from "../Reducers/loaderSlice";
 import { ThemeReducer } from "../Reducers/themeSlice";
 import { ConfirmReducer } from "../Reducers/confirmSlice";
+import { ProfileReducer } from "../Reducers/Profile";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'theme', 'currentSelection'],
+    whitelist: ['user', 'theme', 'currentSelection', 'profile'],
     blacklist: ['Alert', 'loader', 'confirm'],
 };
 
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     loader: loaderReducer,
     theme: ThemeReducer,
     confirm: ConfirmReducer,
+    profile: ProfileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
