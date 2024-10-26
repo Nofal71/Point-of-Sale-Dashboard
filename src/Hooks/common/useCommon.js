@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoaderAction } from '../redux/Reducers/loaderSlice';
-import { setAlertAction } from '../redux/Reducers/AlertSlice';
-import { setTheme } from '../redux/Reducers/themeSlice';
-import {  setConfirmState, setOpen } from '../redux/Reducers/confirmSlice';
+import { setTheme } from '../../redux/Reducers/themeSlice';
+import { setLoaderAction } from '../../redux/Reducers/loaderSlice';
+import { setAlertAction } from '../../redux/Reducers/AlertSlice';
+import { setConfirmState, setOpen } from '../../redux/Reducers/confirmSlice';
 
-export const useInfo = () => {
+export const useCommon = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
   const getConfirm = useSelector(state => state.confirm)
@@ -21,7 +21,7 @@ export const useInfo = () => {
     dispatch(setAlertAction({ msg, type }));
   };
 
-  const setOpenState = (val) => dispatch(setOpen(val)) 
+  const setOpenState = (val) => dispatch(setOpen(val))
 
   const setConfirm = (message, process) => {
     setOpenState(true)

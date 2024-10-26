@@ -5,12 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useInfo } from '../../Hooks/useInfo';
 import { Divider } from '@mui/material';
+import { useCommon } from '../../Hooks/common/useCommon';
 
 export default function Confirm() {
 
-    const { getConfirm, setOpenState } = useInfo()
+    const { getConfirm, setOpenState } = useCommon()
 
     const handleClose = () => {
         setOpenState(false);

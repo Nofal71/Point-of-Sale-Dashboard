@@ -5,16 +5,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { authUser, getUserDetials } from '../../Server/Authentication/Login';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
-import { useInfo } from '../../Hooks/useInfo';
-import { useCustoms } from '../../Hooks/useCustom';
+import { useCommon } from '../../Hooks/common/useCommon';
+import { useUser } from '../../Hooks/custom/useUser';
 
 
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const { updateUser , getUser } = useCustoms()
-    const { setAlert , theme } = useInfo()
+    const { updateUser, getUser } = useUser()
+    const { setAlert, theme } = useCommon()
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();

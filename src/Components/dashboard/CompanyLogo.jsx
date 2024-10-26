@@ -1,12 +1,12 @@
 import { Box, Divider, Skeleton } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useCustoms } from '../../Hooks/useCustom';
-import { useInfo } from '../../Hooks/useInfo';
 import { makeRequest } from '../../Server/api/instance';
+import { useUser } from '../../Hooks/custom/useUser';
+import { useCommon } from '../../Hooks/common/useCommon';
 
 const CompanyLogo = ({ companyLogoHeight }) => {
-    const { logo , setLogo } = useCustoms();
-    const {setAlert, setLoader} = useInfo();
+    const { logo , setLogo } = useUser();
+    const {setAlert, setLoader} = useCommon();
     useEffect(() => {
         const fetchLogo = async () => {
             try {

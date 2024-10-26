@@ -1,26 +1,27 @@
-import { Avatar, Box, Button, Container, Input, InputLabel, Paper, Skeleton, Stack, TextField, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useInfo } from '../../../Hooks/useInfo';
+import { Avatar, Box, Button, Container, FormControl, Input, InputLabel, MenuItem, Paper, Select, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { makeRequest } from '../../../Server/api/instance';
 import { useForm } from 'react-hook-form';
 import { setValues } from '../../../redux/Reducers/currentComponentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
-import { useComponent } from '../../../Hooks/useComponent';
+import { useComponent } from '../../../Hooks/common/useComponent';
+import { useCommon } from '../../../Hooks/common/useCommon';
 
 const UpdateProducts = () => {
-    const { setLoader, setAlert } = useInfo();
+    const { setLoader, setAlert } = useCommon();
     const product = useSelector(state => state.currentSelection.values);
     const dispatch = useDispatch();
     const { setCurrentComponent } = useComponent();
+    const [component, setComponent] = useState()
+    const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => product?.img || null);
-    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false); // Use this state
-
+    const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     const setDefaultValue = () => ({
         name: product.name,
         description: product.description,
         price: product.price,
-        img: product.img
+        img: product.img,
+        category: product.category
     });
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm({
@@ -45,7 +46,7 @@ const UpdateProducts = () => {
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImagePreview(imageUrl);
-            uploadImage(file);
+            // uploadImage(file);
         }
     };
 
@@ -60,7 +61,8 @@ const UpdateProducts = () => {
                 setAlert('Add Success', 'success');
             }
             dispatch(setValues(null));
-            setHasUnsavedChanges(false); 
+            setHasUnsavedChanges(false);
+            setComponent('Products')
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
@@ -70,7 +72,7 @@ const UpdateProducts = () => {
 
     const handleCancel = () => {
         setHasUnsavedChanges(false);
-        setCurrentComponent('Products');
+        setComponent('Products')
     };
 
     useEffect(() => {
@@ -86,6 +88,24 @@ const UpdateProducts = () => {
             localStorage.setItem('DataLossPrevention', JSON.stringify(false));
         }
     }, [hasUnsavedChanges]);
+
+    useEffect(() => {
+        const getCategory = async () => {
+            try {
+                const cat = await makeRequest('GET', '/categories')
+                setCat(cat)
+            } catch (error) {
+                setAlert('Failed to load Categories', 'error')
+            }
+        }
+        getCategory()
+    }, [])
+
+    useEffect(() => {
+        if (component && !hasUnsavedChanges) {
+            setCurrentComponent('Products');
+        }
+    }, [component])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -111,7 +131,7 @@ const UpdateProducts = () => {
                         <InputLabel shrink>Product Name</InputLabel>
                         <TextField
                             {...register('name', { required: "Name is Required" })}
-                            onChange={() => setHasUnsavedChanges(true)} 
+                            onChange={() => setHasUnsavedChanges(true)}
                             type='text'
                             fullWidth
                             placeholder='Enter Your Product Name'
@@ -125,7 +145,7 @@ const UpdateProducts = () => {
                     <Container sx={{ paddingBottom: '10px' }}>
                         <InputLabel shrink>Product Price</InputLabel>
                         <TextField
-                            onChange={() => setHasUnsavedChanges(true)} 
+                            onChange={() => setHasUnsavedChanges(true)}
                             {...register('price', {
                                 required: "Price is Required",
                                 pattern: {
@@ -147,7 +167,7 @@ const UpdateProducts = () => {
                         <InputLabel shrink>Product Description</InputLabel>
                         <TextField
                             {...register('description', { required: "Description is Required" })}
-                            onChange={() => setHasUnsavedChanges(true)} 
+                            onChange={() => setHasUnsavedChanges(true)}
                             type='text'
                             fullWidth
                             placeholder='Enter Description'
@@ -194,6 +214,27 @@ const UpdateProducts = () => {
                             <input style={{ display: 'none', width: 0, padding: 0 }} {...register('img', { required: 'Image is Required' })} value={imagePreview || ''} />
                         </Box>
                     </Container>
+                    {
+                        categories && (
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                <InputLabel id="demo-simple-select-standard-label">Categories</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    {...register('category')}
+                                    label="category"
+                                    defaultValue={product?.category ? product.category : 'No Category Selected'}
+                                >
+                                    <MenuItem value=''>None</MenuItem>
+                                    {
+                                        categories && categories.map((e, i) => (
+                                            <MenuItem key={i} value={e.name}>{e.name}</MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
+                        )
+                    }
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} gap={3}>
                         <Button onClick={handleCancel} type='button' variant="contained" sx={{ marginTop: '20px', textWrap: 'nowrap' }}>
                             Cancel

@@ -1,12 +1,12 @@
 import { Box, Paper, Stack, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { makeRequest } from '../../../Server/api/instance'
-import { useInfo } from '../../../Hooks/useInfo'
+import { useCommon } from '../../../Hooks/common/useCommon'
 // import Graph from '../../../Components/analyticalChart/Graph'
 
 const Analytics = () => {
 
-  const { setLoader } = useInfo()
+  const { setLoader } = useCommon()
   const [productCount, setProductCount] = useState(0)
   const [userCount, setUserCount] = useState(0)
 

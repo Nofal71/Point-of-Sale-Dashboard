@@ -6,15 +6,15 @@ import { getUserDetials } from '../../Server/Authentication/Login';
 import { registerUser } from '../../Server/Authentication/Register';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
-import { useInfo } from '../../Hooks/useInfo';
-import { useCustoms } from '../../Hooks/useCustom';
+import { useCommon } from '../../Hooks/common/useCommon';
+import { useUser } from '../../Hooks/custom/useUser';
 
 
 const SignupForm = () => {
     const navigate = useNavigate();
-    const { setAlert, theme } = useInfo()
+    const { setAlert, theme } = useCommon()
     const { register, handleSubmit, setError, formState: { errors, isSubmitting }, watch } = useForm();
-    const { updateUser } = useCustoms()
+    const { updateUser } = useUser()
 
 
     const onSubmit = async (data) => {

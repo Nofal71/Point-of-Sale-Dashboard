@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setIndexState, setName } from "../redux/Reducers/currentComponentSlice";
-import { getComponent } from "../Components/Tabs/DashBoardComponents";
-import { useInfo } from "./useInfo";
-
-
+import { useCommon } from "./useCommon";
+import { getComponent } from "../../Components/Tabs/DashBoardComponents";
+import { setIndexState, setName } from "../../redux/Reducers/currentComponentSlice";
 
 export const useComponent = () => {
     const dispatch = useDispatch()
-    const { setLoader, setConfirm } = useInfo()
+    const { setLoader, setConfirm } = useCommon()
     const currentComponentName = useSelector(state => state.currentSelection.name)
     const nestedComponent = useSelector(state => state.currentSelection.nestedComponent)
     const selectedIndex = useSelector(state => state.currentSelection.selectedIndex)

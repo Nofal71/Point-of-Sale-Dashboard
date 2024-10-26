@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import ProductCard from '../../../Components/common/ProductCard'
 import { makeRequest } from '../../../Server/api/instance'
-import { useInfo } from '../../../Hooks/useInfo'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { setNestedComponent, setValues } from '../../../redux/Reducers/currentComponentSlice'
+import { useCommon } from '../../../Hooks/common/useCommon';
 
 const Products = () => {
   const [products, setProducts] = useState(null)
-  const { setLoader, setAlert, setConfirm } = useInfo()
+  const { setLoader, setAlert, setConfirm } = useCommon()
   const dispatch = useDispatch()
 
 

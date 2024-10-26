@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-import { useInfo } from '../../Hooks/useInfo';
+import { useCommon } from '../../Hooks/common/useCommon';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -62,7 +62,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
-    const { setGlobalTheme, theme } = useInfo()
+    const { setGlobalTheme, theme } = useCommon()
     return (
         <AppBar
             position="fixed"

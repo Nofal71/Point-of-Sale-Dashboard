@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { useInfo } from '../../../Hooks/useInfo'
+import { useCommon } from '../../../Hooks/common/useCommon'
 
 const Placed = () => {
-  const { setLoader } = useInfo()
+  const { setLoader } = useCommon()
   useEffect(() => {
     setLoader(true)
   }, [])

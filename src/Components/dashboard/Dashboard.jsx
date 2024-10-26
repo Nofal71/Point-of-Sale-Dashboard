@@ -16,8 +16,8 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { tabs } from '../Tabs/DashboardTabs';
 import { Loader } from '../common/Loader';
-import { useComponent } from '../../Hooks/useComponent';
 import CompanyLogo from './CompanyLogo';
+import { useComponent } from '../../Hooks/common/useComponent';
 
 const drawerWidth = 240;
 const drawerHeight = 500;
