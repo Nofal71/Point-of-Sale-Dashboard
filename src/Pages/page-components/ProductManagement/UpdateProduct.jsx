@@ -10,16 +10,15 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-    const setDefaultValue = () => ({
-        name: value.name,
-        description: value.description,
-        price: value.price,
-        img: value.img,
-        category: value.category
-    });
 
-    const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm({
-        defaultValues: value && setDefaultValue()
+    const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm({
+        defaultValues: {
+            name: value?.name || '',
+            description: value?.description || '',
+            price: value?.price || '',
+            img: value?.img || '',
+            category: value?.category || ''
+        }
     });
 
     const uploadImage = async (file) => {
@@ -63,6 +62,12 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && value) {
+            e.preventDefault();
+        }
+    };
+
     const handleCancel = () => {
         setHasUnsavedChanges(false);
         setCurrentComponent('Products')
@@ -98,7 +103,7 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
     }, [])
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleKeyDown}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
