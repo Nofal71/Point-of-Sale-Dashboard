@@ -5,6 +5,10 @@ import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import { useCommon } from '../../Hooks/common/useCommon';
 
+import { motion } from 'framer-motion'
+
+const MotionBox = motion(AppBar)
+
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
     height: 34,
@@ -64,7 +68,10 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
     const { setGlobalTheme, theme } = useCommon()
     return (
-        <AppBar
+        <MotionBox
+            initial={{ y: -500 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 1 }}
             position="fixed"
             sx={{
                 width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -89,7 +96,7 @@ const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
                 </Typography>
                 <MaterialUISwitch sx={{ ml: 'auto' }} checked={theme === 'dark' ? true : false} onClick={() => setGlobalTheme(theme === 'light' ? 'dark' : 'light')} />
             </Toolbar>
-        </AppBar>
+        </MotionBox>
     );
 };
 

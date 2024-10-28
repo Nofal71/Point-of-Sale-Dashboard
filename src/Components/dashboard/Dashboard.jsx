@@ -18,6 +18,7 @@ import CompanyLogo from './CompanyLogo';
 import { CurrentComponent } from '../Tabs/DashBoardComponents';
 import { useCommon } from '../../Hooks/common/useCommon';
 import BreadcrumbsNav from '../common/BreadcrumbsNav';
+import { Divider } from '@mui/material';
 
 const drawerWidth = 240;
 const drawerHeight = 500;
@@ -52,7 +53,7 @@ function Dashboard(props) {
     const [isClosing, setIsClosing] = useState(false);
     const [color, setColor] = useState('#0000f5');
     const [value, setValue] = useState(null)
-    const { setConfirm } = useCommon()
+    const { setConfirm, setLoader } = useCommon()
 
     const [currentComponentName, setCurrentComponentName] = useState('Dashboard');
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -79,15 +80,19 @@ function Dashboard(props) {
     };
 
     const handleChangeComponent = (name, index) => {
+        setLoader(false)
         if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
+            setNestation(false)
             setListItemColor(index);
             handleDrawerClose();
-            setCurrentComponentName(name);
+            name !== currentComponentName && setCurrentComponentName(name);
         } else {
             const process = () => {
+                setNestation(false)
                 localStorage.setItem('DataLossPrevention', JSON.stringify(false))
                 setListItemColor(index);
                 setCurrentComponentName(name);
+                console.log(JSON.parse(localStorage.getItem('DataLossPrevention')))
             }
             setConfirm('Are You Sure to Lose All Progress', process)
         }
@@ -188,14 +193,16 @@ function Dashboard(props) {
             >
                 <Toolbar />
                 <Loader />
-                <BreadcrumbsNav currentComponentName={currentComponentName} nesting={nestation} />
+                <BreadcrumbsNav currentComponentName={currentComponentName} nesting={nestation} setCurrentComponentName={handleChangeComponent} />
+                <Divider sx={{ my: 1 }} />
 
                 <motion.div
                     key={currentComponentName}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, y: 100 }}
-                    transition={{ duration: 1 }}
+                    transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.4, ease: "easeInOut" } }}
+
                 >
                     <CurrentComponent
                         selectOption={currentComponentName}

@@ -6,6 +6,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { Box, Skeleton } from '@mui/material';
+import { motion } from 'framer-motion'
+
+const CardMotion = motion(Card)
 
 export default function ProductCard({ product, buttons }) {
     const [error, setError] = React.useState(false)
@@ -22,7 +25,12 @@ export default function ProductCard({ product, buttons }) {
     }, [product])
 
     return (
-        <Card sx={{ maxWidth: 250, minWidth: 250, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', }}>
+        <CardMotion
+            initial={{ opacity: 0, scale: (0.5) }}
+            whileInView={{ opacity: 1, scale: (1), transitionDuration: 1 }}
+            key={{ product }}
+            sx={{ maxWidth: 250, minWidth: 250, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', }}
+        >
             {
                 product.img && !error ? (
                     <CardMedia
@@ -71,8 +79,6 @@ export default function ProductCard({ product, buttons }) {
                     </Stack>
                 </CardActions>
             </CardContent>
-
-
-        </Card>
+        </CardMotion>
     );
 }

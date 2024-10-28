@@ -5,8 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Divider } from '@mui/material';
+import { Divider, Slide } from '@mui/material';
 import { useCommon } from '../../Hooks/common/useCommon';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function Confirm() {
 
@@ -20,30 +24,30 @@ export default function Confirm() {
         getConfirm.process()
     };
 
-    return (
-        <React.Fragment>
-            <Dialog
-                open={getConfirm?.open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {getConfirm?.message}
 
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                    </DialogContentText>
-                </DialogContent>
-                <Divider />
-                <DialogActions>
-                    <Button onClick={handleClose}>No</Button>
-                    <Button onClick={handleSubmit} autoFocus>
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </React.Fragment>
+    return (
+        <Dialog
+            open={getConfirm?.open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            TransitionComponent={Transition}
+        >
+
+            <DialogTitle id="alert-dialog-title">
+                {getConfirm?.message}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                </DialogContentText>
+            </DialogContent>
+            <Divider />
+            <DialogActions>
+                <Button onClick={handleClose}>No</Button>
+                <Button onClick={handleSubmit} autoFocus>
+                    Yes
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }

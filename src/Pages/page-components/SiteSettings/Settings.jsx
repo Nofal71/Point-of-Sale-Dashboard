@@ -75,7 +75,9 @@ const Settings = () => {
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
               />
-              <AddIcon onClick={handleAddCategory} />
+             <Button  onKeyDown={(e) => {
+                if (e.key === 'Enter') handleAddCategory()
+              }} > <AddIcon onClick={handleAddCategory} /></Button>
             </Box>
           </Stack>
           {categories && categories.map((category, index) => (

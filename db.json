@@ -20,17 +20,29 @@
       "username": "Nofal0909",
       "name": "Nofal Hassaan",
       "password": "nofal123"
-    }
-  ],
-  "products": [],
-  "categories": [
-    {
-      "id": "fdcb",
-      "name": "cat"
     },
     {
-      "id": "5e2a",
-      "name": "categories"
+      "id": "680e",
+      "email": "nofal87@gmail.com",
+      "username": "nofal76",
+      "name": "Nofal Hassaan",
+      "password": "nofal123"
+    }
+  ],
+  "products": [
+    {
+      "id": "1d8a",
+      "name": "Product",
+      "description": "Description of Product",
+      "price": "3000",
+      "img": "blob:http://localhost:3001/2d437a03-567a-45f9-9e04-402e1c1332b6",
+      "category": "electronics"
+    }
+  ],
+  "categories": [
+    {
+      "id": "8a78",
+      "name": "electronics"
     }
   ],
   "assets": [

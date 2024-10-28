@@ -3,14 +3,16 @@ import { makeRequest } from '../../../Server/api/instance';
 import { useForm } from 'react-hook-form';
 import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
 import { useCommon } from '../../../Hooks/common/useCommon';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+
+const PaperMotion = motion(Paper)
 
 const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
     const { setLoader, setAlert } = useCommon();
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-
     const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm({
         defaultValues: {
             name: value?.name || '',
@@ -21,46 +23,43 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
         }
     });
 
-    const uploadImage = async (file) => {
-        if (imagePreview) {
-            try {
-                const imgUrl = await uploadImageToCloudinary(file);
-                setValue('img', imgUrl);
-                console.log('upload success');
-            } catch (error) {
-                console.log('upload failed', error);
-            }
+    const uploadImage = useCallback(async (file) => {
+        try {
+            const imgUrl = await uploadImageToCloudinary(file);
+            setValue('img', imgUrl);
+        } catch (error) {
+            console.error('Upload failed', error);
         }
-    };
+    }, [setValue]);
 
-    const handleImageChange = async (e) => {
+    const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
         setHasUnsavedChanges(true);
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImagePreview(imageUrl);
-            // uploadImage(file);
         }
-    };
+    }, []);
 
-    const onSubmit = async (val) => {
+    const onSubmit = useCallback(async (formData) => {
         try {
             setLoader(true);
             setHasUnsavedChanges(false);
+            setNestaion(false);
             if (value) {
-                await makeRequest('PATCH', `/products/${value.id}`, val);
+                await makeRequest('PATCH', `/products/${value.id}`, formData);
                 setAlert('Edit Success', 'success');
             } else {
-                await makeRequest('POST', '/products', val);
+                await makeRequest('POST', '/products', formData);
                 setAlert('Add Success', 'success');
             }
-            setCurrentComponent('Products')
+            setCurrentComponent('Products');
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
             setLoader(false);
         }
-    };
+    }, [value, setLoader, setAlert, setNestaion, setCurrentComponent]);
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && value) {
@@ -68,10 +67,11 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
         }
     };
 
-    const handleCancel = () => {
+    const handleCancel = useCallback(() => {
+        setNestaion(false);
         setHasUnsavedChanges(false);
-        setCurrentComponent('Products')
-    };
+        setCurrentComponent('Products');
+    }, [setCurrentComponent, setNestaion]);
 
     useEffect(() => {
         if (imagePreview) {
@@ -112,15 +112,20 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
                 flexWrap: 'wrap'
             }}>
                 {/* General Information Box */}
-                <Paper elevation={3} sx={{
-                    p: 4,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 3,
-                    flex: 1,
-                    minWidth: { xs: '100%', md: 1 / 2 },
-                    borderRadius: '20px'
-                }}>
+                <PaperMotion
+                    initial={{ opacity: 0, x: -500 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: .5 }}
+                    elevation={3}
+                    sx={{
+                        p: 4,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 3,
+                        flex: 1,
+                        minWidth: { xs: '100%', md: 1 / 2 },
+                        borderRadius: '20px'
+                    }}>
                     <Typography variant='body2'>General Information</Typography>
                     <Container sx={{ paddingBottom: '10px' }}>
                         <InputLabel shrink>Product Name</InputLabel>
@@ -175,18 +180,23 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
                             </Typography>
                         )}
                     </Container>
-                </Paper>
+                </PaperMotion>
                 {/* Image Upload Section */}
-                <Paper elevation={3} sx={{
-                    borderRadius: '20px',
-                    minWidth: { xs: '100%', md: 1 / 4 },
-                    maxWidth: 1 / 3,
-                    display: 'flex',
-                    justifyContent: "center",
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    p: 4
-                }}>
+                <PaperMotion
+                    initial={{ opacity: 0, x: 500 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: .5 }}
+                    elevation={3}
+                    sx={{
+                        borderRadius: '20px',
+                        minWidth: { xs: '100%', md: 1 / 4 },
+                        maxWidth: 1 / 3,
+                        display: 'flex',
+                        justifyContent: "center",
+                        alignItems: 'center',
+                        flexDirection: 'column',
+                        p: 4
+                    }}>
                     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 6 }}>
                         {value && value.img || imagePreview ? (
                             <img src={imagePreview} style={{ objectFit: 'cover', width: '100%' }} />
@@ -238,7 +248,7 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
                             {isSubmitting ? 'Loading...' : value ? 'Save Changes' : 'Add Product'}
                         </Button>
                     </Box>
-                </Paper>
+                </PaperMotion>
             </Box>
         </form>
     );

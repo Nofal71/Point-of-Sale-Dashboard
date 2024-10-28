@@ -13,7 +13,6 @@ export const CurrentComponent = ({ selectOption, setCurrentComponent, setValues,
         'User Carts': (props) => <UserCarts {...props} />,
         'Site Settings': (props) => <Settings {...props} />,
     };
-
     const RenderComponent = componentMap[selectOption];
     return RenderComponent ? RenderComponent({ ...props, setCurrentComponent, setValues, setNestaion }) : null;
 };

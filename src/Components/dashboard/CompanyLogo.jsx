@@ -3,10 +3,13 @@ import React, { useEffect } from 'react';
 import { makeRequest } from '../../Server/api/instance';
 import { useUser } from '../../Hooks/custom/useUser';
 import { useCommon } from '../../Hooks/common/useCommon';
+import { motion } from 'framer-motion'
+
+const MotionBox = motion(Box)
 
 const CompanyLogo = ({ companyLogoHeight }) => {
-    const { logo , setLogo } = useUser();
-    const {setAlert, setLoader} = useCommon();
+    const { logo, setLogo } = useUser();
+    const { setAlert, setLoader } = useCommon();
     useEffect(() => {
         const fetchLogo = async () => {
             try {
@@ -25,7 +28,12 @@ const CompanyLogo = ({ companyLogoHeight }) => {
         fetchLogo()
     }, [logo])
     return (
-        <Box position="sticky" zIndex={200} width={'100%'}>
+        <MotionBox
+            initial={{ y: -500 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 1 }}
+            key={{ logo }}
+            position="sticky" zIndex={200} width={'100%'}>
             {logo ? (
                 <Box
                     sx={{
@@ -45,7 +53,7 @@ const CompanyLogo = ({ companyLogoHeight }) => {
                 <Skeleton variant="rectangular" height={150} />
             )}
             <Divider />
-        </Box>
+        </MotionBox>
     );
 };
 
