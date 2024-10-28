@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert, Snackbar } from '@mui/material';
-import { clearAlert } from '../../redux/Reducers/AlertSlice';
 import { motion } from 'framer-motion';
+import { clearAlert } from '../../redux/Reducers/feedbackSlice';
 
 
 
 const AlertComponent = () => {
     const dispatch = useDispatch();
-    const severity = useSelector((state) => state.Alert.severity);
-    const message = useSelector((state) => state.Alert.message);
+    const severity = useSelector((state) => state.feedback.Alert.severity);
+    const message = useSelector((state) => state.feedback.Alert.message);
 
     useEffect(() => {
         if (message) {

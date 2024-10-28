@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 
 export function Loader() {
-    const loader = useSelector(state => state.loader);
+    const loader = useSelector(state => state.feedback.loader);
 
     return (
         <>

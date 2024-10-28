@@ -1,31 +1,25 @@
 import { Avatar, Box, Button, Container, FormControl, Input, InputLabel, MenuItem, Paper, Select, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { makeRequest } from '../../../Server/api/instance';
 import { useForm } from 'react-hook-form';
-import { setValues } from '../../../redux/Reducers/currentComponentSlice';
-import { useDispatch, useSelector } from 'react-redux';
 import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
-import { useComponent } from '../../../Hooks/common/useComponent';
 import { useCommon } from '../../../Hooks/common/useCommon';
+import { useEffect, useState } from 'react';
 
-const UpdateProducts = () => {
+const UpdateProducts = ({ setCurrentComponent, value, setValues }) => {
     const { setLoader, setAlert } = useCommon();
-    const product = useSelector(state => state.currentSelection.values);
-    const dispatch = useDispatch();
-    const { setCurrentComponent } = useComponent();
-    const [component, setComponent] = useState()
     const [categories, setCat] = useState(null)
-    const [imagePreview, setImagePreview] = useState(() => product?.img || null);
+    const [imagePreview, setImagePreview] = useState(() => value?.img || null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     const setDefaultValue = () => ({
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        img: product.img,
-        category: product.category
+        name: value.name,
+        description: value.description,
+        price: value.price,
+        img: value.img,
+        category: value.category
     });
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm({
-        defaultValues: product && setDefaultValue()
+        defaultValues: value && setDefaultValue()
     });
 
     const uploadImage = async (file) => {
@@ -50,19 +44,18 @@ const UpdateProducts = () => {
         }
     };
 
-    const onSubmit = async (value) => {
+    const onSubmit = async (val) => {
         try {
             setLoader(true);
-            if (product) {
-                await makeRequest('PATCH', `/products/${product.id}`, value);
+            if (value) {
+                await makeRequest('PATCH', `/products/${value.id}`, val);
                 setAlert('Edit Success', 'success');
             } else {
-                await makeRequest('POST', '/products', value);
+                await makeRequest('POST', '/products', val);
                 setAlert('Add Success', 'success');
             }
-            dispatch(setValues(null));
+            setCurrentComponent('Products')
             setHasUnsavedChanges(false);
-            setComponent('Products')
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
@@ -72,14 +65,14 @@ const UpdateProducts = () => {
 
     const handleCancel = () => {
         setHasUnsavedChanges(false);
-        setComponent('Products')
+        setCurrentComponent('Products')
     };
 
     useEffect(() => {
         if (imagePreview) {
             setValue('img', imagePreview);
         }
-    }, [imagePreview, product]);
+    }, [imagePreview, value]);
 
     useEffect(() => {
         if (hasUnsavedChanges) {
@@ -100,12 +93,6 @@ const UpdateProducts = () => {
         }
         getCategory()
     }, [])
-
-    useEffect(() => {
-        if (component && !hasUnsavedChanges) {
-            setCurrentComponent('Products');
-        }
-    }, [component])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -193,7 +180,7 @@ const UpdateProducts = () => {
                     p: 4
                 }}>
                     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 6 }}>
-                        {product && product.img || imagePreview ? (
+                        {value && value.img || imagePreview ? (
                             <img src={imagePreview} style={{ objectFit: 'cover', width: '100%' }} />
                         ) : (
                             <Skeleton variant="wave" sx={{
@@ -223,7 +210,7 @@ const UpdateProducts = () => {
                                     id="demo-simple-select-standard"
                                     {...register('category')}
                                     label="category"
-                                    defaultValue={product?.category ? product.category : 'No Category Selected'}
+                                    defaultValue={value?.category ? value.category : 'No Category Selected'}
                                 >
                                     <MenuItem value=''>None</MenuItem>
                                     {
@@ -240,7 +227,7 @@ const UpdateProducts = () => {
                             Cancel
                         </Button>
                         <Button disabled={isSubmitting} type='submit' variant="contained" sx={{ marginTop: '20px', textWrap: 'nowrap' }}>
-                            {isSubmitting ? 'Loading...' : product ? 'Save Changes' : 'Add Product'}
+                            {isSubmitting ? 'Loading...' : value ? 'Save Changes' : 'Add Product'}
                         </Button>
                     </Box>
                 </Paper>

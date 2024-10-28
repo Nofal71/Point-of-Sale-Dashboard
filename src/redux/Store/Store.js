@@ -1,30 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { currentSelectionReducer } from "../Reducers/currentComponentSlice";
 import { userReducer } from "../Reducers/userSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
-import { AlertReducer } from "../Reducers/AlertSlice";
-import { loaderReducer } from "../Reducers/loaderSlice";
-import { ThemeReducer } from "../Reducers/themeSlice";
-import { ConfirmReducer } from "../Reducers/confirmSlice";
 import { ProfileReducer } from "../Reducers/Profile";
+import { feedbackReducer } from "../Reducers/feedbackSlice";
+import { ThemeReducer } from "../Reducers/themeSlice";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'theme', 'currentSelection', 'profile'],
-    blacklist: ['Alert', 'loader', 'confirm'],
+    whitelist: ['user', 'profile', 'theme'],
+    blacklist: ['feedback'],
 };
 
 const rootReducer = combineReducers({
-    currentSelection: currentSelectionReducer,
     user: userReducer,
-    Alert: AlertReducer,
-    loader: loaderReducer,
-    theme: ThemeReducer,
-    confirm: ConfirmReducer,
     profile: ProfileReducer,
+    feedback: feedbackReducer,
+    theme: ThemeReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

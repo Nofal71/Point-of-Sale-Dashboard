@@ -1,38 +1,19 @@
-import { useSelector } from "react-redux";
 import { Analytics, Pending, Placed, Products, UserAccounts, UserCarts, Settings } from '../../Pages/page-components/index';
-import UpdateProducts from "../../Pages/page-components/ProductManagement/UpdateProduct";
+import UpdateProducts from '../../Pages/page-components/ProductManagement/UpdateProduct';
 
-
-
-export const getComponent = () => {
-    const selectOption = useSelector(state => state.currentSelection.name);
-    const nestedComponents = useSelector(state => state.currentSelection.nestedComponent);
-
-    const getCurrentComponent = () => {
-        return (
-            nestedComponents.length > 0 ? (
-                nestedComponents.map((c, index) =>
-                    c === 'Add Product' || c === 'Edit Product' ? (
-                        <UpdateProducts key={index} />
-                    ) : null
-                )
-            ) : selectOption === 'Dashboard' ? (
-                <Analytics />
-            ) : selectOption === 'Pending Orders' ? (
-                <Pending />
-            ) : selectOption === 'Placed Orders' ? (
-                <Placed />
-            ) : selectOption === 'Products' ? (
-                <Products />
-            ) : selectOption === 'User Accounts' ? (
-                <UserAccounts />
-            ) : selectOption === 'User Carts' ? (
-                <UserCarts />
-            ) : selectOption === 'Site Settings' ? (
-                <Settings />
-            ) : null
-        );
+export const CurrentComponent = ({ selectOption, setCurrentComponent, setValues, ...props }) => {
+    const componentMap = {
+        'Dashboard': (props) => <Analytics {...props} />,
+        'Pending Orders': (props) => <Pending {...props} />,
+        'Placed Orders': (props) => <Placed {...props} />,
+        'Products': (props) => <Products {...props} />,
+        'Add Product': (props) => <UpdateProducts {...props} />,
+        'Edit Product': (props) => <UpdateProducts {...props} />,
+        'User Accounts': (props) => <UserAccounts {...props} />,
+        'User Carts': (props) => <UserCarts {...props} />,
+        'Site Settings': (props) => <Settings {...props} />,
     };
 
-    return getCurrentComponent();
+    const RenderComponent = componentMap[selectOption];
+    return RenderComponent ? RenderComponent({ ...props, setCurrentComponent, setValues }) : null;
 };

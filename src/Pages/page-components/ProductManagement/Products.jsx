@@ -5,14 +5,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button } from '@mui/material'
-import { useDispatch } from 'react-redux'
-import { setNestedComponent, setValues } from '../../../redux/Reducers/currentComponentSlice'
 import { useCommon } from '../../../Hooks/common/useCommon';
 
-const Products = () => {
+const Products = ({ setCurrentComponent, setValues }) => {
   const [products, setProducts] = useState(null)
   const { setLoader, setAlert, setConfirm } = useCommon()
-  const dispatch = useDispatch()
 
 
   const loadProducts = async () => {
@@ -49,7 +46,10 @@ const Products = () => {
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={() => dispatch(setNestedComponent('Add Product'))} sx={{ mb: 5 }} >Add Product</Button>
+        <Button onClick={() => {
+          setValues(null)
+          setCurrentComponent('Add Product')
+        }} sx={{ mb: 5 }} >Add Product</Button>
         <RefreshIcon onClick={loadProducts} sx={{ ml: 'auto', cursor: 'pointer' }} />
       </Box>
       <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} justifyContent={'center'} gap={2}>
@@ -58,8 +58,8 @@ const Products = () => {
             <ProductCard key={index} product={product} buttons={[
               (<Button onClick={() => deleteProduct(product.id)} > <DeleteIcon /> </Button>),
               (<Button onClick={() => {
-                dispatch(setNestedComponent('Edit Product'))
-                dispatch(setValues(product))
+                setCurrentComponent('Edit Product')
+                setValues(product)
               }} ><EditIcon /></Button>)
             ]} />
           ))

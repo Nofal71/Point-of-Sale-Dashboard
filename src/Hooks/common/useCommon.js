@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { setAlertAction, setConfirmState, setLoaderAction, setOpen } from '../../redux/Reducers/feedbackSlice';
 import { setTheme } from '../../redux/Reducers/themeSlice';
-import { setLoaderAction } from '../../redux/Reducers/loaderSlice';
-import { setAlertAction } from '../../redux/Reducers/AlertSlice';
-import { setConfirmState, setOpen } from '../../redux/Reducers/confirmSlice';
 
 export const useCommon = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
-  const getConfirm = useSelector(state => state.confirm)
+  const getConfirm = useSelector(state => state.feedback.confirm)
 
   const setGlobalTheme = (newTheme) => {
     dispatch(setTheme(newTheme));

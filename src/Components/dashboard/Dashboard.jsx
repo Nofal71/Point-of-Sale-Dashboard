@@ -17,17 +17,18 @@ import { motion } from 'framer-motion';
 import { tabs } from '../Tabs/DashboardTabs';
 import { Loader } from '../common/Loader';
 import CompanyLogo from './CompanyLogo';
-import { useComponent } from '../../Hooks/common/useComponent';
+import { CurrentComponent } from '../Tabs/DashBoardComponents';
+import { useCommon } from '../../Hooks/common/useCommon';
 
 const drawerWidth = 240;
 const drawerHeight = 500;
-const companyLogoHeight = 100
+const companyLogoHeight = 100;
 
 function Toggler({ defaultExpanded = false, renderToggle, children }) {
     const [open, setOpen] = useState(defaultExpanded);
     useEffect(() => {
-        open && setTimeout(() => setOpen(false), 20000)
-    }, [open])
+        open && setTimeout(() => setOpen(false), 20000);
+    }, [open]);
     return (
         <React.Fragment>
             {renderToggle({ open, setOpen })}
@@ -40,9 +41,7 @@ function Toggler({ defaultExpanded = false, renderToggle, children }) {
                 transition={{ duration: 0.3 }}
                 style={{ overflow: 'hidden' }}
             >
-                <Box>
-                    {children}
-                </Box>
+                <Box>{children}</Box>
             </motion.div>
         </React.Fragment>
     );
@@ -53,16 +52,16 @@ function Dashboard(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [color, setColor] = useState('#0000f5');
-    const { getCurrentComponent, setCurrentComponent, currentComponentName, nestedComponent, setSelectedIndex, selectedIndex } = useComponent();
+    const [value, setValue] = useState(null)
+    const { setConfirm } = useCommon()
+
+    const [currentComponentName, setCurrentComponentName] = useState('Dashboard');
+    const [selectedIndex, setSelectedIndex] = useState(null);
 
     const setListItemColor = (index) => {
         setSelectedIndex(index);
         setColor('#0000f5');
     };
-
-    function handleClickBreadcrumbs(event) {
-        event.preventDefault();
-    }
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -79,6 +78,20 @@ function Dashboard(props) {
         }
     };
 
+    const handleChangeComponent = (name, index) => {
+        if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
+            setListItemColor(index);
+            handleDrawerClose();
+            setCurrentComponentName(name);
+        } else {
+            const process = () => {
+                localStorage.setItem('DataLossPrevention', JSON.stringify(false))
+                setCurrentComponentName(name);
+            }
+            setConfirm('Are You Sure to Lose All Progress', process)
+        }
+
+    }
 
     const drawer = (
         <Box sx={{ overflowX: 'hidden', overflowY: 'auto', scrollbarWidth: 'none', position: 'relative', mb: 'auto' }}>
@@ -88,11 +101,7 @@ function Dashboard(props) {
                         {!item.subItems || item.subItems.length === 0 ? (
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    onClick={() => {
-                                        setCurrentComponent(item.name)
-                                        handleDrawerClose();
-                                        setListItemColor(index);
-                                    }}
+                                    onClick={() => { handleChangeComponent(item.name) }}
                                 >
                                     <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
                                 </ListItemButton>
@@ -101,10 +110,7 @@ function Dashboard(props) {
                             <Toggler
                                 renderToggle={({ open, setOpen }) => (
                                     <ListItem disablePadding>
-                                        <ListItemButton onClick={() => {
-                                            setOpen(!open)
-                                        }}
-                                        >
+                                        <ListItemButton onClick={() => setOpen(!open)}>
                                             <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
                                             {open ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
@@ -114,11 +120,7 @@ function Dashboard(props) {
                                 {item.subItems?.map((subItem, subIndex) => (
                                     <ListItem key={subIndex} disablePadding>
                                         <ListItemButton
-                                            onClick={() => {
-                                                setCurrentComponent(subItem)
-                                                handleDrawerClose();
-                                                setListItemColor(index);
-                                            }}
+                                            onClick={() => { handleChangeComponent(subItem, index) }}
                                         >
                                             <ListItemText primary={subItem} />
                                         </ListItemButton>
@@ -129,12 +131,12 @@ function Dashboard(props) {
                     </div>
                 ))}
             </List>
-        </Box >
+        </Box>
     );
 
     useEffect(() => {
-
-    }, [])
+        // Initial setup or data fetching if needed
+    }, []);
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -147,7 +149,6 @@ function Dashboard(props) {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
             >
-
                 <Drawer
                     container={container}
                     variant="temporary"
@@ -183,43 +184,32 @@ function Dashboard(props) {
                 </Drawer>
             </Box>
 
-
             <Box
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, position: 'relative' }}
             >
                 <Toolbar />
                 <Loader />
-                <div role="presentation"
-                    key={Math.random()}
-                    onClick={handleClickBreadcrumbs}>
-                    <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }} >
-                        <Typography color="inherit" sx={{ cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}>
-                            Dashboard
-                        </Typography>
-                        <Typography sx={{ color: 'text.primary', cursor: 'pointer' }} onClick={() => setCurrentComponent(currentComponentName)}> {currentComponentName} </Typography>
-                        {nestedComponent && nestedComponent.map((c, index) => (
-                            <Typography
-                                key={index}
-                                sx={{ color: 'text.primary', cursor: 'pointer' }}
-                            >
-                                {c}
-                            </Typography>
-                        ))}
-                    </Breadcrumbs>
+                {/* Breadcrumbs section - commented out as per instructions */}
+                {/* <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }} >
+                    <Typography color="inherit" sx={{ cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}>
+                        Dashboard
+                    </Typography>
+                    <Typography sx={{ color: 'text.primary', cursor: 'pointer' }} onClick={() => setCurrentComponentName(currentComponentName)}> {currentComponentName} </Typography>
+                </Breadcrumbs> */}
 
-                </div>
-                {getCurrentComponent()}
+                <CurrentComponent
+                    selectOption={currentComponentName}
+                    setCurrentComponent={setCurrentComponentName}
+                    setValues={setValue} 
+                    value={value}
+                />
             </Box>
         </Box>
     );
 }
 
 Dashboard.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * Remove this when copying and pasting into your project.
-     */
     window: PropTypes.func,
 };
 
