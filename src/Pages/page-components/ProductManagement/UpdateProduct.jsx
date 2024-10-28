@@ -5,7 +5,7 @@ import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
 import { useCommon } from '../../../Hooks/common/useCommon';
 import { useEffect, useState } from 'react';
 
-const UpdateProducts = ({ setCurrentComponent, value, setValues }) => {
+const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
     const { setLoader, setAlert } = useCommon();
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
@@ -47,6 +47,7 @@ const UpdateProducts = ({ setCurrentComponent, value, setValues }) => {
     const onSubmit = async (val) => {
         try {
             setLoader(true);
+            setHasUnsavedChanges(false);
             if (value) {
                 await makeRequest('PATCH', `/products/${value.id}`, val);
                 setAlert('Edit Success', 'success');
@@ -55,7 +56,6 @@ const UpdateProducts = ({ setCurrentComponent, value, setValues }) => {
                 setAlert('Add Success', 'success');
             }
             setCurrentComponent('Products')
-            setHasUnsavedChanges(false);
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
@@ -92,6 +92,9 @@ const UpdateProducts = ({ setCurrentComponent, value, setValues }) => {
             }
         }
         getCategory()
+        return () => {
+            setNestaion(false)
+        }
     }, [])
 
     return (

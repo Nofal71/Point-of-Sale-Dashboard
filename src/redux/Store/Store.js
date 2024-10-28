@@ -5,20 +5,20 @@ import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import { ProfileReducer } from "../Reducers/Profile";
 import { feedbackReducer } from "../Reducers/feedbackSlice";
-import { ThemeReducer } from "../Reducers/themeSlice";
+import { commonReducer } from "../Reducers/commonSlice";
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'profile', 'theme'],
-    blacklist: ['feedback'],
+    whitelist: ['user', 'profile', 'common'],
+    blacklist: ['feedback' , 'common.Breadcrumbs'],
 };
 
 const rootReducer = combineReducers({
     user: userReducer,
     profile: ProfileReducer,
     feedback: feedbackReducer,
-    theme: ThemeReducer
+    common: commonReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

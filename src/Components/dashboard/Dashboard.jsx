@@ -10,8 +10,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { Breadcrumbs } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { tabs } from '../Tabs/DashboardTabs';
@@ -19,6 +17,7 @@ import { Loader } from '../common/Loader';
 import CompanyLogo from './CompanyLogo';
 import { CurrentComponent } from '../Tabs/DashBoardComponents';
 import { useCommon } from '../../Hooks/common/useCommon';
+import BreadcrumbsNav from '../common/BreadcrumbsNav';
 
 const drawerWidth = 240;
 const drawerHeight = 500;
@@ -57,6 +56,7 @@ function Dashboard(props) {
 
     const [currentComponentName, setCurrentComponentName] = useState('Dashboard');
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [nestation, setNestation] = useState(null)
 
     const setListItemColor = (index) => {
         setSelectedIndex(index);
@@ -86,6 +86,7 @@ function Dashboard(props) {
         } else {
             const process = () => {
                 localStorage.setItem('DataLossPrevention', JSON.stringify(false))
+                setListItemColor(index);
                 setCurrentComponentName(name);
             }
             setConfirm('Are You Sure to Lose All Progress', process)
@@ -101,7 +102,8 @@ function Dashboard(props) {
                         {!item.subItems || item.subItems.length === 0 ? (
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    onClick={() => { handleChangeComponent(item.name) }}
+                                    onClick={() => { handleChangeComponent(item.name, index) }}
+                                    set
                                 >
                                     <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
                                 </ListItemButton>
@@ -133,10 +135,6 @@ function Dashboard(props) {
             </List>
         </Box>
     );
-
-    useEffect(() => {
-        // Initial setup or data fetching if needed
-    }, []);
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -190,20 +188,24 @@ function Dashboard(props) {
             >
                 <Toolbar />
                 <Loader />
-                {/* Breadcrumbs section - commented out as per instructions */}
-                {/* <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }} >
-                    <Typography color="inherit" sx={{ cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}>
-                        Dashboard
-                    </Typography>
-                    <Typography sx={{ color: 'text.primary', cursor: 'pointer' }} onClick={() => setCurrentComponentName(currentComponentName)}> {currentComponentName} </Typography>
-                </Breadcrumbs> */}
+                <BreadcrumbsNav currentComponentName={currentComponentName} nesting={nestation} />
 
-                <CurrentComponent
-                    selectOption={currentComponentName}
-                    setCurrentComponent={setCurrentComponentName}
-                    setValues={setValue} 
-                    value={value}
-                />
+                <motion.div
+                    key={currentComponentName}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0, y: 100 }}
+                    transition={{ duration: 1 }}
+                >
+                    <CurrentComponent
+                        selectOption={currentComponentName}
+                        setCurrentComponent={setCurrentComponentName}
+                        setValues={setValue}
+                        setNestaion={setNestation}
+                        value={value}
+                    />
+                </motion.div>
+
             </Box>
         </Box>
     );

@@ -7,7 +7,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button } from '@mui/material'
 import { useCommon } from '../../../Hooks/common/useCommon';
 
-const Products = ({ setCurrentComponent, setValues }) => {
+const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
   const [products, setProducts] = useState(null)
   const { setLoader, setAlert, setConfirm } = useCommon()
 
@@ -48,6 +48,7 @@ const Products = ({ setCurrentComponent, setValues }) => {
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button onClick={() => {
           setValues(null)
+          setNestaion(true)
           setCurrentComponent('Add Product')
         }} sx={{ mb: 5 }} >Add Product</Button>
         <RefreshIcon onClick={loadProducts} sx={{ ml: 'auto', cursor: 'pointer' }} />
@@ -60,6 +61,7 @@ const Products = ({ setCurrentComponent, setValues }) => {
               (<Button onClick={() => {
                 setCurrentComponent('Edit Product')
                 setValues(product)
+                setNestaion(true)
               }} ><EditIcon /></Button>)
             ]} />
           ))

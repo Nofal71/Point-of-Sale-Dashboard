@@ -2,6 +2,7 @@
 import { Box, Button, Container, Input, InputLabel, Paper, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useSettings } from '../../../Hooks/custom/useSetting';
+import AddIcon from '@mui/icons-material/Add';
 
 const Settings = () => {
   const {
@@ -74,13 +75,7 @@ const Settings = () => {
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
               />
-              <Button onClick={handleAddCategory} sx={{
-                background: 'none',
-                color: '#0000f5',
-                border: 'solid 1px #0000f5',
-                borderRadius: '70%',
-                fontSize: '1.5rem',
-              }}>+</Button>
+              <AddIcon onClick={handleAddCategory} />
             </Box>
           </Stack>
           {categories && categories.map((category, index) => (

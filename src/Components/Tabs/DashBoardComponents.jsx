@@ -1,7 +1,7 @@
 import { Analytics, Pending, Placed, Products, UserAccounts, UserCarts, Settings } from '../../Pages/page-components/index';
 import UpdateProducts from '../../Pages/page-components/ProductManagement/UpdateProduct';
 
-export const CurrentComponent = ({ selectOption, setCurrentComponent, setValues, ...props }) => {
+export const CurrentComponent = ({ selectOption, setCurrentComponent, setValues, setNestaion, ...props }) => {
     const componentMap = {
         'Dashboard': (props) => <Analytics {...props} />,
         'Pending Orders': (props) => <Pending {...props} />,
@@ -15,5 +15,5 @@ export const CurrentComponent = ({ selectOption, setCurrentComponent, setValues,
     };
 
     const RenderComponent = componentMap[selectOption];
-    return RenderComponent ? RenderComponent({ ...props, setCurrentComponent, setValues }) : null;
+    return RenderComponent ? RenderComponent({ ...props, setCurrentComponent, setValues, setNestaion }) : null;
 };
