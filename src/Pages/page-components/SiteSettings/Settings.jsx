@@ -1,8 +1,9 @@
 // src/components/Settings.js
-import { Box, Button, Container, Input, InputLabel, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Collapse, Container, Input, InputLabel, Paper, Stack, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useSettings } from '../../../Hooks/custom/useSetting';
 import AddIcon from '@mui/icons-material/Add';
+import { TransitionGroup } from 'react-transition-group';
 
 const Settings = () => {
   const {
@@ -49,6 +50,7 @@ const Settings = () => {
         </Container>
       </Paper>
 
+
       <Paper elevation={4} sx={{
         borderRadius: '12px',
         width: { xs: '100%', md: '40%' },
@@ -75,25 +77,29 @@ const Settings = () => {
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
               />
-             <Button  onKeyDown={(e) => {
-                if (e.key === 'Enter') handleAddCategory()
-              }} > <AddIcon onClick={handleAddCategory} /></Button>
+              <Button  onClick={handleAddCategory} >
+                <AddIcon />
+              </Button>
             </Box>
           </Stack>
-          {categories && categories.map((category, index) => (
-            <Box display="flex" justifyContent="flex-start" alignItems="center" width={1} key={index}>
-              <Typography sx={{
-                width: '100%',
-                borderRadius: '8px',
-                mb: 1,
-                cursor: 'pointer',
-                flex: 1
-              }}>
-                {category.name}
-              </Typography>
-              <Button onClick={() => handleDeleteCategory(category.id)}>Delete</Button>
-            </Box>
-          ))}
+
+          <TransitionGroup style={{ width: '100%' }} >
+            {categories && categories.map((category, index) => (
+              <Collapse sx={{ width: 1 }} key={index}>
+                <Box display="flex" justifyContent="flex-start" alignItems="center" width={1} sx={{ mt: 2 }}>
+                  <Typography sx={{
+                    borderRadius: '8px',
+                    mb: 1,
+                    cursor: 'pointer',
+                    flex: 1
+                  }}>
+                    {category.name}
+                  </Typography>
+                  <Button sx={{ ml: 'auto' }} onClick={() => handleDeleteCategory(category.id)}>Delete</Button>
+                </Box>
+              </Collapse>
+            ))}
+          </TransitionGroup>
         </Container>
       </Paper>
     </Box>
