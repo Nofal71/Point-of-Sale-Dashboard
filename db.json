@@ -5,37 +5,305 @@
       "name": "Nofal",
       "username": "Nofal123",
       "email": "nofal76@gmail.com",
-      "password": "nofal123"
-    },
-    {
-      "id": "521e",
-      "email": "nofal123@gmail.com",
-      "username": "nofal1111",
-      "name": "Nofal Hassan",
-      "password": "nofal123"
-    },
-    {
-      "id": "ffde",
-      "email": "nofal75@gmail.com",
-      "username": "Nofal0909",
-      "name": "Nofal Hassaan",
-      "password": "nofal123"
-    },
-    {
-      "id": "680e",
-      "email": "nofal87@gmail.com",
-      "username": "nofal76",
-      "name": "Nofal Hassaan",
-      "password": "nofal123"
+      "password": "nofal123",
+      "role": "admin"
     }
   ],
   "products": [
     {
-      "id": "1d8a",
-      "name": "Product",
-      "description": "Description of Product",
-      "price": "3000",
-      "img": "blob:http://localhost:3001/2d437a03-567a-45f9-9e04-402e1c1332b6",
+      "id": "p3",
+      "name": "Electric Scooter",
+      "description": "A fast and efficient electric scooter for urban commuting.",
+      "price": "300",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p4",
+      "name": "Hybrid Bike",
+      "description": "A versatile bike suitable for both road and trail.",
+      "price": "600",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p5",
+      "name": "Folding Bike",
+      "description": "A compact folding bike perfect for commuters.",
+      "price": "400",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p6",
+      "name": "Kids Bike",
+      "description": "A small-sized bike for children aged 5-10.",
+      "price": "250",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p7",
+      "name": "BMX Bike",
+      "description": "A BMX bike designed for stunt riding and tricks.",
+      "price": "550",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p8",
+      "name": "Cruiser Bike",
+      "description": "A stylish cruiser bike for relaxed rides along the beach.",
+      "price": "450",
+      "img": "blob:http://localhost:3001/c5f9258f-542b-436a-be6e-65f77d8d1b7f",
+      "category": "electronics"
+    },
+    {
+      "id": "p10",
+      "name": "Mountain Electric Bike",
+      "description": "An electric bike designed for off-road adventures.",
+      "price": "900",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p11",
+      "name": "Cargo Bike",
+      "description": "A bike designed for carrying heavy loads.",
+      "price": "800",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p12",
+      "name": "Touring Bike",
+      "description": "A bike built for long-distance touring and travel.",
+      "price": "950",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p13",
+      "name": "Recumbent Bike",
+      "description": "A comfortable bike with a reclining seating position.",
+      "price": "1200",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p14",
+      "name": "Beach Cruiser",
+      "description": "A bike with wide tires for sandy terrain.",
+      "price": "470",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p15",
+      "name": "Track Bike",
+      "description": "A lightweight bike designed for velodrome racing.",
+      "price": "750",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p16",
+      "name": "Cyclocross Bike",
+      "description": "A bike designed for cyclocross racing.",
+      "price": "850",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p17",
+      "name": "Fitness Bike",
+      "description": "A bike designed for fitness and exercise.",
+      "price": "300",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p18",
+      "name": "Track Racing Bike",
+      "description": "A high-performance bike for competitive racing.",
+      "price": "2000",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p19",
+      "name": "E-Bike",
+      "description": "An electric bike with a rechargeable battery.",
+      "price": "1200",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p22",
+      "name": "Skateboard",
+      "description": "A classic skateboard for tricks and fun.",
+      "price": "80",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p23",
+      "name": "Surfboard",
+      "description": "A surfboard for catching waves.",
+      "price": "400",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p24",
+      "name": "Kayak",
+      "description": "A kayak for water sports and adventures.",
+      "price": "600",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p25",
+      "name": "Stand Up Paddle Board",
+      "description": "A paddle board for standing and paddling.",
+      "price": "450",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p26",
+      "name": "Camping Tent",
+      "description": "A durable tent for outdoor camping.",
+      "price": "300",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p27",
+      "name": "Sleeping Bag",
+      "description": "A warm sleeping bag for camping nights.",
+      "price": "150",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p28",
+      "name": "Portable Grill",
+      "description": "A compact grill for outdoor cooking.",
+      "price": "200",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p29",
+      "name": "Fishing Rod",
+      "description": "A sturdy rod for fishing enthusiasts.",
+      "price": "100",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p30",
+      "name": "Cooler",
+      "description": "A cooler to keep your drinks cold on hot days.",
+      "price": "75",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p31",
+      "name": "Hiking Boots",
+      "description": "Durable boots for hiking and trekking.",
+      "price": "120",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p32",
+      "name": "Water Bottle",
+      "description": "A reusable water bottle for hydration.",
+      "price": "15",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p33",
+      "name": "Camping Chair",
+      "description": "A portable chair for camping and outdoor events.",
+      "price": "50",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p34",
+      "name": "First Aid Kit",
+      "description": "A comprehensive first aid kit for emergencies.",
+      "price": "30",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p35",
+      "name": "Camping Lantern",
+      "description": "A lantern to light up your camping nights.",
+      "price": "25",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p36",
+      "name": "Multi-Tool",
+      "description": "A versatile multi-tool for various tasks.",
+      "price": "40",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p37",
+      "name": "Portable Charger",
+      "description": "A portable charger for your devices.",
+      "price": "35",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p38",
+      "name": "Headlamp",
+      "description": "A headlamp for hands-free lighting.",
+      "price": "20",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p39",
+      "name": "Sunglasses",
+      "description": "Stylish sunglasses for sunny days.",
+      "price": "60",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p40",
+      "name": "Fishing Tackle Box",
+      "description": "A tackle box to store your fishing gear.",
+      "price": "55",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p41",
+      "name": "Insect Repellent",
+      "description": "A repellent to keep bugs away while outdoors.",
+      "price": "15",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
+      "category": "electronics"
+    },
+    {
+      "id": "p42",
+      "name": "Camping Stove",
+      "description": "A portable stove for cooking while camping.",
+      "price": "70",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
       "category": "electronics"
     }
   ],

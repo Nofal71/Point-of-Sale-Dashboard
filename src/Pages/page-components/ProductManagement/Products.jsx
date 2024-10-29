@@ -4,12 +4,36 @@ import { makeRequest } from '../../../Server/api/instance'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { useCommon } from '../../../Hooks/common/useCommon';
 
 const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
   const [products, setProducts] = useState(null)
   const { setLoader, setAlert, setConfirm } = useCommon()
+  const [filteredData, setFilterData] = useState('')
+  const [filter, setFilter] = useState('')
+
+  const handleFilter = (e) => {
+    setFilter(e.target.value)
+  }
+
+  const searchProducts = async (e) => {
+    const value = e.target.value.trim();
+    if (value === '') {
+      setFilterData(products);
+      return;
+    }
+  
+    try {
+      const data = await makeRequest('GET', `products?name=${value}&description=${value}`);
+      setFilterData(data || []);
+    } catch (error) {
+      console.error("Error fetching filtered products:", error);
+      setFilterData([]);
+    }
+    console.log(filteredData, 'Filtered Data');
+  };
+  
 
 
   const loadProducts = async () => {
@@ -50,9 +74,35 @@ const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
           setValues(null)
           setNestaion(true)
           setCurrentComponent('Add Product')
-        }} sx={{ mb: 5 }} >Add Product</Button>
+        }} sx={{ mb: 2 }} >Add Product</Button>
         <RefreshIcon onClick={loadProducts} sx={{ ml: 'auto', cursor: 'pointer' }} />
       </Box>
+      <Box sx={{
+        mr: 4,
+        mb: 3,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gap: 2
+      }}>
+        <TextField label="Search"  variant="standard" size='small' />
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={filter}
+            label="Select Filter"
+            onChange={handleFilter}
+          >
+            <MenuItem value={'Price'}>Price</MenuItem>
+            <MenuItem value={'Name'}>Name</MenuItem>
+            <MenuItem value={'Category'}>Category</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
+
       <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} justifyContent={'center'} gap={2}>
         {
           products && products.map((product, index) => (

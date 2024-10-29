@@ -45,7 +45,7 @@ const LoginForm = () => {
     useEffect(() => {
         if (getUser) {
             navigate('/');
-        }
+        }  
     }, [getUser, navigate]);
 
     return (
