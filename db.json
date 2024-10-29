@@ -7,17 +7,16 @@
       "email": "nofal76@gmail.com",
       "password": "nofal123",
       "role": "admin"
+    },
+    {
+      "id": "d669",
+      "email": "nofal75@gmail.com",
+      "username": "nofal123",
+      "name": "Nofal Hassan",
+      "password": "nofal123"
     }
   ],
   "products": [
-    {
-      "id": "p3",
-      "name": "Electric Scooter",
-      "description": "A fast and efficient electric scooter for urban commuting.",
-      "price": "300",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
-      "category": "electronics"
-    },
     {
       "id": "p3",
       "name": "Electric Scooter",

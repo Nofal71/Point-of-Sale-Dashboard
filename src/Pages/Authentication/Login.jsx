@@ -7,6 +7,7 @@ import { authUser, getUserDetials } from '../../Server/Authentication/Login';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
 import { useCommon } from '../../Hooks/common/useCommon';
 import { useUser } from '../../Hooks/custom/useUser';
+import { motion } from 'framer-motion';
 
 
 
@@ -45,13 +46,20 @@ const LoginForm = () => {
     useEffect(() => {
         if (getUser) {
             navigate('/');
-        }  
+        }
     }, [getUser, navigate]);
 
     return (
         <ThemeProvider theme={() => AuthTheme(theme)}>
             <CssBaseline />
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <motion.form
+                initial={{ opacity: 0, y: -500 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                    duration: 0.6,
+                    ease: 'easeIn',
+                }}
+                onSubmit={handleSubmit(onSubmit)}>
                 <Container sx={{ width: '100%', height: '100vh', placeItems: 'center', display: 'grid' }}>
                     <Card>
                         <Typography variant='h4' align='center' gutterBottom>Login</Typography>
@@ -131,7 +139,7 @@ const LoginForm = () => {
                         </CardContent>
                     </Card>
                 </Container>
-            </form>
+            </motion.form>
         </ThemeProvider>
     )
 }

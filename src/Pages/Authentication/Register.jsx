@@ -8,6 +8,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
 import { useCommon } from '../../Hooks/common/useCommon';
 import { useUser } from '../../Hooks/custom/useUser';
+import { motion } from 'framer-motion';
 
 
 const SignupForm = () => {
@@ -30,7 +31,7 @@ const SignupForm = () => {
                     name: `${data.firstname} ${data.lastname}`,
                     password: data.password
                 }
-                const response = await registerUser(userDetails);
+                await registerUser(userDetails);
                 const updatedUser = await getUserDetials(data.email);
                 updateUser(updatedUser)
                 setAlert('SignUp Successfully', 'success')
@@ -44,7 +45,14 @@ const SignupForm = () => {
     return (
         <ThemeProvider theme={() => AuthTheme(theme)}>
             <CssBaseline />
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <motion.form
+                initial={{ opacity: 0, y: -500 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                    duration: 0.6,
+                    ease: 'easeIn',
+                }}
+                onSubmit={handleSubmit(onSubmit)}>
                 <Container sx={{ width: '100%', height: '100vh', placeItems: 'center', display: 'grid' }}>
                     <Card>
                         <Typography variant="h4" sx={{ marginBottom: '20px', fontWeight: 'bold', textAlign: 'center' }}>
@@ -152,7 +160,7 @@ const SignupForm = () => {
                         </Button>
                     </Card>
                 </Container>
-            </form>
+            </motion.form>
         </ThemeProvider>
     );
 };

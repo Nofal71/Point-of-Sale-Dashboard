@@ -8,8 +8,8 @@ import { motion } from 'framer-motion';
 
 const PaperMotion = motion(Paper)
 
-const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
-    const { setLoader, setAlert } = useCommon();
+const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) => {
+    const { setLoader, setAlert, setConfirm } = useCommon();
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -68,9 +68,17 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion }) => {
     };
 
     const handleCancel = useCallback(() => {
-        setNestaion(false);
-        setHasUnsavedChanges(false);
-        setCurrentComponent('Products');
+        if (JSON.parse(localStorage.getItem('DataLossPrevention'))) {
+            setConfirm(`Are You Sure to Cancel ${value ? 'Edit' : 'Add'} Product ?`, () => {
+                setNestaion(false);
+                setHasUnsavedChanges(false);
+                setCurrentComponent('Products');
+            })
+        } else {
+            setNestaion(false);
+            setHasUnsavedChanges(false);
+            setCurrentComponent('Products');
+        }
     }, [setCurrentComponent, setNestaion]);
 
     useEffect(() => {
