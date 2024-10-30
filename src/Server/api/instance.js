@@ -42,7 +42,13 @@ export const makeRequest = async (type, path = '', body = null, options = {}) =>
                 throw new Error('Unsupported request type');
         }
 
-        return response.data;  // Return response data
+        // return new Promise((resolve) => {
+        //     setTimeout(() => {
+        //       resolve(response.data);
+        //     }, 5000);
+        //   });
+        
+        return response.data
     } catch (error) {
         console.error('Error making request:', error);
         if (error.response?.status === 401) {

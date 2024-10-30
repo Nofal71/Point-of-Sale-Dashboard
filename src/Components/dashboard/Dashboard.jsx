@@ -198,10 +198,10 @@ function Dashboard(props) {
 
                 <motion.div
                     key={currentComponentName}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     exit={{ opacity: 0, y: 100 }}
-                    transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.4, ease: "easeInOut" } }}
+                    transition={{ duration: .4, ease: 'easeIn' }}
 
                 >
                     <CurrentComponent
@@ -209,6 +209,7 @@ function Dashboard(props) {
                         setCurrentComponent={setCurrentComponentName}
                         setValues={setValue}
                         setNestaion={setNestation}
+                        currentComponentName={currentComponentName}
                         value={value}
                     />
                 </motion.div>

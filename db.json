@@ -18,26 +18,238 @@
   ],
   "products": [
     {
-      "id": "p3",
+      "id": "p1",
       "name": "Electric Scooter",
       "description": "A fast and efficient electric scooter for urban commuting.",
       "price": "300",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
-      "category": "electronics"
+      "category": "Electronics"
+    },
+    {
+      "id": "p2",
+      "name": "Bluetooth Speaker",
+      "description": "Portable speaker with powerful sound and long battery life.",
+      "price": "50",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1w3IuX5tT6SUb0K1IcWGbOvYcTjTcBccJcg&s",
+      "category": "Electronics"
     },
     {
       "id": "p3",
-      "name": "Electric Scooter",
-      "description": "A fast and efficient electric scooter for urban commuting.",
-      "price": "300",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
-      "category": "electronics"
+      "name": "Wireless Headphones",
+      "description": "Comfortable headphones with noise cancellation feature.",
+      "price": "120",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUZivG1E9n8oBB9-Kr8LF2S5cZUBn0g9G6nZ8&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p4",
+      "name": "Smartphone",
+      "description": "Latest model smartphone with high-resolution camera.",
+      "price": "800",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdn6vAqVnSvEn36DFHQFbThMTMyRfN0Gf5TQ&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p5",
+      "name": "Laptop",
+      "description": "Lightweight laptop with powerful performance.",
+      "price": "1200",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoSCDyC0k5lMFDhx2B1-rm-ukjOr6z-NL1xA&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p6",
+      "name": "Smartwatch",
+      "description": "Stylish smartwatch with fitness tracking features.",
+      "price": "200",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXbduB4u1gRReehgHBVUPCK9QzXQsmS3u-Ow&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p7",
+      "name": "Tablet",
+      "description": "Versatile tablet for work and entertainment.",
+      "price": "600",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS17T0hx7hUr-Y2J3fg-kQIbvhqrxTgCM0H2g&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p8",
+      "name": "Action Camera",
+      "description": "Durable action camera for capturing adventures.",
+      "price": "350",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLT1n5-8kj1oz6y1B1GRVYY7mwwxhA5eSy4w&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p9",
+      "name": "Digital Camera",
+      "description": "High-quality camera for professional photography.",
+      "price": "1500",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG40TSV9m1xOPj9oEK8F1MO7-Bk7jN9mUOcg&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p10",
+      "name": "VR Headset",
+      "description": "Immersive virtual reality experience.",
+      "price": "400",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5X3ifb52k_w2pR4gDFE4D4C2e5y0_6FgczQ&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p11",
+      "name": "Gaming Console",
+      "description": "Next-gen gaming console for the ultimate gaming experience.",
+      "price": "500",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfNGCT5TxCx1gMH7zdpDqC7eyGu7xrcHepAA&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p12",
+      "name": "Smart TV",
+      "description": "4K Ultra HD Smart TV with streaming services.",
+      "price": "1000",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuuYhE3gTAijC4e7V-POjK_rGkh4LOzgp1U5w&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p13",
+      "name": "Electric Kettle",
+      "description": "Fast boiling electric kettle with automatic shut-off.",
+      "price": "40",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5bH2br3L-szIZ6JwNGmjM1f6NLoSmaRzt7Q&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p14",
+      "name": "Blender",
+      "description": "Powerful blender for smoothies and shakes.",
+      "price": "60",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5S7F9eO2odRXz5A4No2B5wz__AL8_7BujK8&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p15",
+      "name": "Microwave Oven",
+      "description": "Compact microwave oven for quick meals.",
+      "price": "150",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1TjClhSSTHZ80OnNC-rBIFzNQGrv3b9lVEg&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p16",
+      "name": "Air Fryer",
+      "description": "Healthy air fryer for guilt-free frying.",
+      "price": "100",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9xV8_W9h8cFdAwnvQ4PiwK4PR6IP5M7c4aQ&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p17",
+      "name": "Dishwasher",
+      "description": "Efficient dishwasher for easy cleaning.",
+      "price": "700",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTph1MAVlgB16OR9M62oF6F2UCyS8LBiA8n2g&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p18",
+      "name": "Coffee Maker",
+      "description": "Coffee maker for brewing your favorite coffee.",
+      "price": "80",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Tw27mGnlPpP8hM_C-y5GQ0cgyD7TRD9UVw&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p19",
+      "name": "Electric Grill",
+      "description": "Indoor electric grill for cooking delicious meals.",
+      "price": "120",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiDaX4zM0HVxRlGhNRVwWyoZBLnXfsBRIBfQ&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p20",
+      "name": "Vacuum Cleaner",
+      "description": "Powerful vacuum cleaner for deep cleaning.",
+      "price": "150",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5CTo8i_DA3T06DSvYYc3sXsWYf5z7hl1F0A&s",
+      "category": "Home Appliances"
+    },
+    {
+      "id": "p21",
+      "name": "Bluetooth Mouse",
+      "description": "Ergonomic Bluetooth mouse for comfortable use.",
+      "price": "25",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4yYmMsH5US1VxQwFP90Zlx_7lNiC5b1MYHg&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p22",
+      "name": "Gaming Keyboard",
+      "description": "Mechanical gaming keyboard with customizable RGB lighting.",
+      "price": "90",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkbG9_Z0AEMUP8YML5P0QDwKu3hzTYP7c5qg&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p23",
+      "name": "Desktop Computer",
+      "description": "Powerful desktop computer for gaming and work.",
+      "price": "900",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHxR55aD7C8n9d6wOT6buS-t8PvMckRS4t2w&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p24",
+      "name": "External Hard Drive",
+      "description": "High-capacity external hard drive for data storage.",
+      "price": "100",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwx7PLASr4tr3hyvdkMgb29DNSh_hC1lG4Tg&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p25",
+      "name": "LED Monitor",
+      "description": "Full HD LED monitor with vibrant colors.",
+      "price": "200",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9FWPrybUjM4NdYteQ8VG7aURO4_vZ3q4U_g&s",
+      "category": "Electronics"
+    },
+    {
+      "id": "p26",
+      "name": "Smart Home Hub",
+      "description": "Central hub for controlling smart home devices.",
+      "price": "150",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0NUrO3MnDPrNiDLOc1jNrSoG0ZGJg5yBZ4g&s",
+      "category": "Home Automation"
+    },
+    {
+      "id": "p27",
+      "name": "Smart Light Bulb",
+      "description": "Energy-efficient smart light bulb with adjustable brightness.",
+      "price": "20",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQb6F3mHT4kR66CRGHBUxPCYZr5Y2nIrHn3g&s",
+      "category": "Home Automation"
+    },
+    {
+      "id": "p28",
+      "name": "Smart Thermostat",
+      "description": "Smart thermostat for efficient home temperature control.",
+      "price": "120",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOEOO3BNcvIgWc9DrSHugRDM2j1WbwDkXZ7g&s",
+      "category": "Home Automation"
     }
   ],
   "categories": [
     {
       "id": "5ab8",
       "name": "Electronics"
+    },
+    {
+      "id": "9999",
+      "name": "Fashion"
     }
   ],
   "assets": [

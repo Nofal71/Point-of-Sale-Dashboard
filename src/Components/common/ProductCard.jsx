@@ -26,8 +26,10 @@ export default function ProductCard({ product, buttons }) {
 
     return (
         <CardMotion
-            initial={{ opacity: 0, scale: (0.5) }}
-            whileInView={{ opacity: 1, scale: (1), transitionDuration: 1 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 5 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             key={{ product }}
             sx={{ maxWidth: 250, minWidth: 250, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', }}
         >

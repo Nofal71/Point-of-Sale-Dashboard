@@ -1,45 +1,71 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ProductCard from '../../../Components/common/ProductCard'
 import { makeRequest } from '../../../Server/api/instance'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Box, Button, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { useCommon } from '../../../Hooks/common/useCommon';
 
-const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
+const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponentName }) => {
   const [products, setProducts] = useState(null)
   const { setLoader, setAlert, setConfirm } = useCommon()
-  const [filteredData, setFilterData] = useState('')
-  const [filter, setFilter] = useState('')
+  const [sort, setSorting] = useState('')
+  const [progress, setProgress] = useState(false)
+  const [saveProducts, setSave] = useState(null)
+  const [input, saveInput] = useState(null)
 
-  const handleFilter = (e) => {
-    setFilter(e.target.value)
+  const handleSorting = (e) => {
+    setSorting(e.target.value);
+    const sortedProducts = [...products];
+    if (e.target.value === 'Price') {
+      sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (e.target.value === 'Name') {
+      sortedProducts.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    setProducts(sortedProducts);
   }
 
-  const searchProducts = async (e) => {
-    const value = e.target.value.trim();
-    if (value === '') {
-      setFilterData(products);
-      return;
-    }
-  
+
+  const searchData = async (inputValue) => {
     try {
-      const data = await makeRequest('GET', `products?name=${value}&description=${value}`);
-      setFilterData(data || []);
+      setProgress(true)
+      const search = await makeRequest('GET', '/products');
+      const nameData = search?.filter((e) => e.name.toLowerCase().includes(inputValue) || e.name.toLowerCase() === inputValue);
+      const desData = search?.filter((e) => e.description.toLowerCase().includes(inputValue) || e.description.toLowerCase() === inputValue);
+      const filteredData = [...new Set([...nameData, ...desData])];
+      return filteredData;
     } catch (error) {
-      console.error("Error fetching filtered products:", error);
-      setFilterData([]);
+      console.log(error, 'error');
+      return [];
+    } finally {
+      setProgress(false)
     }
-    console.log(filteredData, 'Filtered Data');
   };
-  
 
+  const searchProducts = (e) => {
+    const inputValue = JSON.parse(localStorage.getItem('cached')) ? JSON.parse(localStorage.getItem('cached')) : e.target.value.toLowerCase();
+    if (inputValue === '') return setProducts(saveProducts)
+    searchData(inputValue).then((filteredData) => {
+      setProducts(filteredData);
+      saveInput(inputValue)
+    });
+  };
 
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
+    setSorting('')
     try {
       setLoader(true)
       const data = await makeRequest('GET', '/products')
+      setSave(data)
       setProducts(data)
     } catch (error) {
       console.log(error, "Error in Fetching Data")
@@ -47,9 +73,9 @@ const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
     } finally {
       setLoader(false)
     }
-  }
+  }, [setProducts])
 
-  const deleteProduct = (productId) => {
+  const deleteProduct = useCallback((productId) => {
     setConfirm('Are You Sure To Delete This Product ?', async () => {
       try {
         await makeRequest('DELETE', `products/${productId}`)
@@ -61,10 +87,12 @@ const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
         setLoader(false)
       }
     })
-  }
+  }, [setProducts])
 
   useEffect(() => {
     loadProducts();
+    JSON.parse(localStorage.getItem('cached')) && searchProducts(JSON.parse(localStorage.getItem('cached')))
+    localStorage.clear('cached')
   }, [])
 
   return (
@@ -81,23 +109,36 @@ const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
         mr: 4,
         mb: 3,
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
         alignItems: 'center',
         gap: 2
       }}>
-        <TextField label="Search"  variant="standard" size='small' />
+        <TextField
+          label="Search"
+          variant="standard"
+          size="small"
+          defaultValue={localStorage.getItem('cached') && JSON.parse(localStorage.getItem('cached'))}
+          onChange={searchProducts}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {progress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
+              </InputAdornment>
+            ),
+          }}
+        />
         <FormControl>
-          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={filter}
-            label="Select Filter"
-            onChange={handleFilter}
+            value={sort}
+            label="Sort"
+            onChange={handleSorting}
+            sx={{ minWidth: '7rem' }}
           >
             <MenuItem value={'Price'}>Price</MenuItem>
             <MenuItem value={'Name'}>Name</MenuItem>
-            <MenuItem value={'Category'}>Category</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -112,6 +153,7 @@ const Products = ({ setCurrentComponent, setValues, setNestaion }) => {
                 setCurrentComponent('Edit Product')
                 setValues(product)
                 setNestaion(true)
+                localStorage.setItem('cached', JSON.stringify(input))
               }} ><EditIcon /></Button>)
             ]} />
           ))
