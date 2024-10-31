@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import AppBarComponent from './AppBarComponent';
 import UserProfile from './UserProfile';
 import PropTypes from 'prop-types';
@@ -55,14 +55,31 @@ function Dashboard(props) {
     const [value, setValue] = useState(null)
     const { setConfirm, setLoader } = useCommon()
 
-    const [currentComponentName, setCurrentComponentName] = useState('Dashboard');
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [nestation, setNestation] = useState(null)
 
-    const setListItemColor = (index) => {
-        setSelectedIndex(index);
-        setColor('#0000f5');
-    };
+    const initialComponent = 'Dashboard';
+
+    const [currentComponentName, dispatch] = useReducer((state, action) => {
+        const { index, name, isNested } = action;
+        setLoader(false);
+        if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
+            setNestation(isNested);
+            index !== -1 && setSelectedIndex(index);
+            if (name !== state) {
+                return name;
+            }
+        } else {
+            const process = () => {
+                setNestation(isNested);
+                localStorage.setItem('DataLossPrevention', JSON.stringify(false));
+                setSelectedIndex(index);
+                dispatch({ index, name });
+            };
+            setConfirm('Are You Sure to Lose All Progress', process);
+        }
+        return state;
+    }, initialComponent);
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -79,26 +96,6 @@ function Dashboard(props) {
         }
     };
 
-    const handleChangeComponent = (name, index) => {
-        setLoader(false)
-        if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
-            setNestation(false)
-            setListItemColor(index);
-            handleDrawerClose();
-            name !== currentComponentName && setCurrentComponentName(name);
-        } else {
-            const process = () => {
-                setNestation(false)
-                localStorage.setItem('DataLossPrevention', JSON.stringify(false))
-                setListItemColor(index);
-                setCurrentComponentName(name);
-                console.log(JSON.parse(localStorage.getItem('DataLossPrevention')))
-            }
-            setConfirm('Are You Sure to Lose All Progress', process)
-        }
-
-    }
-
     const drawer = (
         <Box sx={{ overflowX: 'hidden', overflowY: 'auto', scrollbarWidth: 'none', position: 'relative', mb: 'auto' }}>
             <List>
@@ -107,8 +104,7 @@ function Dashboard(props) {
                         {!item.subItems || item.subItems.length === 0 ? (
                             <ListItem disablePadding>
                                 <ListItemButton
-                                    onClick={() => { handleChangeComponent(item.name, index) }}
-                                    set
+                                    onClick={() => { dispatch({ type: 'SET_CURRENT_COMPONENT', name: item.name, index, isNested: false }) }}
                                 >
                                     <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
                                 </ListItemButton>
@@ -127,7 +123,7 @@ function Dashboard(props) {
                                 {item.subItems?.map((subItem, subIndex) => (
                                     <ListItem key={subIndex} disablePadding>
                                         <ListItemButton
-                                            onClick={() => { handleChangeComponent(subItem, index) }}
+                                            onClick={() => { dispatch({ type: 'SET_CURRENT_COMPONENT', name: subItem, index, isNested: false }) }}
                                         >
                                             <ListItemText primary={subItem} />
                                         </ListItemButton>
@@ -189,11 +185,11 @@ function Dashboard(props) {
 
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, position: 'relative' }}
+                sx={{ flexGrow: 1, p: { xs: 1, sm: 3 }, width: { sm: `calc(100% - ${drawerWidth}px)` }, position: 'relative' }}
             >
                 <Toolbar />
                 <Loader />
-                <BreadcrumbsNav currentComponentName={currentComponentName} nesting={nestation} setCurrentComponentName={handleChangeComponent} />
+                <BreadcrumbsNav currentComponentName={currentComponentName} nesting={nestation} setCurrentComponentName={(name, index, isNested) => dispatch({ type: 'SET_CURRENT_COMPONENT', name, index, isNested })} />
                 <Divider sx={{ my: 1 }} />
 
                 <motion.div
@@ -202,11 +198,11 @@ function Dashboard(props) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0, y: 100 }}
                     transition={{ duration: .4, ease: 'easeIn' }}
-
+                    style={{ padding: 0 }}
                 >
                     <CurrentComponent
                         selectOption={currentComponentName}
-                        setCurrentComponent={setCurrentComponentName}
+                        setCurrentComponent={(name, index, isNested) => dispatch({ type: 'SET_CURRENT_COMPONENT', name, index, isNested })}
                         setValues={setValue}
                         setNestaion={setNestation}
                         currentComponentName={currentComponentName}
