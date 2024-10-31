@@ -2,6 +2,9 @@ import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
+
+const MotionBox = motion(Box)
 
 export function Loader() {
     const loader = useSelector(state => state.feedback.loader);
@@ -10,7 +13,10 @@ export function Loader() {
         <>
             {loader && (
                 <>
-                    <Box
+                    <MotionBox
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
                         sx={{
                             position: 'absolute',
                             top: 0,
@@ -28,7 +34,7 @@ export function Loader() {
                         }}
                     >
                         <CircularProgress />
-                    </Box>
+                    </MotionBox>
                 </>
             )}
         </>

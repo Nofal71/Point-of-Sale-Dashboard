@@ -21,7 +21,6 @@ const SignupForm = () => {
     const onSubmit = async (data) => {
         try {
             const userFound = await getUserDetials(data.email);
-            console.log(userFound, 'userfound......');
             if (userFound) {
                 throw new Error();
             } else {
@@ -29,7 +28,8 @@ const SignupForm = () => {
                     email: data.email,
                     username: data.username,
                     name: `${data.firstname} ${data.lastname}`,
-                    password: data.password
+                    password: data.password,
+                    role: 'customer'
                 }
                 await registerUser(userDetails);
                 const updatedUser = await getUserDetials(data.email);

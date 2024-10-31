@@ -5,7 +5,7 @@ export const authUser = async (email, password) => {
   try {
     const users = await makeRequest('GET', '/user')
     const authenticatedUser = users?.find(
-      (user) => user.email === email && user.password === password
+      (user) => user.email === email && user.password === password && user.status === 'active'
     );
 
     if (authenticatedUser) {

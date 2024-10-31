@@ -45,9 +45,9 @@ export const makeRequest = async (type, path = '', body = null, options = {}) =>
         // return new Promise((resolve) => {
         //     setTimeout(() => {
         //       resolve(response.data);
-        //     }, 5000);
+        //     }, 2000);
         //   });
-        
+
         return response.data
     } catch (error) {
         console.error('Error making request:', error);

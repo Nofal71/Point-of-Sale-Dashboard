@@ -35,7 +35,7 @@ const BreadcrumbsNav = ({ currentComponentName, nesting, setCurrentComponentName
                         <Typography
                             key={i}
                             sx={{ color: 'text.primary', cursor: 'pointer' }}
-                            onClick={() => BreadcrumbsValues.length - 1 !== i && setCurrentComponentName(e)}
+                            onClick={() => BreadcrumbsValues.length - 1 !== i && setCurrentComponentName(e, -1, false)}
                         >
                             {e}
                         </Typography>

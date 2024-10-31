@@ -53,7 +53,7 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) 
                 await makeRequest('POST', '/products', formData);
                 setAlert('Add Success', 'success');
             }
-            setCurrentComponent('Products');
+            setCurrentComponent('Manage Products');
         } catch (error) {
             setAlert('Failed to Add', 'error');
         } finally {
@@ -72,12 +72,12 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) 
             setConfirm(`Are You Sure to Cancel ${value ? 'Edit' : 'Add'} Product ?`, () => {
                 setNestaion(false);
                 setHasUnsavedChanges(false);
-                setCurrentComponent('Products');
+                setCurrentComponent('Manage Products' , 2 , false);
             })
         } else {
             setNestaion(false);
             setHasUnsavedChanges(false);
-            setCurrentComponent('Products');
+            setCurrentComponent('Manage Products' , 2 , false);
         }
     }, [setCurrentComponent, setNestaion]);
 

@@ -4,7 +4,7 @@ import { makeRequest } from '../../../Server/api/instance'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Box, Button, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Box, Button, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { useCommon } from '../../../Hooks/common/useCommon';
 
 const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponentName }) => {
@@ -14,6 +14,7 @@ const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponen
   const [progress, setProgress] = useState(false)
   const [saveProducts, setSave] = useState(null)
   const [input, saveInput] = useState(null)
+  const displaySearchText = useRef('')
 
   const handleSorting = (e) => {
     setSorting(e.target.value);
@@ -53,10 +54,12 @@ const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponen
 
   const searchProducts = (e) => {
     const inputValue = JSON.parse(localStorage.getItem('cached')) ? JSON.parse(localStorage.getItem('cached')) : e.target.value.toLowerCase();
+    displaySearchText.current.innerText = ''
     if (inputValue === '') return setProducts(saveProducts)
     searchData(inputValue).then((filteredData) => {
       setProducts(filteredData);
       saveInput(inputValue)
+      displaySearchText.current.innerText = `Searched results for ${e.target.value} : `
     });
   };
 
@@ -101,7 +104,7 @@ const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponen
         <Button onClick={() => {
           setValues(null)
           setNestaion(true)
-          setCurrentComponent('Add Product')
+          setCurrentComponent('Add Product', -1, true)
         }} sx={{ mb: 2 }} >Add Product</Button>
         <RefreshIcon onClick={loadProducts} sx={{ ml: 'auto', cursor: 'pointer' }} />
       </Box>
@@ -143,6 +146,8 @@ const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponen
         </FormControl>
       </Box>
 
+      <Typography variant='body1' component='h4' ref={displaySearchText} ></Typography>
+
 
       <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} justifyContent={'center'} gap={2}>
         {
@@ -150,7 +155,7 @@ const Products = ({ setCurrentComponent, setValues, setNestaion, currentComponen
             <ProductCard key={index} product={product} buttons={[
               (<Button onClick={() => deleteProduct(product.id)} > <DeleteIcon /> </Button>),
               (<Button onClick={() => {
-                setCurrentComponent('Edit Product')
+                setCurrentComponent('Edit Product', -1, true)
                 setValues(product)
                 setNestaion(true)
                 localStorage.setItem('cached', JSON.stringify(input))
