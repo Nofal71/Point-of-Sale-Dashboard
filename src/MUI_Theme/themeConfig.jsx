@@ -1,41 +1,55 @@
 import { createTheme } from "@mui/material";
 
 
-export const DashboardTheme = (mode) => createTheme({
-    components: {
-        MuiListItemButton: {
-            styleOverrides: {
-                root: {
-                    transitionDuration: '0.5s',
-                    transitionProperty: 'background-color, transform',
-                    ":hover": {
-                        backgroundColor: 'lightBlue',
-                        color: '#0000f5',
-                        fontWeight: '900',
+export const DashboardTheme = (mode) =>
+    createTheme({
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'lightblue',
+                        color: 'black',
+                        '&:hover': {
+                            backgroundColor: 'lightblue',
+                        },
+                        '&.MuiButton-outlinedError': {
+                            backgroundColor: 'inherit',
+                            color: mode === 'dark' ? 'white' : 'red',
+                            borderColor: 'red',
+                            
+                        },
+                        '&.MuiButton-containedError': {
+                            backgroundColor: 'red',
+                            color: 'white',
+                        },
+                    },
+                },
+            },
+            MuiListItemButton: {
+                styleOverrides: {
+                    root: {
+                        transitionDuration: '0.5s',
+                        transitionProperty: 'background-color, transform',
+                        ':hover': {
+                            backgroundColor: 'lightBlue',
+                            color: '#0000f5',
+                            fontWeight: '900',
+                        },
+                    },
+                },
+            },
+            MuiTextField: {
+                styleOverrides: {
+                    root: {
                     },
                 },
             },
         },
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    backgroundColor: 'lightblue',
-                    color: 'black'
-                }
-            }
+        palette: {
+            mode: mode,
         },
-        MuiTextField: {
-            styleOverrides: {
-                root: {
+    });
 
-                }
-            }
-        }
-    },
-    palette: {
-        mode: mode
-    }
-});
 
 
 export const AuthTheme = (mode) => createTheme({

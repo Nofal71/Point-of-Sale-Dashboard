@@ -71,7 +71,7 @@ export default function ProductCard({ product, buttons }) {
                         {product.description}
                     </Typography>
                 </Box>
-                <CardActions sx={{ alignSelf: 'flex-start', padding: 0 }}>
+                <CardActions sx={{ alignSelf: 'flex-end', padding: 0 }}>
                     <Stack direction={'column'} spacing={1} ml={'auto'}>
                         {buttons && buttons.map((b, index) => (
                             <div key={index}>
