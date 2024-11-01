@@ -1,5 +1,5 @@
-import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Popper, Select, Stack, TextField, Typography } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
@@ -10,18 +10,21 @@ import { useUsers } from '../../../Hooks/custom/useUsers';
 const Users = ({ setValues, setCurrentComponent }) => {
 
   const [childLoader, setChildLoader] = useState(null)
+  const [open, setOpen] = useState(false)
+  const inputRef = useRef()
   const { getUser } = useUser()
   const {
     userList,
     filter,
     searchProgress,
+    searchList,
+    handleSearchNavigate,
     handleSearch,
     handleFilter,
     handleDeleteUser,
     setStatus,
     setRole
   } = useUsers()
-
 
   const viewProfile = async (userId) => {
     try {
@@ -51,7 +54,11 @@ const Users = ({ setValues, setCurrentComponent }) => {
           label="Search"
           variant="standard"
           size="small"
-          onChange={handleSearch}
+          inputRef={inputRef}
+          onChange={(e) => {
+            handleSearch(e)
+            e.target.value.length !== 0 ? setOpen(true) : setOpen(false)
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -60,6 +67,32 @@ const Users = ({ setValues, setCurrentComponent }) => {
             ),
           }}
         />
+        <Popper open={open} anchorEl={inputRef.current} sx={{ bgcolor: 'background.paper' }}>
+          <TransitionGroup>
+            {searchList &&
+              searchList.map((e, i) => {
+                if (e.id !== getUser.id)
+                  return (
+                    <Collapse
+                      key={i}>
+                      <Box
+                        sx={{
+                          p: 3,
+                        }}
+                      >
+                        <Box variant="outlined" sx={{ cursor: 'pointer' }} onClick={() => {
+                          handleSearchNavigate(e.name)
+                          setOpen(false)
+                        }
+                        } >{e.name}</Box>
+                      </Box>
+                      <Divider />
+                    </Collapse>
+                  )
+              })}
+          </TransitionGroup>
+        </Popper>
+
       </Stack>
       <Paper
         elevation={4}

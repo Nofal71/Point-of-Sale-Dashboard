@@ -17,7 +17,7 @@
       "email": "nofal75@gmail.com",
       "password": "nofal123",
       "role": "admin",
-      "status": "active",
+      "status": "blocked",
       "contact": "+123456"
     },
     {
@@ -26,7 +26,7 @@
       "username": "aliceJ",
       "email": "alicejohnson@example.com",
       "password": "alice2023",
-      "role": "customer",
+      "role": "admin",
       "status": "active",
       "contact": "+12345678906"
     },
@@ -91,23 +91,13 @@
       "contact": "+12345678912"
     },
     {
-      "id": "0j11",
-      "name": "Noah Robinson",
-      "username": "noahR",
-      "email": "noahrobinson@example.com",
-      "password": "noah2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678913"
-    },
-    {
       "id": "1k22",
       "name": "Mia Clark",
       "username": "miaC",
       "email": "miaclark@example.com",
       "password": "mia2023",
       "role": "customer",
-      "status": "inactive",
+      "status": "active",
       "contact": "+12345678914"
     },
     {
@@ -129,26 +119,6 @@
       "role": "admin",
       "status": "inactive",
       "contact": "+12345678916"
-    },
-    {
-      "id": "5o66",
-      "name": "Ava Hill",
-      "username": "avaH",
-      "email": "avahill@example.com",
-      "password": "ava2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678918"
-    },
-    {
-      "id": "6p77",
-      "name": "Benjamin Scott",
-      "username": "benjaminS",
-      "email": "benjaminscott@example.com",
-      "password": "benjamin2023",
-      "role": "admin",
-      "status": "inactive",
-      "contact": "+12345678919"
     }
   ],
   "products": [
