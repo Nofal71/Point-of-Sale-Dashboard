@@ -10,11 +10,11 @@ import { useUsers } from '../../../Hooks/custom/useUsers';
 const Users = ({ setValues, setCurrentComponent }) => {
 
   const [childLoader, setChildLoader] = useState(null)
-  const [progress, setProgress] = useState(false)
   const { getUser } = useUser()
   const {
     userList,
     filter,
+    searchProgress,
     handleSearch,
     handleFilter,
     handleDeleteUser,
@@ -55,7 +55,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                {progress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
+                {searchProgress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
               </InputAdornment>
             ),
           }}

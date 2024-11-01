@@ -8,6 +8,7 @@ export const useUsers = () => {
     const [filter, setFilter] = useState("");
     const [searchInput, setSearchInput] = useState("");
     const { setAlert, setConfirm, setLoader } = useCommon()
+    const [searchProgress, setSearchProgress] = useState(false)
 
     const handleDeleteUser = (userId) => {
         const process = async () => {
@@ -17,8 +18,6 @@ export const useUsers = () => {
                 loadUsers()
             } catch (error) {
                 console.log(error, 'Error in Deleting user')
-            } finally {
-                setChildLoader(false)
             }
         }
 
@@ -28,7 +27,6 @@ export const useUsers = () => {
     const setStatus = async (status, userId) => {
         try {
             await makeRequest('PATCH', `/user/${userId}`, { status })
-            await makeRequest('GET', `/user/${userId}`)
             loadUsers()
             setAlert(`User Succesfully ${status}`, 'info')
         } catch (error) {
@@ -40,7 +38,6 @@ export const useUsers = () => {
     const setRole = async (role, userId) => {
         try {
             await makeRequest('PATCH', `/user/${userId}`, { role })
-            await makeRequest('GET', `/user/${userId}`)
             loadUsers()
         } catch (error) {
             console.log(error, 'Error in Changing role')
@@ -61,7 +58,6 @@ export const useUsers = () => {
 
     const updateFilteredUsers = useCallback(() => {
         let updatedUsers = [...userList];
-        console.log(searchInput)
         if (searchInput) {
             updatedUsers = updatedUsers.filter(user =>
                 user.name.toLowerCase().includes(searchInput.toLowerCase())
@@ -73,12 +69,17 @@ export const useUsers = () => {
         } else if (filter === "Admin") {
             updatedUsers = updatedUsers.filter(user => user.role === "admin");
         }
-
+        setSearchProgress(false)
         setFilteredUsers(updatedUsers);
     }, [userList, filter, searchInput]);
 
     const handleSearch = (e) => {
-        setSearchInput(e.target.value);
+        const value = e.target.value
+        setSearchProgress(true)
+        setTimeout(() => {
+            setSearchInput(value);
+        }, 800)
+        clearTimeout()
     };
 
     const handleFilter = (e) => {
@@ -89,7 +90,6 @@ export const useUsers = () => {
         setLoader(true)
         const loaded = loadUsers();
         loaded.then(res => res && setLoader(false))
-        console.log('rendered........................')
     }, []);
 
     useEffect(() => {
@@ -100,6 +100,7 @@ export const useUsers = () => {
         userList: filteredUsers,
         filter,
         searchInput,
+        searchProgress,
         handleSearch,
         handleFilter,
         handleDeleteUser,

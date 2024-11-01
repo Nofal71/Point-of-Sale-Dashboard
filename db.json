@@ -149,16 +149,6 @@
       "role": "admin",
       "status": "inactive",
       "contact": "+12345678919"
-    },
-    {
-      "id": "7q88",
-      "name": "Isabella Adams",
-      "username": "isabellaA",
-      "email": "isabellaadams@example.com",
-      "password": "isabella2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678920"
     }
   ],
   "products": [
