@@ -42,6 +42,11 @@ const Users = ({ setValues, setCurrentComponent }) => {
           user.id === userId ? updateUser : user
         )
       );
+      setSave((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId ? updateUser : user
+        )
+      );
     } catch (error) {
       console.log(error, 'Error in Changing role')
     } finally {
@@ -55,6 +60,11 @@ const Users = ({ setValues, setCurrentComponent }) => {
       await makeRequest('PATCH', `/user/${userId}`, { status })
       const updateUser = await makeRequest('GET', `/user/${userId}`)
       setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === userId ? updateUser : user
+        )
+      );
+      setSave((prevUsers) =>
         prevUsers.map((user) =>
           user.id === userId ? updateUser : user
         )
@@ -74,6 +84,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
         await makeRequest('DELETE', `/user/${userId}`)
         setAlert(`User Succesfully Deleted`, 'info')
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        setSave((prevUsers) => prevUsers.filter((user) => user.id !== userId))
       } catch (error) {
         console.log(error, 'Error in Deleting user')
       } finally {

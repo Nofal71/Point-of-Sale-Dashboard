@@ -11,16 +11,6 @@
       "contact": "+12345678901"
     },
     {
-      "id": "8d88",
-      "name": "User 1",
-      "username": "Nofal",
-      "email": "nofal76@gmail.com",
-      "password": "nofal123456",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678902"
-    },
-    {
       "id": "4cc5",
       "name": "Nofal Hassan",
       "username": "nofal123",
@@ -29,16 +19,6 @@
       "role": "customer",
       "status": "active",
       "contact": "+123456"
-    },
-    {
-      "id": "1a90",
-      "name": "John Doe",
-      "username": "johnD90",
-      "email": "johndoe@example.com",
-      "password": "john2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678904"
     },
     {
       "id": "2b33",
@@ -159,16 +139,6 @@
       "role": "customer",
       "status": "inactive",
       "contact": "+12345678916"
-    },
-    {
-      "id": "4n55",
-      "name": "William King",
-      "username": "williamK",
-      "email": "williamking@example.com",
-      "password": "william2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678917"
     },
     {
       "id": "5o66",
