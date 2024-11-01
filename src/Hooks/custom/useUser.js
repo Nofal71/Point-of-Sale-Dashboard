@@ -8,6 +8,7 @@ export const useUser = () => {
     const logo = useSelector(state => state.profile?.companyLogo || null);
 
     const updateUser = (userDetails) => {
+        console.log(userDetails , 'user')
         dispatch(userData(userDetails));
     };
 

@@ -1,72 +1,27 @@
-import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, InputAdornment, LinearProgress, Paper, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
-import { useCommon } from '../../../Hooks/common/useCommon';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 import { useUser } from '../../../Hooks/custom/useUser';
+import { useUsers } from '../../../Hooks/custom/useUsers';
 
 
 const Users = ({ setValues, setCurrentComponent }) => {
 
-  const { setAlert, setLoader, setConfirm } = useCommon()
-  const [users, setUsers] = useState(null)
-  const [saveUsers, setSave] = useState(null)
   const [childLoader, setChildLoader] = useState(null)
-  const [progress, setProgress] = useState(false)
   const { getUser } = useUser()
+  const {
+    userList,
+    filter,
+    searchProgress,
+    handleSearch,
+    handleFilter,
+    handleDeleteUser,
+    setStatus,
+    setRole
+  } = useUsers()
 
-  const setRole = async (role, userId) => {
-    try {
-      setChildLoader(true)
-      await makeRequest('PATCH', `/user/${userId}`, { role })
-      const updateUser = await makeRequest('GET', `/user/${userId}`)
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-    } catch (error) {
-      console.log(error, 'Error in Changing role')
-    } finally {
-      setChildLoader(false)
-    }
-  }
-
-  const setStatus = async (status, userId) => {
-    try {
-      setChildLoader(true)
-      await makeRequest('PATCH', `/user/${userId}`, { status })
-      const updateUser = await makeRequest('GET', `/user/${userId}`)
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-      setAlert(`User Succesfully ${status}`, 'info')
-    } catch (error) {
-      console.log(error, 'Error in Changing status of user')
-    } finally {
-      setChildLoader(false)
-    }
-  }
-
-  const handleDeleteUser = (userId) => {
-    const process = async () => {
-      try {
-        setChildLoader(true)
-        await makeRequest('DELETE', `/user/${userId}`)
-        setAlert(`User Succesfully Deleted`, 'info')
-        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      } catch (error) {
-        console.log(error, 'Error in Deleting user')
-      } finally {
-        setChildLoader(false)
-      }
-    }
-
-    setConfirm('Are You Sure to Delete this User', process)
-  }
 
   const viewProfile = async (userId) => {
     try {
@@ -80,45 +35,6 @@ const Users = ({ setValues, setCurrentComponent }) => {
       setChildLoader(false)
     }
   }
-
-  const searchData = async (inputValue) => {
-    try {
-      setProgress(true)
-      const search = await makeRequest('GET', '/user');
-      const filteredData = search?.filter((e) => e.name.toLowerCase().includes(inputValue) || e.name.toLowerCase() === inputValue);
-      return filteredData;
-    } catch (error) {
-      console.log(error, 'error');
-      return [];
-    } finally {
-      setProgress(false)
-    }
-  };
-
-  const searchUser = async (e) => {
-    const inputValue = e.target.value.toLowerCase();
-    if (inputValue === '') return setUsers(saveUsers)
-    searchData(inputValue).then((filteredData) => {
-      setUsers(filteredData);
-    });
-  }
-
-  useEffect(() => {
-    const getAllUsers = async () => {
-      try {
-        setLoader(true)
-        const data = await makeRequest('GET', '/user')
-        setUsers(data)
-        setSave(data)
-      } catch (error) {
-        setAlert('Failed to Fetch Users', 'error')
-        console.log('error in getting users data', error)
-      } finally {
-        setLoader(false)
-      }
-    }
-    getAllUsers()
-  }, [])
 
   return (
     <Box
@@ -135,11 +51,11 @@ const Users = ({ setValues, setCurrentComponent }) => {
           label="Search"
           variant="standard"
           size="small"
-          onChange={searchUser}
+          onChange={handleSearch}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                {progress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
+                {searchProgress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
               </InputAdornment>
             ),
           }}
@@ -152,7 +68,25 @@ const Users = ({ setValues, setCurrentComponent }) => {
           fontWeight: '900',
         }}
       >
-        <LinearProgress sx={{ opacity: !childLoader && 0 }} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', px: 4 }} >
+          <LinearProgress sx={{ opacity: !childLoader && 0, flex: 1 }} />
+          <FormControl
+            sx={{ minWidth: '7rem', ml: 'auto' }}
+          >
+            <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Filter"
+              value={filter}
+              onChange={handleFilter}
+            >
+              <MenuItem value={''}>None</MenuItem>
+              <MenuItem value={'Blocked Users'}>Blocked Users</MenuItem>
+              <MenuItem value={'Admin'}>Admin</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
         <Box
           sx={{
@@ -171,8 +105,8 @@ const Users = ({ setValues, setCurrentComponent }) => {
         </Box>
 
         <TransitionGroup>
-          {users &&
-            users.map((e, i) => {
+          {userList &&
+            userList.map((e, i) => {
               if (e.id !== getUser.id)
                 return (
                   <Collapse
@@ -207,10 +141,10 @@ const Users = ({ setValues, setCurrentComponent }) => {
                         View Profile
                       </Button>
                       <Box sx={{ display: 'flex', alignItems: 'center', width: 'auto', justifyContent: 'center' }}>
-                        <Checkbox checked={e.role === 'admin'} onClick={() => setRole(e.role === 'admin' ? 'customer' : 'admin', e.id)} />
+                        <Checkbox disabled={getUser.role !== 'admin'} checked={e.role === 'admin'} onClick={() => setRole(e.role === 'admin' ? 'customer' : 'admin', e.id)} />
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', width: 'auto', justifyContent: 'center' }}>
-                        <Checkbox checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
+                        <Checkbox disabled={getUser.role !== 'admin'} checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
                       </Box>
                       <Button
                         variant="outlined"
@@ -224,7 +158,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
                           mx: 'auto',
                           ":hover": {
                             backgroundColor: 'red ',
-                            color:'white'
+                            color: 'white'
                           }
 
                         }}

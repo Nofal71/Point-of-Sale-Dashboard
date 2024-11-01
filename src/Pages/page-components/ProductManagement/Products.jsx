@@ -51,13 +51,13 @@ const Products = ({ setCurrentComponent, setValues }) => {
             ),
           }}
         />
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
+        <FormControl >
+          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={sort}
-            label="Sort"
+            label="Filter"
             onChange={handleSorting}
             sx={{ minWidth: '7rem' }}
           >
