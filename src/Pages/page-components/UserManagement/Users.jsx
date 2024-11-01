@@ -1,99 +1,27 @@
 import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
-import { useCommon } from '../../../Hooks/common/useCommon';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 import { useUser } from '../../../Hooks/custom/useUser';
+import { useUsers } from '../../../Hooks/custom/useUsers';
 
 
 const Users = ({ setValues, setCurrentComponent }) => {
 
-  const { setAlert, setLoader, setConfirm } = useCommon()
-  const [users, setUsers] = useState(null)
-  const [saveUsers, setSave] = useState(null)
   const [childLoader, setChildLoader] = useState(null)
   const [progress, setProgress] = useState(false)
-  const [filter, setFilter] = useState('');
   const { getUser } = useUser()
+  const {
+    userList,
+    filter,
+    handleSearch,
+    handleFilter,
+    handleDeleteUser,
+    setStatus,
+    setRole
+  } = useUsers()
 
-  const handleFilter = (e) => {
-    const selectedFilter = e.target.value;
-    setFilter(selectedFilter);
-    if (!saveUsers.length) return;
-    let filteredUsers;
-    if (selectedFilter === 'Blocked Users') {
-      filteredUsers = saveUsers.filter(user => user.status === 'Blocked Users');
-    } else if (selectedFilter === 'Admin') {
-      filteredUsers = saveUsers.filter(user => user.role === 'admin');
-    } else {
-      filteredUsers = saveUsers;
-    }
-    setUsers(filteredUsers);
-  };
-
-  const setRole = async (role, userId) => {
-    try {
-      setChildLoader(true)
-      await makeRequest('PATCH', `/user/${userId}`, { role })
-      const updateUser = await makeRequest('GET', `/user/${userId}`)
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-      setSave((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-    } catch (error) {
-      console.log(error, 'Error in Changing role')
-    } finally {
-      setChildLoader(false)
-    }
-  }
-
-  const setStatus = async (status, userId) => {
-    try {
-      setChildLoader(true)
-      await makeRequest('PATCH', `/user/${userId}`, { status })
-      const updateUser = await makeRequest('GET', `/user/${userId}`)
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-      setSave((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-      setAlert(`User Succesfully ${status}`, 'info')
-    } catch (error) {
-      console.log(error, 'Error in Changing status of user')
-    } finally {
-      setChildLoader(false)
-    }
-  }
-
-  const handleDeleteUser = (userId) => {
-    const process = async () => {
-      try {
-        setChildLoader(true)
-        await makeRequest('DELETE', `/user/${userId}`)
-        setAlert(`User Succesfully Deleted`, 'info')
-        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-        setSave((prevUsers) => prevUsers.filter((user) => user.id !== userId))
-      } catch (error) {
-        console.log(error, 'Error in Deleting user')
-      } finally {
-        setChildLoader(false)
-      }
-    }
-
-    setConfirm('Are You Sure to Delete this User', process)
-  }
 
   const viewProfile = async (userId) => {
     try {
@@ -107,46 +35,6 @@ const Users = ({ setValues, setCurrentComponent }) => {
       setChildLoader(false)
     }
   }
-
-  const searchData = async (inputValue) => {
-    try {
-      setProgress(true)
-      const search = await makeRequest('GET', '/user');
-      const filteredData = search?.filter((e) => e.name.toLowerCase().includes(inputValue) || e.name.toLowerCase() === inputValue);
-      return filteredData;
-    } catch (error) {
-      console.log(error, 'error');
-      return [];
-    } finally {
-      setProgress(false)
-    }
-  };
-
-  const searchUser = async (e) => {
-    const inputValue = e.target.value.toLowerCase();
-    if (inputValue === '') return setUsers(saveUsers)
-    searchData(inputValue).then((filteredData) => {
-      setUsers(filteredData);
-    });
-  }
-
-  useEffect(() => {
-    const getAllUsers = async () => {
-      try {
-        setLoader(true)
-        const data = await makeRequest('GET', '/user')
-        const page = data.slice(0, 20)
-        setUsers(page)
-        setSave(page)
-      } catch (error) {
-        setAlert('Failed to Fetch Users', 'error')
-        console.log('error in getting users data', error)
-      } finally {
-        setLoader(false)
-      }
-    }
-    getAllUsers()
-  }, [])
 
   return (
     <Box
@@ -163,7 +51,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
           label="Search"
           variant="standard"
           size="small"
-          onChange={searchUser}
+          onChange={handleSearch}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -217,8 +105,8 @@ const Users = ({ setValues, setCurrentComponent }) => {
         </Box>
 
         <TransitionGroup>
-          {users &&
-            users.map((e, i) => {
+          {userList &&
+            userList.map((e, i) => {
               if (e.id !== getUser.id)
                 return (
                   <Collapse

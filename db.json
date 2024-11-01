@@ -16,27 +16,17 @@
       "username": "nofal123",
       "email": "nofal75@gmail.com",
       "password": "nofal123",
-      "role": "customer",
+      "role": "admin",
       "status": "active",
       "contact": "+123456"
     },
     {
-      "id": "2b33",
-      "name": "Jane Smith",
-      "username": "janeS",
-      "email": "janesmith@example.com",
-      "password": "jane2023",
-      "role": "customer",
-      "status": "inactive",
-      "contact": "+12345678905"
-    },
-    {
       "id": "3c44",
-      "name": "Alice Johnson",
+      "name": "AlNo Johnson",
       "username": "aliceJ",
       "email": "alicejohnson@example.com",
       "password": "alice2023",
-      "role": "admin",
+      "role": "customer",
       "status": "active",
       "contact": "+12345678906"
     },
@@ -66,8 +56,8 @@
       "username": "liamT",
       "email": "liamtaylor@example.com",
       "password": "liam2023",
-      "role": "customer",
-      "status": "active",
+      "role": "admin",
+      "status": "blocked",
       "contact": "+12345678909"
     },
     {
@@ -77,7 +67,7 @@
       "email": "sophiamoore@example.com",
       "password": "sophia2023",
       "role": "customer",
-      "status": "inactive",
+      "status": "blocked",
       "contact": "+12345678910"
     },
     {
@@ -87,7 +77,7 @@
       "email": "ethangarcia@example.com",
       "password": "ethan2023",
       "role": "customer",
-      "status": "active",
+      "status": "blocked",
       "contact": "+12345678911"
     },
     {
@@ -97,7 +87,7 @@
       "email": "oliviamartinez@example.com",
       "password": "olivia2023",
       "role": "customer",
-      "status": "active",
+      "status": "blocked",
       "contact": "+12345678912"
     },
     {
@@ -136,7 +126,7 @@
       "username": "charlotteY",
       "email": "charlotteyoung@example.com",
       "password": "charlotte2023",
-      "role": "customer",
+      "role": "admin",
       "status": "inactive",
       "contact": "+12345678916"
     },
