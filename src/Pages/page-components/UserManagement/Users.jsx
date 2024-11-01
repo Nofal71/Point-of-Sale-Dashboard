@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, InputAdornment, LinearProgress, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
@@ -14,7 +14,23 @@ const Users = ({ setValues, setCurrentComponent }) => {
   const [saveUsers, setSave] = useState(null)
   const [childLoader, setChildLoader] = useState(null)
   const [progress, setProgress] = useState(false)
+  const [filter, setFilter] = useState('');
   const { getUser } = useUser()
+
+  const handleFilter = (e) => {
+    const selectedFilter = e.target.value;
+    setFilter(selectedFilter);
+    if (!saveUsers.length) return;
+    let filteredUsers;
+    if (selectedFilter === 'Blocked Users') {
+      filteredUsers = saveUsers.filter(user => user.status === 'Blocked Users');
+    } else if (selectedFilter === 'Admin') {
+      filteredUsers = saveUsers.filter(user => user.role === 'admin');
+    } else {
+      filteredUsers = saveUsers;
+    }
+    setUsers(filteredUsers);
+  };
 
   const setRole = async (role, userId) => {
     try {
@@ -108,8 +124,9 @@ const Users = ({ setValues, setCurrentComponent }) => {
       try {
         setLoader(true)
         const data = await makeRequest('GET', '/user')
-        setUsers(data)
-        setSave(data)
+        const page = data.slice(0, 20)
+        setUsers(page)
+        setSave(page)
       } catch (error) {
         setAlert('Failed to Fetch Users', 'error')
         console.log('error in getting users data', error)
@@ -152,7 +169,25 @@ const Users = ({ setValues, setCurrentComponent }) => {
           fontWeight: '900',
         }}
       >
-        <LinearProgress sx={{ opacity: !childLoader && 0 }} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', px: 4 }} >
+          <LinearProgress sx={{ opacity: !childLoader && 0, flex: 1 }} />
+          <FormControl
+            sx={{ minWidth: '7rem', ml: 'auto' }}
+          >
+            <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Filter"
+              value={filter}
+              onChange={handleFilter}
+            >
+              <MenuItem value={''}>None</MenuItem>
+              <MenuItem value={'Blocked Users'}>Blocked Users</MenuItem>
+              <MenuItem value={'Admin'}>Admin</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
         <Box
           sx={{
@@ -207,10 +242,10 @@ const Users = ({ setValues, setCurrentComponent }) => {
                         View Profile
                       </Button>
                       <Box sx={{ display: 'flex', alignItems: 'center', width: 'auto', justifyContent: 'center' }}>
-                        <Checkbox checked={e.role === 'admin'} onClick={() => setRole(e.role === 'admin' ? 'customer' : 'admin', e.id)} />
+                        <Checkbox disabled={getUser.role !== 'admin'} checked={e.role === 'admin'} onClick={() => setRole(e.role === 'admin' ? 'customer' : 'admin', e.id)} />
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', width: 'auto', justifyContent: 'center' }}>
-                        <Checkbox checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
+                        <Checkbox disabled={getUser.role !== 'admin'} checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
                       </Box>
                       <Button
                         variant="outlined"
@@ -224,7 +259,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
                           mx: 'auto',
                           ":hover": {
                             backgroundColor: 'red ',
-                            color:'white'
+                            color: 'white'
                           }
 
                         }}
