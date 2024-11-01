@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Collapse, Divider, InputAdornment, LinearProgress, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, InputAdornment, LinearProgress, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
@@ -7,11 +7,13 @@ import NorthEastIcon from '@mui/icons-material/NorthEast';
 import { useUser } from '../../../Hooks/custom/useUser';
 
 
-const Users = () => {
+const Users = ({ setValues, setCurrentComponent }) => {
 
   const { setAlert, setLoader, setConfirm } = useCommon()
   const [users, setUsers] = useState(null)
+  const [saveUsers, setSave] = useState(null)
   const [childLoader, setChildLoader] = useState(null)
+  const [progress, setProgress] = useState(false)
   const { getUser } = useUser()
 
   const setRole = async (role, userId) => {
@@ -66,12 +68,48 @@ const Users = () => {
     setConfirm('Are You Sure to Delete this User', process)
   }
 
+  const viewProfile = async (userId) => {
+    try {
+      setChildLoader(true)
+      const user = await makeRequest('GET', `/user/${userId}`)
+      setCurrentComponent('User Profile', -1, true)
+      setValues(user)
+    } catch (error) {
+      console.log(error, 'Error in Getting user')
+    } finally {
+      setChildLoader(false)
+    }
+  }
+
+  const searchData = async (inputValue) => {
+    try {
+      setProgress(true)
+      const search = await makeRequest('GET', '/user');
+      const filteredData = search?.filter((e) => e.name.toLowerCase().includes(inputValue) || e.name.toLowerCase() === inputValue);
+      return filteredData;
+    } catch (error) {
+      console.log(error, 'error');
+      return [];
+    } finally {
+      setProgress(false)
+    }
+  };
+
+  const searchUser = async (e) => {
+    const inputValue = e.target.value.toLowerCase();
+    if (inputValue === '') return setUsers(saveUsers)
+    searchData(inputValue).then((filteredData) => {
+      setUsers(filteredData);
+    });
+  }
+
   useEffect(() => {
     const getAllUsers = async () => {
       try {
         setLoader(true)
         const data = await makeRequest('GET', '/user')
         setUsers(data)
+        setSave(data)
       } catch (error) {
         setAlert('Failed to Fetch Users', 'error')
         console.log('error in getting users data', error)
@@ -91,16 +129,17 @@ const Users = () => {
         flexDirection: 'column',
       }}
     >
-      <Stack direction={'row'} justifyContent={'space-between'}> 
+      <Stack direction={'row'} justifyContent={'space-between'}>
         <Typography variant="h4">Users</Typography>
         <TextField
           label="Search"
           variant="standard"
           size="small"
+          onChange={searchUser}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                {/* {progress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />} */}
+                {progress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
               </InputAdornment>
             ),
           }}
@@ -118,12 +157,13 @@ const Users = () => {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: 'repeat(6, 1fr)',
             p: 3,
             gap: 3,
           }}
         >
           <Typography variant="subtitle1">Names</Typography>
+          <Typography variant="subtitle1">Contact</Typography>
           <Typography variant="subtitle1">Profile</Typography>
           <Typography variant="subtitle1" align='center'>Admin Access</Typography>
           <Typography variant="subtitle1" align='center'>Block User</Typography>
@@ -135,17 +175,23 @@ const Users = () => {
             users.map((e, i) => {
               if (e.id !== getUser.id)
                 return (
-                  <Collapse key={i}>
+                  <Collapse
+                    timeout={{ enter: 700, exit: 700 }}
+                    sx={{
+                      transitionTimingFunction: 'ease-in-out',
+                    }}
+                    key={i}>
                     <Box
                       sx={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(5, 1fr)',
+                        gridTemplateColumns: 'repeat(6, 1fr)',
                         p: 3,
                         gap: 3,
                         alignItems: 'center'
                       }}
                     >
                       <Typography variant="body2">{e.name}</Typography>
+                      <Typography variant="body2">{e.contact}</Typography>
                       <Button
                         variant="text"
                         size="small"
@@ -155,6 +201,7 @@ const Users = () => {
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                         }}
+                        onClick={() => viewProfile(e.id)}
                         endIcon={<NorthEastIcon />}
                       >
                         View Profile
@@ -166,15 +213,20 @@ const Users = () => {
                         <Checkbox checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
                       </Box>
                       <Button
-                        variant="text"
+                        variant="outlined"
+                        color="error"
                         size="small"
                         sx={{
                           maxWidth: '8rem',
                           textWrap: 'nowrap',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
-                          backgroundColor: 'red',
-                          mx: 'auto'
+                          mx: 'auto',
+                          ":hover": {
+                            backgroundColor: 'red ',
+                            color:'white'
+                          }
+
                         }}
                         onClick={() => handleDeleteUser(e.id)}
                       >

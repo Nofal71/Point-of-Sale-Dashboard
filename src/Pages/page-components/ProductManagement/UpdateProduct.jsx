@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 
 const PaperMotion = motion(Paper)
 
-const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) => {
+const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
     const { setLoader, setAlert, setConfirm } = useCommon();
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
@@ -45,7 +45,6 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) 
         try {
             setLoader(true);
             setHasUnsavedChanges(false);
-            setNestaion(false);
             if (value) {
                 await makeRequest('PATCH', `/products/${value.id}`, formData);
                 setAlert('Edit Success', 'success');
@@ -59,7 +58,7 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) 
         } finally {
             setLoader(false);
         }
-    }, [value, setLoader, setAlert, setNestaion, setCurrentComponent]);
+    }, [value, setLoader, setAlert, setCurrentComponent]);
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && value) {
@@ -70,16 +69,14 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) 
     const handleCancel = useCallback(() => {
         if (JSON.parse(localStorage.getItem('DataLossPrevention'))) {
             setConfirm(`Are You Sure to Cancel ${value ? 'Edit' : 'Add'} Product ?`, () => {
-                setNestaion(false);
                 setHasUnsavedChanges(false);
-                setCurrentComponent('Manage Products' , 2 , false);
+                setCurrentComponent('Manage Products', 2, false);
             })
         } else {
-            setNestaion(false);
             setHasUnsavedChanges(false);
-            setCurrentComponent('Manage Products' , 2 , false);
+            setCurrentComponent('Manage Products', 2, false);
         }
-    }, [setCurrentComponent, setNestaion]);
+    }, [setCurrentComponent]);
 
     useEffect(() => {
         if (imagePreview) {
@@ -105,9 +102,6 @@ const UpdateProducts = ({ setCurrentComponent, value, setNestaion, nestation }) 
             }
         }
         getCategory()
-        return () => {
-            setNestaion(false)
-        }
     }, [])
 
     return (
