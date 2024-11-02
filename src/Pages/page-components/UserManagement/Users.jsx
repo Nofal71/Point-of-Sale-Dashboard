@@ -10,15 +10,12 @@ import { useUsers } from '../../../Hooks/custom/useUsers';
 const Users = ({ setValues, setCurrentComponent }) => {
 
   const [childLoader, setChildLoader] = useState(null)
-  const [open, setOpen] = useState(false)
   const inputRef = useRef()
   const { getUser } = useUser()
   const {
     userList,
     filter,
     searchProgress,
-    searchList,
-    handleSearchNavigate,
     handleSearch,
     handleFilter,
     handleDeleteUser,
@@ -57,7 +54,6 @@ const Users = ({ setValues, setCurrentComponent }) => {
           inputRef={inputRef}
           onChange={(e) => {
             handleSearch(e)
-            e.target.value.length !== 0 ? setOpen(true) : setOpen(false)
           }}
           InputProps={{
             endAdornment: (
@@ -67,31 +63,6 @@ const Users = ({ setValues, setCurrentComponent }) => {
             ),
           }}
         />
-        <Popper open={open} anchorEl={inputRef.current} sx={{ bgcolor: 'background.paper' }}>
-          <TransitionGroup>
-            {searchList &&
-              searchList.map((e, i) => {
-                if (e.id !== getUser.id)
-                  return (
-                    <Collapse
-                      key={i}>
-                      <Box
-                        sx={{
-                          p: 3,
-                        }}
-                      >
-                        <Box variant="outlined" sx={{ cursor: 'pointer' }} onClick={() => {
-                          handleSearchNavigate(e.name)
-                          setOpen(false)
-                        }
-                        } >{e.name}</Box>
-                      </Box>
-                      <Divider />
-                    </Collapse>
-                  )
-              })}
-          </TransitionGroup>
-        </Popper>
 
       </Stack>
       <Paper
