@@ -29,7 +29,9 @@ const SignupForm = () => {
                     username: data.username,
                     name: `${data.firstname} ${data.lastname}`,
                     password: data.password,
-                    role: 'customer'
+                    contact: data.contact,
+                    role: 'customer',
+                    status: 'active'
                 }
                 await registerUser(userDetails);
                 const updatedUser = await getUserDetials(data.email);
@@ -93,6 +95,7 @@ const SignupForm = () => {
                                 {...register('username', { required: "Username is required" })}
                                 fullWidth
                                 placeholder='Enter Username here'
+                                type='text'
                             />
                             {errors.username && (
                                 <Typography color="error" variant="body2">
@@ -102,10 +105,26 @@ const SignupForm = () => {
                         </Container>
 
                         <Container sx={{ paddingBottom: '10px' }}>
+                            <InputLabel shrink>Contact</InputLabel>
+                            <TextField
+                                {...register('contact', { required: "Contact is Required" })}
+                                fullWidth
+                                type='number'
+                                placeholder='Enter Your Contact Number'
+                            />
+                            {errors.contact && (
+                                <Typography color="error" variant="body2">
+                                    {errors.contact.message}
+                                </Typography>
+                            )}
+                        </Container>
+
+                        <Container sx={{ paddingBottom: '10px' }}>
                             <InputLabel shrink>Email</InputLabel>
                             <TextField
                                 {...register('email', { required: "Email is Required" })}
                                 fullWidth
+                                type='email'
                                 placeholder='Enter Your Email'
                             />
                             {errors.email && (

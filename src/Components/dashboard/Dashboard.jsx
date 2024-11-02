@@ -51,7 +51,6 @@ function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const [color, setColor] = useState('#0000f5');
     const [value, setValue] = useState(null)
     const { setConfirm, setLoader } = useCommon()
 
@@ -106,7 +105,7 @@ function Dashboard(props) {
                                 <ListItemButton
                                     onClick={() => { dispatch({ type: 'SET_CURRENT_COMPONENT', name: item.name, index, isNested: false }) }}
                                 >
-                                    <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
+                                    <ListItemText sx={{ color: selectedIndex === index ? '#0000f5' : 'inherit' }} primary={item.name} />
                                 </ListItemButton>
                             </ListItem>
                         ) : (
@@ -114,7 +113,7 @@ function Dashboard(props) {
                                 renderToggle={({ open, setOpen }) => (
                                     <ListItem disablePadding>
                                         <ListItemButton onClick={() => setOpen(!open)}>
-                                            <ListItemText sx={{ color: selectedIndex === index ? color : 'inherit' }} primary={item.name} />
+                                            <ListItemText sx={{ color: selectedIndex === index ? '#0000f5' : 'inherit' }} primary={item.name} />
                                             {open ? <ExpandLess /> : <ExpandMore />}
                                         </ListItemButton>
                                     </ListItem>
@@ -204,7 +203,6 @@ function Dashboard(props) {
                         selectOption={currentComponentName}
                         setCurrentComponent={(name, index, isNested) => dispatch({ type: 'SET_CURRENT_COMPONENT', name, index, isNested })}
                         setValues={setValue}
-                        setNestaion={setNestation}
                         currentComponentName={currentComponentName}
                         value={value}
                     />

@@ -1,86 +1,40 @@
-import { Box, Button, Checkbox, Collapse, Divider, InputAdornment, LinearProgress, Paper, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Popper, Select, Stack, TextField, Typography } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
-import { useCommon } from '../../../Hooks/common/useCommon';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 import { useUser } from '../../../Hooks/custom/useUser';
+import { useUsers } from '../../../Hooks/custom/useUsers';
 
 
-const Users = () => {
+const Users = ({ setValues, setCurrentComponent }) => {
 
-  const { setAlert, setLoader, setConfirm } = useCommon()
-  const [users, setUsers] = useState(null)
   const [childLoader, setChildLoader] = useState(null)
+  const inputRef = useRef()
   const { getUser } = useUser()
+  const {
+    userList,
+    filter,
+    searchProgress,
+    handleSearch,
+    handleFilter,
+    handleDeleteUser,
+    setStatus,
+    setRole
+  } = useUsers()
 
-  const setRole = async (role, userId) => {
+  const viewProfile = async (userId) => {
     try {
       setChildLoader(true)
-      await makeRequest('PATCH', `/user/${userId}`, { role })
-      const updateUser = await makeRequest('GET', `/user/${userId}`)
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
+      const user = await makeRequest('GET', `/user/${userId}`)
+      setCurrentComponent('User Profile', -1, true)
+      setValues(user)
     } catch (error) {
-      console.log(error, 'Error in Changing role')
+      console.log(error, 'Error in Getting user')
     } finally {
       setChildLoader(false)
     }
   }
-
-  const setStatus = async (status, userId) => {
-    try {
-      setChildLoader(true)
-      await makeRequest('PATCH', `/user/${userId}`, { status })
-      const updateUser = await makeRequest('GET', `/user/${userId}`)
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? updateUser : user
-        )
-      );
-      setAlert(`User Succesfully ${status}`, 'info')
-    } catch (error) {
-      console.log(error, 'Error in Changing status of user')
-    } finally {
-      setChildLoader(false)
-    }
-  }
-
-  const handleDeleteUser = (userId) => {
-    const process = async () => {
-      try {
-        setChildLoader(true)
-        await makeRequest('DELETE', `/user/${userId}`)
-        setAlert(`User Succesfully Deleted`, 'info')
-        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-      } catch (error) {
-        console.log(error, 'Error in Deleting user')
-      } finally {
-        setChildLoader(false)
-      }
-    }
-
-    setConfirm('Are You Sure to Delete this User', process)
-  }
-
-  useEffect(() => {
-    const getAllUsers = async () => {
-      try {
-        setLoader(true)
-        const data = await makeRequest('GET', '/user')
-        setUsers(data)
-      } catch (error) {
-        setAlert('Failed to Fetch Users', 'error')
-        console.log('error in getting users data', error)
-      } finally {
-        setLoader(false)
-      }
-    }
-    getAllUsers()
-  }, [])
 
   return (
     <Box
@@ -91,20 +45,25 @@ const Users = () => {
         flexDirection: 'column',
       }}
     >
-      <Stack direction={'row'} justifyContent={'space-between'}> 
+      <Stack direction={'row'} justifyContent={'space-between'}>
         <Typography variant="h4">Users</Typography>
         <TextField
           label="Search"
           variant="standard"
           size="small"
+          inputRef={inputRef}
+          onChange={(e) => {
+            handleSearch(e)
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                {/* {progress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />} */}
+                {searchProgress ? <CircularProgress size={20} color="primary" /> : <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />}
               </InputAdornment>
             ),
           }}
         />
+
       </Stack>
       <Paper
         elevation={4}
@@ -113,17 +72,36 @@ const Users = () => {
           fontWeight: '900',
         }}
       >
-        <LinearProgress sx={{ opacity: !childLoader && 0 }} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', px: 4 }} >
+          <LinearProgress sx={{ opacity: !childLoader && 0, flex: 1 }} />
+          <FormControl
+            sx={{ minWidth: '7rem', ml: 'auto' }}
+          >
+            <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Filter"
+              value={filter}
+              onChange={handleFilter}
+            >
+              <MenuItem value={''}>None</MenuItem>
+              <MenuItem value={'Blocked Users'}>Blocked Users</MenuItem>
+              <MenuItem value={'Admin'}>Admin</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
 
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: 'repeat(6, 1fr)',
             p: 3,
             gap: 3,
           }}
         >
           <Typography variant="subtitle1">Names</Typography>
+          <Typography variant="subtitle1">Contact</Typography>
           <Typography variant="subtitle1">Profile</Typography>
           <Typography variant="subtitle1" align='center'>Admin Access</Typography>
           <Typography variant="subtitle1" align='center'>Block User</Typography>
@@ -131,21 +109,27 @@ const Users = () => {
         </Box>
 
         <TransitionGroup>
-          {users &&
-            users.map((e, i) => {
+          {userList &&
+            userList.map((e, i) => {
               if (e.id !== getUser.id)
                 return (
-                  <Collapse key={i}>
+                  <Collapse
+                    timeout={{ enter: 700, exit: 700 }}
+                    sx={{
+                      transitionTimingFunction: 'ease-in-out',
+                    }}
+                    key={i}>
                     <Box
                       sx={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(5, 1fr)',
+                        gridTemplateColumns: 'repeat(6, 1fr)',
                         p: 3,
                         gap: 3,
                         alignItems: 'center'
                       }}
                     >
                       <Typography variant="body2">{e.name}</Typography>
+                      <Typography variant="body2">{e.contact}</Typography>
                       <Button
                         variant="text"
                         size="small"
@@ -155,26 +139,32 @@ const Users = () => {
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                         }}
+                        onClick={() => viewProfile(e.id)}
                         endIcon={<NorthEastIcon />}
                       >
                         View Profile
                       </Button>
                       <Box sx={{ display: 'flex', alignItems: 'center', width: 'auto', justifyContent: 'center' }}>
-                        <Checkbox checked={e.role === 'admin'} onClick={() => setRole(e.role === 'admin' ? 'customer' : 'admin', e.id)} />
+                        <Checkbox disabled={getUser.role !== 'admin'} checked={e.role === 'admin'} onClick={() => setRole(e.role === 'admin' ? 'customer' : 'admin', e.id)} />
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', width: 'auto', justifyContent: 'center' }}>
-                        <Checkbox checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
+                        <Checkbox disabled={getUser.role !== 'admin'} checked={e.status === 'blocked'} onClick={() => setStatus(e.status === 'active' ? 'blocked' : 'active', e.id)} />
                       </Box>
                       <Button
-                        variant="text"
+                        variant="outlined"
+                        color="error"
                         size="small"
                         sx={{
                           maxWidth: '8rem',
                           textWrap: 'nowrap',
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
-                          backgroundColor: 'red',
-                          mx: 'auto'
+                          mx: 'auto',
+                          ":hover": {
+                            backgroundColor: 'red ',
+                            color: 'white'
+                          }
+
                         }}
                         onClick={() => handleDeleteUser(e.id)}
                       >
