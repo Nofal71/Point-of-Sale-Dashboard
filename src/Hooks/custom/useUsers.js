@@ -1,75 +1,122 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { makeRequest } from "../../Server/api/instance";
 import { useCommon } from "../common/useCommon";
 
 export const useUsers = () => {
-    const { setAlert, setConfirm, setLoader } = useCommon()
+    const { setAlert, setConfirm, setLoader } = useCommon();
     const [userList, setUserList] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filter, setFilter] = useState("");
-    const [searchList, setSearchList] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
     const [searchInput, setSearchInput] = useState("");
-    const [searchProgress, setSearchProgress] = useState(false)
+    const [searchProgress, setSearchProgress] = useState(false);
+    const searchTimeout = useRef();
 
-    const handleDeleteUser = (userId) => {
-        const process = async () => {
-            try {
-                await makeRequest('DELETE', `/user/${userId}`)
-                setAlert(`User Succesfully Deleted`, 'info')
-                loadUsers()
-            } catch (error) {
-                console.log(error, 'Error in Deleting user')
-            }
+    const clientSideUpdate = (option) => {
+        switch (option.value) {
+
+            case 'DELETE':
+                setUserList(prev => prev.filter(user => user.id !== option.userId));
+                setFilteredUsers(prev => prev.filter(user => user.id !== option.userId));
+                setSearchResults(prev => prev.filter(user => user.id !== option.userId));
+                break;
+
+            case 'STATUS':
+                setUserList(prev =>
+                    prev.map(user => user.id === option.userId ? { ...user, status: option.status } : user)
+                );
+                setFilteredUsers(prev =>
+                    prev.map(user => user.id === option.userId ? { ...user, status: option.status } : user)
+                );
+                setSearchResults(prev =>
+                    prev.map(user => user.id === option.userId ? { ...user, status: option.status } : user)
+                );
+                break;
+
+            case 'ROLE':
+                setUserList(prev =>
+                    prev.map(user => user.id === option.userId ? { ...user, role: option.role } : user)
+                );
+                setFilteredUsers(prev =>
+                    prev.map(user => user.id === option.userId ? { ...user, role: option.role } : user)
+                );
+                setSearchResults(prev =>
+                    prev.map(user => user.id === option.userId ? { ...user, role: option.role } : user)
+                );
+                break;
+
+            case 'RESTORE':
+                setUserList([...option.reset])
+                setFilteredUsers([...option.reset])
+                setSearchResults([...option.reset])
+                setFilter('')
+                break;
+
         }
-
-        setConfirm('Are You Sure to Delete this User', process)
-    }
+    };
 
     const setStatus = async (status, userId) => {
+        const orignalList = [...userList]
         try {
-            await makeRequest('PATCH', `/user/${userId}`, { status })
-            loadUsers()
-            setAlert(`User Succesfully ${status}`, 'info')
+            clientSideUpdate({ value: 'STATUS', userId, status });
+            setAlert(`User Successfully ${status}`, 'info');
+            await makeRequest('PATCH', `/user/${userId}`, { status });
         } catch (error) {
-            console.log(error, 'Error in Changing status of user')
+            clientSideUpdate({ value: 'RESTORE', reset: orignalList });
+            setAlert('Network Error', 'error')
+            console.log(error, 'Error in Changing status of user');
         }
-    }
+    };
 
     const setRole = async (role, userId) => {
+        const orignalList = [...userList]
         try {
-            await makeRequest('PATCH', `/user/${userId}`, { role })
-            loadUsers()
+            clientSideUpdate({ value: 'ROLE', userId, role });
+            setAlert(`User Successfully Assigned to ${role}`, 'info');
+            await makeRequest('PATCH', `/user/${userId}`, { role });
         } catch (error) {
-            console.log(error, 'Error in Changing role')
+            clientSideUpdate({ value: 'RESTORE', reset: orignalList });
+            setAlert('Network Error', 'error')
+            console.log(error, 'Error in Changing role');
         }
-    }
+    };
+
+
+    const handleDeleteUser = (userId) => {
+        const orignalList = [...userList]
+        const process = async () => {
+            try {
+                clientSideUpdate({ value: 'DELETE', userId })
+                setAlert(`User Successfully Deleted`, 'info');
+                await makeRequest('DELETE', `/user/${userId}`);
+            } catch (error) {
+                clientSideUpdate({ value: 'RESTORE', reset: orignalList });
+                setAlert('Network Error', 'error')
+                console.log(error, 'Error in Deleting user');
+            }
+        };
+        setConfirm('Are You Sure to Delete this User', process);
+    };
 
     const loadUsers = async () => {
         try {
             const users = await makeRequest("GET", "/user");
             setUserList(users);
             setFilteredUsers(users);
-            if (searchInput) setSearchInput('')
-            return true
+            return true;
         } catch (error) {
             console.log(error, "error in loading users");
         }
     };
 
-    const updateFilteredUsers = useCallback((name) => {
+    const updateFilteredUsers = useCallback(() => {
         let updatedUsers = [...userList];
-        if (name) {
-            const nameData = updatedUsers?.find(e => e.name === name);
-            console.log(nameData, 'name')
-            setFilteredUsers([nameData]);
-        } else {
-            if (filter === "Blocked Users") {
-                updatedUsers = updatedUsers.filter(user => user.status === "blocked");
-            } else if (filter === "Admin") {
-                updatedUsers = updatedUsers.filter(user => user.role === "admin");
-            }
-            setFilteredUsers(updatedUsers);
+        if (filter === "Blocked Users") {
+            updatedUsers = updatedUsers.filter(user => user.status === "blocked");
+        } else if (filter === "Admin") {
+            updatedUsers = updatedUsers.filter(user => user.role === "admin");
         }
+        setFilteredUsers(updatedUsers);
     }, [userList, filter]);
 
     const handleFilter = (e) => {
@@ -77,52 +124,52 @@ export const useUsers = () => {
     };
 
     const updateSearchList = useCallback(async () => {
+        if (!searchInput) return;
         try {
-            const users = await makeRequest('GET', '/user')
-            const nameData = users?.filter((e) => e.name.toLowerCase().includes(searchInput.toLowerCase()) || e.name.toLowerCase() === searchInput.toLowerCase());
-            setSearchList(nameData);
+            setSearchProgress(true);
+            const users = await makeRequest('GET', '/user');
+            const nameData = users.filter((e) => e.name.toLowerCase().includes(searchInput.toLowerCase()));
+            setSearchResults(nameData);
         } catch (error) {
-            console.log('error in search', error)
+            console.log('error in search', error);
         } finally {
-            setSearchProgress(false)
+            setSearchProgress(false);
         }
     }, [searchInput]);
 
-    const handleSearchNavigate = (name) => {
-        updateFilteredUsers(name)
-    }
 
     const handleSearch = (e) => {
-        const value = e.target.value
-        if (value === '') updateFilteredUsers()
-        setSearchProgress(true)
-        setTimeout(() => {
+        const value = e.target.value;
+        if (value === '') {
+            setSearchResults([]);
+            return;
+        }
+        setSearchProgress(true);
+        clearTimeout(searchTimeout.current);
+        searchTimeout.current = setTimeout(() => {
             setSearchInput(value);
-        }, 800)
-        clearTimeout()
+        }, 500);
     };
 
-
     useEffect(() => {
-        setLoader(true)
-        const loaded = loadUsers();
-        loaded.then(res => res && setLoader(false))
+        setLoader(true);
+        loadUsers().then(res => res && setLoader(false));
     }, []);
 
     useEffect(() => {
-        updateSearchList()
-    }, [searchInput])
+        updateSearchList();
+        setFilter('')
+    }, [searchInput]);
 
     useEffect(() => {
         updateFilteredUsers();
     }, [userList, filter, updateFilteredUsers]);
 
     return {
-        userList: filteredUsers,
+        userList: searchResults.length > 0 ? searchResults : filteredUsers,
         filter,
         searchProgress,
-        searchList,
-        handleSearchNavigate,
+        searchResults,
         handleSearch,
         handleFilter,
         handleDeleteUser,
