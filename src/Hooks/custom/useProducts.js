@@ -16,22 +16,21 @@ export const useProducts = () => {
 
     const handleSorting = (e) => {
         setSorting(e.target.value);
-        const sortedProducts = [...products];
-        if (e.target.value === 'Price') {
+        let sortedProducts = [...products];
+
+        if (e.target.value === 'LowPrice') {
             sortedProducts.sort((a, b) => a.price - b.price);
+        } else if (e.target.value === 'HighPrice') {
+            sortedProducts.sort((a, b) => b.price - a.price);
         } else if (e.target.value === 'Name') {
-            sortedProducts.sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1;
-                }
-                if (a.name > b.name) {
-                    return 1;
-                }
-                return 0;
-            });
+            sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (e.target.value === 'stock') {
+            sortedProducts.sort((a, b) => Number(a.inventory?.quantity) - Number(b.inventory?.quantity));
         }
+
         setProducts(sortedProducts);
-    }
+    };
+
 
     const searchData = async (inputValue) => {
         try {

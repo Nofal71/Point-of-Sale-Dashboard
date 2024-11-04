@@ -62,6 +62,7 @@ function Dashboard(props) {
     const [currentComponentName, dispatch] = useReducer((state, action) => {
         const { index, name, isNested } = action;
         setLoader(false);
+        setMobileOpen(false)
         if (!JSON.parse(localStorage.getItem('DataLossPrevention'))) {
             setNestation(isNested);
             index !== -1 && setSelectedIndex(index);

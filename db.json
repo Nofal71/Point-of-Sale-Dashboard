@@ -6,7 +6,7 @@
       "username": "Nofal123",
       "email": "nofal76@gmail.com",
       "password": "nofal123",
-      "role": "customer",
+      "role": "admin",
       "status": "active",
       "contact": "+12345678901"
     },
@@ -37,7 +37,7 @@
       "email": "liamtaylor@example.com",
       "password": "liam2023",
       "role": "customer",
-      "status": "blocked",
+      "status": "active",
       "contact": "+12345678909"
     },
     {
@@ -57,7 +57,7 @@
       "email": "ethangarcia@example.com",
       "password": "ethan2023",
       "role": "customer",
-      "status": "blocked",
+      "status": "active",
       "contact": "+12345678911"
     },
     {
@@ -67,7 +67,7 @@
       "email": "oliviamartinez@example.com",
       "password": "olivia2023",
       "role": "customer",
-      "status": "blocked",
+      "status": "active",
       "contact": "+12345678912"
     },
     {
@@ -91,24 +91,172 @@
       "contact": "+12345678915"
     },
     {
-      "id": "3m44",
-      "name": "Charlotte Young",
-      "username": "charlotteY",
-      "email": "charlotteyoung@example.com",
-      "password": "charlotte2023",
+      "id": "c63c",
+      "email": "nofal75@gmail.com",
+      "username": "nofal1234",
+      "name": "Nofal Hassaan ADMIN",
+      "password": "nofal123",
+      "contact": "09090909090990",
       "role": "admin",
-      "status": "inactive",
-      "contact": "+12345678916"
+      "status": "active"
     }
   ],
   "products": [
     {
-      "id": "p1",
-      "name": "Electric",
-      "description": "A fast and efficient electric scooter for urban commuting.",
-      "price": "300",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s",
-      "category": "Electronics"
+      "id": "p2",
+      "name": "Wireless Headphones",
+      "description": "Noise-cancelling wireless headphones with 20 hours of battery life.",
+      "price": "99",
+      "currency": "PKR",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
+      "category": "Fashion",
+      "inventory": {
+        "quantity": 0
+      }
+    },
+    {
+      "id": "p4",
+      "name": "Fitness Tracker",
+      "description": "Wearable tracker for monitoring daily activity and health stats.",
+      "price": "80",
+      "currency": "USD",
+      "img": "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/primary/ProductShowcasesampleimages/JPEG/Product+Showcase-1.jpg",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 120
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p6",
+      "name": "Smartphone Case",
+      "description": "Durable and stylish smartphone case with shockproof protection.",
+      "price": "20",
+      "currency": "USD",
+      "img": "https://plus.unsplash.com/premium_photo-1661769750859-64b5f1539aa8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdCUyMGltYWdlfGVufDB8fDB8fHww",
+      "category": "Fashion",
+      "inventory": {
+        "quantity": 300
+      }
+    },
+    {
+      "id": "p7",
+      "name": "Bluetooth Speaker",
+      "description": "Portable, waterproof Bluetooth speaker with deep bass.",
+      "price": "45",
+      "currency": "USD",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 60
+      }
+    },
+    {
+      "id": "p8",
+      "name": "Sunglasses",
+      "description": "Polarized sunglasses with UV protection.",
+      "price": "25",
+      "currency": "USD",
+      "img": "https://img.freepik.com/free-photo/3d-beauty-product-studio_23-2151401472.jpg",
+      "category": "Fashion",
+      "inventory": {
+        "quantity": 150
+      }
+    },
+    {
+      "id": "p9",
+      "name": "Drone Camera",
+      "description": "HD drone camera with remote control and live feed.",
+      "price": "250",
+      "currency": "USD",
+      "img": "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/primary/ProductShowcasesampleimages/JPEG/Product+Showcase-1.jpg",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 40
+      }
+    },
+    {
+      "id": "p10",
+      "name": "Leather Wallet",
+      "description": "Classic leather wallet with multiple compartments.",
+      "price": "30",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Fashion",
+      "inventory": {
+        "quantity": 100
+      }
+    },
+    {
+      "id": "p11",
+      "name": "Power Bank",
+      "description": "Portable charger with 10,000mAh capacity and fast charging.",
+      "price": "35",
+      "currency": "USD",
+      "img": "https://plus.unsplash.com/premium_photo-1661769750859-64b5f1539aa8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdCUyMGltYWdlfGVufDB8fDB8fHww",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 90
+      }
+    },
+    {
+      "id": "p12",
+      "name": "Smart Light Bulb",
+      "description": "Energy-saving smart bulb with remote control via mobile app.",
+      "price": "15",
+      "currency": "USD",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 500
+      }
+    },
+    {
+      "id": "p13",
+      "name": "Waterproof Backpack",
+      "description": "Durable backpack with waterproof fabric and multiple compartments.",
+      "price": "55",
+      "currency": "USD",
+      "img": "https://img.freepik.com/free-photo/3d-beauty-product-studio_23-2151401472.jpg",
+      "category": "Fashion",
+      "inventory": {
+        "quantity": 80
+      }
+    },
+    {
+      "id": "p14",
+      "name": "Wireless Charger",
+      "description": "Fast wireless charger compatible with all Qi-enabled devices.",
+      "price": "25",
+      "currency": "USD",
+      "img": "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/primary/ProductShowcasesampleimages/JPEG/Product+Showcase-1.jpg",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 300
+      }
+    },
+    {
+      "id": "p15",
+      "name": "Designer Watch",
+      "description": "Stylish designer watch with leather strap and water resistance.",
+      "price": "120",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Fashion",
+      "inventory": {
+        "quantity": 15
+      }
     }
   ],
   "categories": [

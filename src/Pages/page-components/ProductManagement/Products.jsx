@@ -52,44 +52,53 @@ const Products = ({ setCurrentComponent, setValues }) => {
           }}
         />
         <FormControl >
-          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <InputLabel id="demo-simple-select-label">Sort</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={sort}
-            label="Filter"
+            label="Sort"
             onChange={handleSorting}
             sx={{ minWidth: '7rem' }}
           >
-            <MenuItem value={'Price'}>Price</MenuItem>
-            <MenuItem value={'Name'}>Name</MenuItem>
+            <MenuItem value={'LowPrice'}>Lower Price First</MenuItem>
+            <MenuItem value={'HighPrice'}>Higher Price First</MenuItem>
+            <MenuItem value={'Name'}>Alphabatically Ordered</MenuItem>
+            <MenuItem value={'stock'}>Understocked</MenuItem>
           </Select>
         </FormControl>
       </Box>
 
       <Typography variant='body1' component='h4' ref={displaySearchText} ></Typography>
-
-
-      <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} justifyContent={'center'} gap={2}>
+      {displaySearchText.current.innerText === '' && (<br />)}
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(auto-fit, minmax(200px, 1fr))' },  
+        gap: { sm: 7, xs: 0 },
+        justifyContent: 'center',
+        p: { sm: 3, xs: 0 },
+      }}
+      >
         {
           products && products.map((product, index) => (
             <ProductCard key={index} product={product} buttons={[
               (<Button onClick={() => {
-                setCurrentComponent('Edit Product', -1, true)
-                setValues(product)
-                localStorage.setItem('cached', JSON.stringify(input))
+                setCurrentComponent('Edit Product', -1, true);
+                setValues(product);
+                localStorage.setItem('cached', JSON.stringify(input));
               }} ><EditIcon /></Button>),
               (<Button onClick={() => deleteProduct(product.id)}
-                variant='contained' color='error'
+                variant="contained" color="error"
                 sx={{
                   ":hover": {
                     backgroundColor: 'red !important'
                   }
-                }}  > <DeleteIcon /> </Button>),
+                }}><DeleteIcon /></Button>),
             ]} />
           ))
         }
       </Box >
+
     </>
   )
 }
