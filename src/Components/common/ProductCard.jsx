@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -11,19 +11,6 @@ import { motion } from 'framer-motion'
 const CardMotion = motion(Card)
 
 export default function ProductCard({ product, buttons }) {
-    const [error, setError] = React.useState(false)
-
-    React.useEffect(() => {
-        const checkUrl = async () => {
-            try {
-                await fetch(product.img)
-            } catch (error) {
-                setError(error)
-            }
-        }
-        checkUrl()
-    }, [product])
-
     return (
         <CardMotion
             initial={{ opacity: 0, scale: 0.8 }}
@@ -31,12 +18,25 @@ export default function ProductCard({ product, buttons }) {
             exit={{ opacity: 0, scale: 5 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             key={{ product }}
-            sx={{ maxWidth: 250, minWidth: 250, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', }}
+            sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', boxShadow: { xs: 0, sm:'1px 1px 5px black'} , border:{sm: 'none' , xs:'1px solid gray'}}}
         >
             {
-                product.img && !error ? (
+                product.inventory?.quantity === 0 ? (
+                    <Stack direction="row" sx={{ color: 'red', p: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body1">Out of Stock</Typography>
+                        <Typography variant="body1">{product.inventory?.quantity || 0}</Typography>
+                    </Stack>
+                ) : (
+                    <Stack direction="row" sx={{ color: 'lightgreen', p: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body1">Available</Typography>
+                        <Typography variant="body1">{product.inventory?.quantity || 'N/A'}</Typography>
+                    </Stack>
+                )
+            }
+            {
+                product.img ? (
                     <CardMedia
-                        sx={{ height: 140 }}
+                        sx={{ height: { sm: 140, xs: 120 } }}
                         image={product.img && product.img}
                     />
                 ) : (
@@ -48,14 +48,16 @@ export default function ProductCard({ product, buttons }) {
                     <Typography gutterBottom variant="h5" component="div" sx={{
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
-                        textOverflow: 'ellipsis'
+                        textOverflow: 'ellipsis',
+                        fontSize: { sm: '1.35rem', xs: '1rem' }
                     }}>
                         {product.name}
                     </Typography>
                     <Typography gutterBottom variant="h5" component="div" sx={{
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
-                        textOverflow: 'ellipsis'
+                        textOverflow: 'ellipsis',
+                        fontSize: { sm: '1.35rem', xs: '1rem' }
                     }}>
                         {product.price}
                     </Typography>
@@ -63,16 +65,17 @@ export default function ProductCard({ product, buttons }) {
                         color: 'text.secondary',
                         display: '-webkit-box',
                         WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 2,
+                        WebkitLineClamp: { sm: 2, xs: 1 },
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
+                        width: { xs: 0, sm: 'auto' },
                         maxWidth: '100%',
                     }}>
                         {product.description}
                     </Typography>
                 </Box>
-                <CardActions sx={{ alignSelf: 'flex-end', padding: 0 }}>
-                    <Stack direction={'column'} spacing={1} ml={'auto'}>
+                <CardActions sx={{ alignSelf: 'flex-end', padding: 0, display: { xs: 'none', sm: 'block' } }}>
+                    <Stack direction={{ sm: 'column', xs: 'row' }} spacing={1} ml={'auto'}>
                         {buttons && buttons.map((b, index) => (
                             <div key={index}>
                                 {b}

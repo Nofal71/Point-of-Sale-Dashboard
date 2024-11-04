@@ -5,6 +5,9 @@ import { makeRequest } from '../../../Server/api/instance';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
 import { useUser } from '../../../Hooks/custom/useUser';
 import { useUsers } from '../../../Hooks/custom/useUsers';
+import RefreshIcon from '@mui/icons-material/Refresh';
+
+
 
 
 const Users = ({ setValues, setCurrentComponent }) => {
@@ -16,6 +19,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
     userList,
     filter,
     searchProgress,
+    loadUsers,
     handleSearch,
     handleFilter,
     handleDeleteUser,
@@ -73,6 +77,11 @@ const Users = ({ setValues, setCurrentComponent }) => {
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center', px: 4 }} >
+          <RefreshIcon onClick={loadUsers} sx={{
+            ml: 'auto', cursor: 'pointer', ":hover": {
+              scale: 1.2
+            }
+          }} />
           <LinearProgress sx={{ opacity: !childLoader && 0, flex: 1 }} />
           <FormControl
             sx={{ minWidth: '7rem', ml: 'auto' }}

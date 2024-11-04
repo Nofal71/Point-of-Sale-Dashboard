@@ -19,7 +19,8 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
             description: value?.description || '',
             price: value?.price || '',
             img: value?.img || '',
-            category: value?.category || ''
+            category: value?.category || '',
+            quantity: value?.inventory?.quantity || 0
         }
     });
 
@@ -42,14 +43,26 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
     }, []);
 
     const onSubmit = useCallback(async (formData) => {
+
+        const data = {
+            "name": formData.name,
+            "description": formData.description,
+            "price": formData.price,
+            "img": formData.img,
+            "category": formData.category,
+            "inventory": {
+                "quantity": Number(formData.quantity)
+            }
+        }
+
         try {
             setLoader(true);
             setHasUnsavedChanges(false);
             if (value) {
-                await makeRequest('PATCH', `/products/${value.id}`, formData);
+                await makeRequest('PATCH', `/products/${value.id}`, data);
                 setAlert('Edit Success', 'success');
             } else {
-                await makeRequest('POST', '/products', formData);
+                await makeRequest('POST', '/products', data);
                 setAlert('Add Success', 'success');
             }
             setCurrentComponent('Manage Products');
@@ -162,6 +175,27 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
                         {errors.price && (
                             <Typography mt={1} color="error" variant="body2">
                                 {errors.price.message}
+                            </Typography>
+                        )}
+                    </Container>
+                    <Container sx={{ paddingBottom: '10px' }}>
+                        <InputLabel shrink>Product Quantity in Stock</InputLabel>
+                        <TextField
+                            onChange={() => setHasUnsavedChanges(true)}
+                            {...register('quantity', {
+                                required: "Quantity is Required",
+                                pattern: {
+                                    value: /^[0-9]+(\.[0-9]+)?$/,
+                                    message: "Please Enter a Valid Quantity",
+                                },
+                            })}
+                            type='number'
+                            fullWidth
+                            placeholder='Enter Quantity'
+                        />
+                        {errors.quantity && (
+                            <Typography mt={1} color="error" variant="body2">
+                                {errors.quantity.message}
                             </Typography>
                         )}
                     </Container>

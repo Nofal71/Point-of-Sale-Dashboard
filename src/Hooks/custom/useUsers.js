@@ -100,12 +100,15 @@ export const useUsers = () => {
 
     const loadUsers = async () => {
         try {
+            setLoader(true)
             const users = await makeRequest("GET", "/user");
             setUserList(users);
             setFilteredUsers(users);
             return true;
         } catch (error) {
             console.log(error, "error in loading users");
+        } finally {
+            setLoader(false)
         }
     };
 
@@ -152,8 +155,7 @@ export const useUsers = () => {
     };
 
     useEffect(() => {
-        setLoader(true);
-        loadUsers().then(res => res && setLoader(false));
+        loadUsers()
     }, []);
 
     useEffect(() => {
@@ -170,6 +172,7 @@ export const useUsers = () => {
         filter,
         searchProgress,
         searchResults,
+        loadUsers,
         handleSearch,
         handleFilter,
         handleDeleteUser,

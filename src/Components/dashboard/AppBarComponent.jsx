@@ -91,9 +91,15 @@ const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography variant="h6" noWrap component="div">
-                    Admin Site
-                </Typography>
+                <motion.div
+                    initial={{ overflow: 'hidden', width: '0' }}
+                    animate={{ overflow: 'auto', width: 'auto' }}
+                    transition={{ delay: 1, duration: 1 }}
+                >
+                    <Typography variant="h6" noWrap component="div">
+                        Admin Site
+                    </Typography>
+                </motion.div>
                 <MaterialUISwitch sx={{ ml: 'auto' }} checked={theme === 'dark' ? true : false} onClick={() => setGlobalTheme(theme === 'light' ? 'dark' : 'light')} />
             </Toolbar>
         </MotionBox>
