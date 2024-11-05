@@ -72,11 +72,13 @@ const Products = ({ setCurrentComponent, setValues }) => {
       <Typography variant='body1' component='h4' ref={displaySearchText} ></Typography>
       {displaySearchText.current.innerText === '' && (<br />)}
       <Box sx={{
-        display: 'grid',
-        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(auto-fit, minmax(200px, 1fr))' },  
-        gap: { sm: 7, xs: 0 },
+        display: { xs: 'grid', sm: 'flex' },
+        gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 0 },
         justifyContent: 'center',
-        p: { sm: 3, xs: 0 },
+        alignItems: 'flex-start',
+        gap: { sm: 3, xs: 0 },
+        flexWrap: 'wrap',
+        flexDirection: 'row'
       }}
       >
         {

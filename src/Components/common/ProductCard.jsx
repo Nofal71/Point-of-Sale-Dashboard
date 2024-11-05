@@ -18,7 +18,7 @@ export default function ProductCard({ product, buttons }) {
             exit={{ opacity: 0, scale: 5 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             key={{ product }}
-            sx={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', boxShadow: { xs: 0, sm:'1px 1px 5px black'} , border:{sm: 'none' , xs:'1px solid gray'}}}
+            sx={{ width: { xs: '100%', sm: 250 }, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', boxShadow: { xs: 0, sm: '1px 1px 5px black' }, border: { sm: 'none', xs: '1px solid gray' } }}
         >
             {
                 product.inventory?.quantity === 0 ? (
