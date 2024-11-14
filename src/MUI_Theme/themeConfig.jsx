@@ -18,6 +18,11 @@ export const DashboardTheme = (mode) =>
                             borderColor: 'red',
                             
                         },
+                        '&.MuiButton-outlined': {
+                            backgroundColor: 'inherit',
+                            color: mode === 'dark' ? 'white' : 'red',
+                            
+                        },
                         '&.MuiButton-containedError': {
                             backgroundColor: 'red',
                             color: 'white',

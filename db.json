@@ -11,22 +11,12 @@
       "contact": "+12345678901"
     },
     {
-      "id": "4d55",
-      "name": "Mike Brown",
-      "username": "mikeB",
-      "email": "mikebrown@example.com",
-      "password": "mike2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678907"
-    },
-    {
       "id": "5e66",
       "name": "Emma Wilson",
       "username": "emmaW",
       "email": "emmawilson@example.com",
       "password": "emma2023",
-      "role": "customer",
+      "role": "admin",
       "status": "active",
       "contact": "+12345678908"
     },
@@ -196,18 +186,6 @@
       "category": "Fashion",
       "inventory": {
         "quantity": 100
-      }
-    },
-    {
-      "id": "p11",
-      "name": "Power Bank",
-      "description": "Portable charger with 10,000mAh capacity and fast charging.",
-      "price": "35",
-      "currency": "USD",
-      "img": "https://plus.unsplash.com/premium_photo-1661769750859-64b5f1539aa8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdCUyMGltYWdlfGVufDB8fDB8fHww",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 90
       }
     },
     {

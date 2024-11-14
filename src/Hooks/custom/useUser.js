@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../../redux/Reducers/userSlice";
-import { setCompanyLogo } from "../../redux/Reducers/Profile";
+import { setCompanyLogo, setCompanyName } from "../../redux/Reducers/Profile";
 
 export const useUser = () => {
     const dispatch = useDispatch();
     const getUser = useSelector(state => state.user);
     const logo = useSelector(state => state.profile?.companyLogo || null);
+    const companyName = useSelector(state => state.profile?.companyName || '');
 
     const updateUser = (userDetails) => {
-        console.log(userDetails , 'user')
+        console.log(userDetails, 'user')
         dispatch(userData(userDetails));
     };
 
@@ -16,5 +17,9 @@ export const useUser = () => {
         dispatch(setCompanyLogo(url));
     };
 
-    return { updateUser, getUser, setLogo, logo };
+    const setName = (url) => {
+        dispatch(setCompanyName(url));
+    };
+
+    return { updateUser, getUser, setLogo, logo, setName , companyName };
 };

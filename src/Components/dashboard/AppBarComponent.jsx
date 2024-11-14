@@ -6,6 +6,7 @@ import Switch from '@mui/material/Switch';
 import { useCommon } from '../../Hooks/common/useCommon';
 
 import { motion } from 'framer-motion'
+import { useUser } from '../../Hooks/custom/useUser';
 
 const MotionBox = motion(AppBar)
 
@@ -67,6 +68,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
     const { setGlobalTheme, theme } = useCommon()
+    const { companyName } = useUser()
     return (
         <MotionBox
             initial={{ y: -500 }}
@@ -95,9 +97,10 @@ const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
                     initial={{ overflow: 'hidden', width: '0' }}
                     animate={{ overflow: 'auto', width: 'auto' }}
                     transition={{ delay: 1, duration: 1 }}
+                    key={companyName}
                 >
                     <Typography variant="h6" noWrap component="div">
-                        Admin Site
+                        {companyName}
                     </Typography>
                 </motion.div>
                 <MaterialUISwitch sx={{ ml: 'auto' }} checked={theme === 'dark' ? true : false} onClick={() => setGlobalTheme(theme === 'light' ? 'dark' : 'light')} />

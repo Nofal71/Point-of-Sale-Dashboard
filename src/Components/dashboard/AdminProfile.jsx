@@ -6,7 +6,7 @@ import { useCommon } from '../../Hooks/common/useCommon';
 import { useUser } from '../../Hooks/custom/useUser';
 
 
-const UserProfile = ({ Height }) => {
+const AdminProfile = ({ Height }) => {
     const { setAlert, setConfirm, setLoader } = useCommon()
     const { getUser, updateUser } = useUser()
     const handleLogout = () => {
@@ -54,4 +54,4 @@ const UserProfile = ({ Height }) => {
     )
 }
 
-export default UserProfile
+export default AdminProfile

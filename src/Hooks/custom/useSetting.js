@@ -4,14 +4,10 @@ import { makeRequest } from '../../Server/api/instance';
 import { useUser } from './useUser';
 
 export const useSettings = () => {
-  const [file, setFile] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState('');
-  const imageRef = useRef();
   const { setLoader, setAlert, setConfirm } = useCommon();
-  const { setLogo } = useUser();
+  const { setLogo, logo, setName, companyName } = useUser();
 
-  const handleChange = (e) => setFile(e.target.files[0]);
 
   const getCategory = async () => {
     try {
@@ -35,15 +31,14 @@ export const useSettings = () => {
     setConfirm('Are You Sure To Delete This Category?', deleteCategory);
   };
 
-  const handleAddCategory = async () => {
-    if (!newCategory.trim()) {
-      setAlert('Please Add Category First', 'error');
+  const handleAddCategory = async (category) => {
+    if (!category) {
+      setAlert('Please Fill Category First', 'error');
       return;
     }
     try {
       setLoader(true);
-      await makeRequest('POST', '/categories', { name: newCategory });
-      setNewCategory('');
+      await makeRequest('POST', '/categories', { name: category });
       setAlert('Category added successfully', 'success');
       getCategory();
     } catch (error) {
@@ -53,9 +48,7 @@ export const useSettings = () => {
     }
   };
 
-  const handleProfileImage = async () => {
-    if (!file) return;
-
+  const handleProfileImage = async (e) => {
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64String = reader.result;
@@ -68,11 +61,9 @@ export const useSettings = () => {
         setAlert('Failed to save image', 'error');
       } finally {
         setLoader(false);
-        setFile(null);
-        imageRef.current.value = '';
       }
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -80,12 +71,10 @@ export const useSettings = () => {
   }, []);
 
   return {
-    file,
     categories,
-    newCategory,
-    setNewCategory,
-    imageRef,
-    handleChange,
+    logo,
+    companyName,
+    setName,
     handleDeleteCategory,
     handleAddCategory,
     handleProfileImage,

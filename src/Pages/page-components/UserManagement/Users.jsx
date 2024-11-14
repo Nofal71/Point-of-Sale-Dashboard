@@ -120,7 +120,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
         <TransitionGroup>
           {userList &&
             userList.map((e, i) => {
-              if (e.id !== getUser.id)
+              if (e.id !== getUser.id) {
                 return (
                   <Collapse
                     timeout={{ enter: 700, exit: 700 }}
@@ -183,6 +183,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
                     <Divider />
                   </Collapse>
                 )
+              }
             })}
         </TransitionGroup>
       </Paper>

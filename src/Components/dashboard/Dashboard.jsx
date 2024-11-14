@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import AppBarComponent from './AppBarComponent';
-import UserProfile from './UserProfile';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,6 +18,7 @@ import { CurrentComponent } from '../Tabs/DashBoardComponents';
 import { useCommon } from '../../Hooks/common/useCommon';
 import BreadcrumbsNav from '../common/BreadcrumbsNav';
 import { Divider } from '@mui/material';
+import AdminProfile from './AdminProfile';
 
 const drawerWidth = 240;
 const drawerHeight = 500;
@@ -165,7 +165,7 @@ function Dashboard(props) {
                 >
                     <CompanyLogo companyLogoHeight={companyLogoHeight} />
                     {drawer}
-                    <UserProfile Width={drawerWidth} Height={150} />
+                    <AdminProfile Width={drawerWidth} Height={150} />
                 </Drawer>
 
                 <Drawer
@@ -179,7 +179,7 @@ function Dashboard(props) {
                 >
                     <CompanyLogo companyLogoHeight={companyLogoHeight} />
                     {drawer}
-                    <UserProfile Width={drawerWidth} Height={`100% - ${drawerHeight}px)`} />
+                    <AdminProfile Width={drawerWidth} Height={`100% - ${drawerHeight}px)`} />
                 </Drawer>
             </Box>
 
