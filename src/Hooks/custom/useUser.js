@@ -9,7 +9,6 @@ export const useUser = () => {
     const companyName = useSelector(state => state.profile?.companyName || '');
 
     const updateUser = (userDetails) => {
-        console.log(userDetails, 'user')
         dispatch(userData(userDetails));
     };
 

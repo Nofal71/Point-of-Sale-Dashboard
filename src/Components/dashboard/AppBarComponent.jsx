@@ -1,12 +1,13 @@
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import { useCommon } from '../../Hooks/common/useCommon';
 
 import { motion } from 'framer-motion'
 import { useUser } from '../../Hooks/custom/useUser';
+import { makeRequest } from '../../Server/api/instance';
 
 const MotionBox = motion(AppBar)
 
@@ -67,8 +68,25 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const AppBarComponent = ({ handleDrawerToggle, drawerWidth }) => {
-    const { setGlobalTheme, theme } = useCommon()
-    const { companyName } = useUser()
+    const { setGlobalTheme, theme, setLoader, setAlert } = useCommon()
+    const { companyName, setName } = useUser()
+
+    useEffect(() => {
+        const fetchCompanyName = async () => {
+            try {
+                setLoader(true);
+                const response = await makeRequest('GET', '/assets/adminSiteName');
+                if (response && response.data) {
+                    setName(response.data);
+                }
+            } catch (error) {
+                setAlert('Failed to Load Company Name', 'error');
+            } finally {
+                setLoader(false);
+            }
+        }
+        fetchCompanyName()
+    }, [companyName])
     return (
         <MotionBox
             initial={{ y: -500 }}

@@ -53,7 +53,6 @@ export const useSettings = () => {
     reader.onloadend = async () => {
       const base64String = reader.result;
       setLoader(true);
-
       try {
         await makeRequest('PATCH', '/assets/48c4', { imgData: base64String });
         setLogo(base64String);
@@ -66,6 +65,17 @@ export const useSettings = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  const handleAdminSiteName = async (name) => {
+    try {
+      await makeRequest('PATCH', '/assets/adminSiteName', { data: name });
+      setName(name);
+    } catch (error) {
+      setAlert('Failed to save Company Name', 'error');
+    } finally {
+      setLoader(false);
+    }
+  }
+
   useEffect(() => {
     getCategory();
   }, []);
@@ -74,7 +84,7 @@ export const useSettings = () => {
     categories,
     logo,
     companyName,
-    setName,
+    handleAdminSiteName,
     handleDeleteCategory,
     handleAddCategory,
     handleProfileImage,
