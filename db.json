@@ -77,7 +77,7 @@
       "name": "Nofal Hassaan ADMIN",
       "password": "nofal123",
       "contact": "09090909090990",
-      "role": "admin",
+      "role": "customer",
       "status": "active"
     }
   ],
@@ -235,10 +235,38 @@
     {
       "id": "9999",
       "name": "Fashion"
+    }
+  ],
+  "analytics-data": [
+    {
+      "date": "2024-11-10",
+      "productSold": 50,
+      "id": "c05c"
     },
     {
-      "id": "c4b7",
-      "name": "Hunting"
+      "date": "2024-11-11",
+      "productSold": 70,
+      "id": "a806"
+    },
+    {
+      "date": "2024-11-12",
+      "productSold": 30,
+      "id": "87fc"
+    },
+    {
+      "date": "2024-11-13",
+      "productSold": 80,
+      "id": "c728"
+    },
+    {
+      "date": "2024-11-14",
+      "productSold": 60,
+      "id": "d1d7"
+    },
+    {
+      "date": "2024-11-15",
+      "productSold": 90,
+      "id": "671c"
     }
   ],
   "assets": [
@@ -248,7 +276,7 @@
     },
     {
       "id": "adminSiteName",
-      "data": "Admin Site ...."
+      "data": "Nofal"
     }
   ]
 }

@@ -54,7 +54,7 @@ function Dashboard(props) {
     const [value, setValue] = useState(null)
     const { setConfirm, setLoader } = useCommon()
 
-    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const [nestation, setNestation] = useState(null)
 
     const initialComponent = 'Dashboard';

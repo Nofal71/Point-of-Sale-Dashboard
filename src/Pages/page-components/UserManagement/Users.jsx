@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, CircularProgress, Collapse, Divider, FormControl, InputAdornment, InputLabel, LinearProgress, MenuItem, Paper, Popper, Select, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { TransitionGroup } from 'react-transition-group';
 import { makeRequest } from '../../../Server/api/instance';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
@@ -13,12 +13,13 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 const Users = ({ setValues, setCurrentComponent }) => {
 
   const [childLoader, setChildLoader] = useState(null)
-  const inputRef = useRef()
+  const inputRef = useRef(null)
   const { getUser } = useUser()
   const {
     userList,
     filter,
     searchProgress,
+    searchInput,
     loadUsers,
     handleSearch,
     handleFilter,

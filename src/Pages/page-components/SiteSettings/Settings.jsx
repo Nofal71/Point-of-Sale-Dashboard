@@ -100,6 +100,7 @@ export default function Settings() {
               <PhotoCamera sx={{ mr: 1 }} /> Upload Logo
               <input
                 type="file"
+                accept='image/*'
                 onChange={handleProfileImage}
                 hidden
               />
@@ -115,6 +116,12 @@ export default function Settings() {
             fullWidth
             inputRef={setCategoryRef}
             placeholder='Add category here'
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleAddCategory(setCategoryRef.current.value)
+                setCategoryRef.current.value = ''
+              }
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

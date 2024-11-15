@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { makeRequest } from "../../Server/api/instance";
 import { useCommon } from "../common/useCommon";
+import { retry } from "@reduxjs/toolkit/query";
 
 export const useUsers = () => {
     const { setAlert, setConfirm, setLoader } = useCommon();
@@ -168,7 +169,15 @@ export const useUsers = () => {
     }, [userList, filter, updateFilteredUsers]);
 
     return {
-        userList: searchResults.length > 0 ? searchResults : filteredUsers,
+        userList: (() => {
+            if (searchResults.length > 0) {
+                return searchResults;
+            } else if (searchResults.length === 0 && searchInput.length > 0 && !searchProgress ) {
+                setAlert('No User Found', 'info');
+            } else {
+                return filteredUsers;
+            }
+        })(),
         filter,
         searchProgress,
         searchResults,
@@ -179,4 +188,5 @@ export const useUsers = () => {
         setStatus,
         setRole,
     };
+
 };
