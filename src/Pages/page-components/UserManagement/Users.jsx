@@ -19,6 +19,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
     userList,
     filter,
     searchProgress,
+    isPending,
     searchInput,
     loadUsers,
     handleSearch,
@@ -118,8 +119,12 @@ const Users = ({ setValues, setCurrentComponent }) => {
           <Typography variant="subtitle1" align='center'>Delete User</Typography>
         </Box>
 
+        {isPending && (
+          <LinearProgress />
+        )}
+
         <TransitionGroup>
-          {userList &&
+          {!isPending && userList &&
             userList.map((e, i) => {
               if (e.id !== getUser.id) {
                 return (

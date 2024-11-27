@@ -1,7 +1,7 @@
 {
   "user": [
     {
-      "id": "8d70",
+      "id": "8d71",
       "name": "Nofal",
       "username": "Nofal123",
       "email": "nofal76@gmail.com",
@@ -11,74 +11,73 @@
       "contact": "+12345678901"
     },
     {
-      "id": "5e66",
-      "name": "Emma Wilson",
-      "username": "emmaW",
-      "email": "emmawilson@example.com",
-      "password": "emma2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678908"
-    },
-    {
-      "id": "6f77",
-      "name": "Liam Taylor",
-      "username": "liamT",
-      "email": "liamtaylor@example.com",
-      "password": "liam2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678909"
-    },
-    {
-      "id": "7g88",
-      "name": "Sophia Moore",
-      "username": "sophiaM",
-      "email": "sophiamoore@example.com",
-      "password": "sophia2023",
-      "role": "customer",
-      "status": "blocked",
-      "contact": "+12345678910"
-    },
-    {
-      "id": "9i00",
-      "name": "Olivia Martinez",
-      "username": "oliviaM",
-      "email": "oliviamartinez@example.com",
-      "password": "olivia2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678912"
-    },
-    {
-      "id": "1k22",
-      "name": "Mia Clark",
-      "username": "miaC",
-      "email": "miaclark@example.com",
-      "password": "mia2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678914"
-    },
-    {
-      "id": "2l33",
-      "name": "James Lewis",
-      "username": "jamesL",
-      "email": "jameslewis@example.com",
-      "password": "james2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678915"
-    },
-    {
-      "id": "c63c",
-      "email": "nofal75@gmail.com",
-      "username": "nofal1234",
-      "name": "Nofal Hassaan ADMIN",
+      "id": "8d70",
+      "name": "Nofal",
+      "username": "Nofal123",
+      "email": "nofal123@gmail.com",
       "password": "nofal123",
-      "contact": "09090909090990",
-      "role": "customer",
-      "status": "active"
+      "role": "admin",
+      "status": "active",
+      "contact": "+12345678901"
+    }
+  ],
+  "carts": [
+    {
+      "id": "8d71",
+      "products": [
+        "p6"
+      ]
+    },
+    {
+      "id": "8d70",
+      "products": []
+    }
+  ],
+  "orders": [
+    {
+      "id": "8d71",
+      "details": [
+        {
+          "status": "pending",
+          "product": {
+            "id": "p2",
+            "quantity": 1
+          }
+        },
+        {
+          "status": "pending",
+          "product": {
+            "id": "p14",
+            "quantity": 1
+          }
+        },
+        {
+          "status": "pending",
+          "product": {
+            "id": "p4",
+            "quantity": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "8d70",
+      "details": [
+        {
+          "status": "pending",
+          "product": {
+            "id": "p2",
+            "quantity": 1
+          }
+        },
+        {
+          "status": "pending",
+          "product": {
+            "id": "p5",
+            "quantity": 1
+          }
+        }
+      ]
     }
   ],
   "products": [
@@ -119,6 +118,126 @@
       }
     },
     {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Digital Camera",
+      "description": "High-resolution digital camera with night mode and zoom.",
+      "price": "500",
+      "currency": "USD",
+      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
+      "category": "Electronics",
+      "inventory": {
+        "quantity": 75
+      }
+    },
+    {
       "id": "p6",
       "name": "Smartphone Case",
       "description": "Durable and stylish smartphone case with shockproof protection.",
@@ -137,7 +256,7 @@
       "price": "45",
       "currency": "USD",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
-      "category": "Electronics",
+      "category": "Fashion",
       "inventory": {
         "quantity": 60
       }
@@ -229,12 +348,12 @@
   ],
   "categories": [
     {
-      "id": "5ab8",
-      "name": "Electronics"
-    },
-    {
       "id": "9999",
       "name": "Fashion"
+    },
+    {
+      "id": "820d",
+      "name": "Hunting"
     }
   ],
   "analytics-data": [
@@ -276,7 +395,12 @@
     },
     {
       "id": "adminSiteName",
-      "data": "Nofal"
+      "data": "SIte Name"
+    },
+    {
+      "id": "hero",
+      "heroImg": "https://img.freepik.com/free-photo/paper-bags-different-colors-blue-background-top-view_169016-43755.jpg",
+      "heroText": "Welcome to My Website"
     }
   ]
 }

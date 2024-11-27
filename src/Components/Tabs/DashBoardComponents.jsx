@@ -1,4 +1,4 @@
-import { Analytics, Pending, Placed, Products, Settings, Users } from '../../Pages/page-components/index';
+import { Analytics, Orders, Products, Settings, Users } from '../../Pages/page-components/index';
 import UpdateProducts from '../../Pages/page-components/ProductManagement/UpdateProduct';
 import UserProfile from '../../Pages/page-components/UserManagement/UserProfile';
 
@@ -6,8 +6,7 @@ export const CurrentComponent = ({ selectOption, setCurrentComponent, setValues,
     const componentMap = {
         'Dashboard': (props) => <Analytics {...props} />,
         'Manage Users': (props) => <Users {...props} />,
-        'Pending Orders': (props) => <Pending {...props} />,
-        'Placed Orders': (props) => <Placed {...props} />,
+        'Orders': (props) => <Orders {...props} />,
         'Manage Products': (props) => <Products {...props} />,
         'Add Product': (props) => <UpdateProducts {...props} />,
         'Edit Product': (props) => <UpdateProducts {...props} />,

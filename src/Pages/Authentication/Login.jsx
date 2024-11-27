@@ -35,6 +35,7 @@ const LoginForm = () => {
             } else {
                 const userDetails = await getUserDetials(data.email)
                 updateUser(userDetails)
+                console.log(userDetails)
                 setAlert('Login Success', 'success')
                 navigate('/')
             }

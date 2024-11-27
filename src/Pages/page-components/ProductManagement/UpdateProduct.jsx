@@ -5,14 +5,16 @@ import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
 import { useCommon } from '../../../Hooks/common/useCommon';
 import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const PaperMotion = motion(Paper)
 
-const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
+const UpdateProducts = ({ setCurrentComponent, value }) => {
     const { setLoader, setAlert, setConfirm } = useCommon();
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+    const [file, setFile] = useState(null)
     const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm({
         defaultValues: {
             name: value?.name || '',
@@ -24,21 +26,24 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
         }
     });
 
-    const uploadImage = useCallback(async (file) => {
-        try {
-            const imgUrl = await uploadImageToCloudinary(file);
-            setValue('img', imgUrl);
-        } catch (error) {
-            console.error('Upload failed', error);
+    const uploadImage = async () => {
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file)
+            await makeRequest('POST', '/test', formData)
+        } else {
+            //
         }
-    }, [setValue]);
+    }
 
     const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
+        setFile(file)
         setHasUnsavedChanges(true);
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImagePreview(imageUrl);
+            uploadImage()
         }
     }, []);
 

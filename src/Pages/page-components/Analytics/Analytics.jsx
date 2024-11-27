@@ -8,28 +8,31 @@ const Analytics = () => {
   const { setLoader } = useCommon();
   const [productCount, setProductCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
+  const [ordersCount, setOrdersCount] = useState(0);
   const [analyticsData, setAnalyticsData] = useState([]);
 
   const cardData = [
     { name: 'Products Sold', detail: 'N/A' },
     { name: 'Product Count', detail: productCount },
     { name: 'User Count', detail: userCount },
-    { name: 'Orders', detail: 'N/A' },
+    { name: 'Orders', detail: ordersCount },
   ];
 
   useEffect(() => {
     const getData = async () => {
       setLoader(true);
       try {
-        const [productResponse, usersResponse , analyticsResponse] = await Promise.all([
+        const [productResponse, usersResponse , analyticsResponse , ordersDetails] = await Promise.all([
           makeRequest('GET', '/products'),
           makeRequest('GET', '/user'),
-          makeRequest('GET' , 'analytics-data')
+          makeRequest('GET' , 'analytics-data'),
+          makeRequest('GET' , '/orders')
         ]);
 
         setProductCount(productResponse.length);
         setUserCount(usersResponse.length);
         setAnalyticsData(analyticsResponse); 
+        setOrdersCount(ordersDetails.length)
 
       } catch (error) {
         console.error('Error fetching data:', error);
