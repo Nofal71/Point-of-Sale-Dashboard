@@ -4,12 +4,12 @@ import { makeRequest } from "../../Server/api/instance";
 
 export const useProducts = () => {
   const [products, setProducts] = useState(null);
-  const { setAlert, setConfirm } = useCommon();
+  const { setAlert, setConfirm, setLoader } = useCommon();
   const [sort, setSorting] = useState("");
-  const [progress, setProgress] = useState(false);
   const [saveProducts, setSave] = useState(null);
   const [input, saveInput] = useState(null);
-  const [isPending, startTransition] = useTransition(); // Adding useTransition
+  const [isPending, startTransition] = useTransition();
+  const debounceTimeout = useRef(null); 
 
   const handleSorting = (e) => {
     setSorting(e.target.value);
@@ -33,7 +33,6 @@ export const useProducts = () => {
 
   const searchData = async (inputValue) => {
     try {
-      setProgress(true);
       const search = await makeRequest("GET", "/products");
       const nameData = search?.filter(
         (e) =>
@@ -50,37 +49,44 @@ export const useProducts = () => {
     } catch (error) {
       console.log(error, "error");
       return [];
-    } finally {
-      setProgress(false);
     }
   };
 
   const searchProducts = (e) => {
-    const inputValue = JSON.parse(localStorage.getItem("cached"))
-      ? JSON.parse(localStorage.getItem("cached"))
-      : e.target.value.toLowerCase();
-    if (inputValue === "") return setProducts(saveProducts);
+    const inputValue = e.target.value.toLowerCase();
 
-    startTransition(() => {
-      searchData(inputValue).then((filteredData) => {
-        setProducts(filteredData);
-        saveInput(inputValue);
+    if (inputValue === "") {
+      setProducts(saveProducts);
+      saveInput("");
+      return;
+    }
+
+    clearTimeout(debounceTimeout.current); 
+
+    debounceTimeout.current = setTimeout(() => {
+      startTransition(() => {
+        searchData(inputValue).then((filteredData) => {
+          setProducts(filteredData);
+          saveInput(inputValue);
+        });
       });
-    });
+    }, 500); 
   };
 
-  const loadProducts = useCallback(async () => {
+  const loadProducts = useCallback(async (update) => {
     setSorting("");
+    !update && setLoader(true);
     try {
-      startTransition(async () => {
-        const data = await makeRequest("GET", "/products");
+      const data = await makeRequest("GET", "/products");
+      startTransition(() => {
         setSave(data);
         setProducts(data);
-      })
+      });
     } catch (error) {
       console.log(error, "Error in Fetching Data");
       setAlert("Data Load failed", "error");
     } finally {
+      setLoader(false);
     }
   }, [setProducts]);
 
@@ -90,10 +96,10 @@ export const useProducts = () => {
         try {
           await makeRequest("DELETE", `products/${productId}`);
           setAlert("Product Deleted", "info");
-          loadProducts();
+          loadProducts(true);
         } catch (error) {
+          setAlert("Unknown Error Please Check Your Internet Connection", "error");
           console.log(error, "Error in Deleting Product");
-        } finally {
         }
       });
     },
@@ -102,14 +108,13 @@ export const useProducts = () => {
 
   useEffect(() => {
     loadProducts();
-    JSON.parse(localStorage.getItem("cached")) &&
-      searchProducts(JSON.parse(localStorage.getItem("cached")));
+    const cachedInput = JSON.parse(localStorage.getItem("cached"));
+    if (cachedInput) searchProducts({ target: { value: cachedInput } });
     localStorage.clear("cached");
   }, []);
 
   return {
     products,
-    progress,
     input,
     sort,
     handleSorting,
@@ -117,6 +122,6 @@ export const useProducts = () => {
     searchProducts,
     loadProducts,
     deleteProduct,
-    isPending, // Expose isPending to manage UI states if needed
+    isPending, 
   };
 };

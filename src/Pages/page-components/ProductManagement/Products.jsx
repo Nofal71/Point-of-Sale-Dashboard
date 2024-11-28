@@ -7,10 +7,9 @@ import { useProducts } from '../../../Hooks/custom/useProducts.js';
 import {
   Box,
   Button,
-  CircularProgress,
   FormControl,
-  InputAdornment,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   TextField,
@@ -68,17 +67,6 @@ const Products = ({ setCurrentComponent, setValues }) => {
             JSON.parse(localStorage.getItem('cached'))
           }
           onChange={searchProducts}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                {isPending ? (
-                  <CircularProgress size={20} color="primary" />
-                ) : (
-                  <CircularProgress size={20} sx={{ opacity: 0 }} color="primary" />
-                )}
-              </InputAdornment>
-            ),
-          }}
         />
         <FormControl>
           <InputLabel id="demo-simple-select-label">Sort</InputLabel>
@@ -98,12 +86,6 @@ const Products = ({ setCurrentComponent, setValues }) => {
         </FormControl>
       </Box>
 
-      {/* <Typography variant="body1" component="h4" ref={displaySearchText}>
-        {isPending && 'Updating results...'}
-      </Typography>
-      {displaySearchText.current.innerText === '' && <br />} */}
-
-
       <Box
         sx={{
           display: { xs: 'grid', sm: 'flex' },
@@ -115,42 +97,47 @@ const Products = ({ setCurrentComponent, setValues }) => {
           flexDirection: 'row',
         }}
       >
-        {isPending && (
-          <Box sx={{ textAlign: 'center', width: '100%' }}>
-            <CircularProgress color="primary" />
-          </Box>
-        )}
-        {!isPending &&
-          products &&
-          products.map((product, index) => (
-            <ProductCard
-              key={index}
-              product={product}
-              buttons={[
-                <Button
-                  onClick={() => {
-                    setCurrentComponent('Edit Product', -1, true);
-                    setValues(product);
-                    localStorage.setItem('cached', JSON.stringify(input));
-                  }}
-                >
-                  <EditIcon />
-                </Button>,
-                <Button
-                  onClick={() => deleteProduct(product.id)}
-                  variant="contained"
-                  color="error"
-                  sx={{
-                    ':hover': {
-                      backgroundColor: 'red !important',
-                    },
-                  }}
-                >
-                  <DeleteIcon />
-                </Button>,
-              ]}
-            />
-          ))}
+
+        <Box sx={{ textAlign: 'center', width: '100%', opacity: isPending ? '1' : '0' }}>
+          <LinearProgress color="primary" />
+        </Box>
+        {
+          products && products.length > 0 ?
+            products.map((product, index) => (
+              <ProductCard
+                key={index}
+                product={product}
+                buttons={[
+                  <Button
+                    onClick={() => {
+                      setCurrentComponent('Edit Product', -1, true);
+                      setValues(product);
+                      localStorage.setItem('cached', JSON.stringify(input));
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>,
+                  <Button
+                    onClick={() => deleteProduct(product.id)}
+                    variant="contained"
+                    color="error"
+                    sx={{
+                      ':hover': {
+                        backgroundColor: 'red !important',
+                      },
+                    }}
+                  >
+                    <DeleteIcon />
+                  </Button>,
+                ]}
+              />
+            ))
+            : (
+              <Box >
+                <Typography> No Product Found </Typography>
+              </Box>
+            )
+        }
       </Box>
     </>
   );

@@ -4,7 +4,7 @@ import { useCommon } from "../common/useCommon";
 import { useTransition } from "react";
 
 export const useUsers = () => {
-    const { setAlert, setConfirm } = useCommon();
+    const { setAlert, setConfirm, setLoader } = useCommon();
     const [userList, setUserList] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filter, setFilter] = useState("");
@@ -101,6 +101,7 @@ export const useUsers = () => {
 
     const loadUsers = async () => {
         try {
+            setLoader(true)
             const users = await makeRequest("GET", "/user");
             startTransition(() => {
                 setUserList(users);
@@ -110,6 +111,7 @@ export const useUsers = () => {
         } catch (error) {
             console.log(error, "error in loading users");
         } finally {
+            setLoader(false)
         }
     };
 
