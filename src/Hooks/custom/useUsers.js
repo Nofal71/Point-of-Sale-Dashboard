@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { makeRequest } from "../../Server/api/instance";
 import { useCommon } from "../common/useCommon";
-import { retry } from "@reduxjs/toolkit/query";
+import { useTransition } from "react";
 
 export const useUsers = () => {
     const { setAlert, setConfirm, setLoader } = useCommon();
@@ -11,7 +11,7 @@ export const useUsers = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [searchProgress, setSearchProgress] = useState(false);
-    const searchTimeout = useRef();
+    const [isPending, startTransition] = useTransition() // Adding useTransition
 
     const clientSideUpdate = (option) => {
         switch (option.value) {
@@ -103,8 +103,10 @@ export const useUsers = () => {
         try {
             setLoader(true)
             const users = await makeRequest("GET", "/user");
-            setUserList(users);
-            setFilteredUsers(users);
+            startTransition(() => {
+                setUserList(users);
+                setFilteredUsers(users);
+            })
             return true;
         } catch (error) {
             console.log(error, "error in loading users");
@@ -129,6 +131,10 @@ export const useUsers = () => {
 
     const updateSearchList = useCallback(async () => {
         if (!searchInput) return;
+        if (searchInput === '') {
+            setSearchResults(users)
+            return
+        }
         try {
             setSearchProgress(true);
             const users = await makeRequest('GET', '/user');
@@ -141,19 +147,19 @@ export const useUsers = () => {
         }
     }, [searchInput]);
 
-
     const handleSearch = (e) => {
         const value = e.target.value;
         if (value === '') {
-            setSearchResults([]);
+            setSearchResults(userList);
             return;
         }
+
         setSearchProgress(true);
-        clearTimeout(searchTimeout.current);
-        searchTimeout.current = setTimeout(() => {
+        startTransition(() => {
             setSearchInput(value);
-        }, 500);
+        });
     };
+
 
     useEffect(() => {
         loadUsers()
@@ -172,7 +178,7 @@ export const useUsers = () => {
         userList: (() => {
             if (searchResults.length > 0) {
                 return searchResults;
-            } else if (searchResults.length === 0 && searchInput.length > 0 && !searchProgress ) {
+            } else if (searchResults.length === 0 && searchInput.length > 0 && !searchProgress) {
                 setAlert('No User Found', 'info');
             } else {
                 return filteredUsers;
@@ -181,6 +187,7 @@ export const useUsers = () => {
         filter,
         searchProgress,
         searchResults,
+        isPending,
         loadUsers,
         handleSearch,
         handleFilter,

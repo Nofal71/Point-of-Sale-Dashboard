@@ -1,7 +1,7 @@
 {
   "user": [
     {
-      "id": "8d70",
+      "id": "8d71",
       "name": "Nofal",
       "username": "Nofal123",
       "email": "nofal76@gmail.com",
@@ -11,230 +11,84 @@
       "contact": "+12345678901"
     },
     {
-      "id": "5e66",
-      "name": "Emma Wilson",
-      "username": "emmaW",
-      "email": "emmawilson@example.com",
-      "password": "emma2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678908"
-    },
-    {
-      "id": "6f77",
-      "name": "Liam Taylor",
-      "username": "liamT",
-      "email": "liamtaylor@example.com",
-      "password": "liam2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678909"
-    },
-    {
-      "id": "7g88",
-      "name": "Sophia Moore",
-      "username": "sophiaM",
-      "email": "sophiamoore@example.com",
-      "password": "sophia2023",
-      "role": "customer",
-      "status": "blocked",
-      "contact": "+12345678910"
-    },
-    {
-      "id": "9i00",
-      "name": "Olivia Martinez",
-      "username": "oliviaM",
-      "email": "oliviamartinez@example.com",
-      "password": "olivia2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678912"
-    },
-    {
-      "id": "1k22",
-      "name": "Mia Clark",
-      "username": "miaC",
-      "email": "miaclark@example.com",
-      "password": "mia2023",
-      "role": "customer",
-      "status": "active",
-      "contact": "+12345678914"
-    },
-    {
-      "id": "2l33",
-      "name": "James Lewis",
-      "username": "jamesL",
-      "email": "jameslewis@example.com",
-      "password": "james2023",
-      "role": "admin",
-      "status": "active",
-      "contact": "+12345678915"
-    },
-    {
-      "id": "c63c",
-      "email": "nofal75@gmail.com",
-      "username": "nofal1234",
-      "name": "Nofal Hassaan ADMIN",
+      "id": "8d70",
+      "name": "Nofal",
+      "username": "Nofal123",
+      "email": "nofal123@gmail.com",
       "password": "nofal123",
-      "contact": "09090909090990",
       "role": "customer",
-      "status": "active"
+      "status": "active",
+      "contact": "+12345678901"
     }
   ],
-  "products": [
+  "carts": [
     {
-      "id": "p2",
-      "name": "Wireless Headphones",
-      "description": "Noise-cancelling wireless headphones with 20 hours of battery life.",
-      "price": "99",
-      "currency": "PKR",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
-      "category": "Fashion",
-      "inventory": {
-        "quantity": 2
-      }
+      "id": "8d71",
+      "products": [
+        "p6"
+      ]
     },
     {
-      "id": "p4",
-      "name": "Fitness Tracker",
-      "description": "Wearable tracker for monitoring daily activity and health stats.",
-      "price": "80",
-      "currency": "USD",
-      "img": "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/primary/ProductShowcasesampleimages/JPEG/Product+Showcase-1.jpg",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 0
-      }
-    },
-    {
-      "id": "p5",
-      "name": "Digital Camera",
-      "description": "High-resolution digital camera with night mode and zoom.",
-      "price": "500",
-      "currency": "USD",
-      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 75
-      }
-    },
-    {
-      "id": "p6",
-      "name": "Smartphone Case",
-      "description": "Durable and stylish smartphone case with shockproof protection.",
-      "price": "20",
-      "currency": "USD",
-      "img": "https://plus.unsplash.com/premium_photo-1661769750859-64b5f1539aa8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdCUyMGltYWdlfGVufDB8fDB8fHww",
-      "category": "Fashion",
-      "inventory": {
-        "quantity": 300
-      }
-    },
-    {
-      "id": "p7",
-      "name": "Bluetooth Speaker",
-      "description": "Portable, waterproof Bluetooth speaker with deep bass.",
-      "price": "45",
-      "currency": "USD",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 60
-      }
-    },
-    {
-      "id": "p8",
-      "name": "Sunglasses",
-      "description": "Polarized sunglasses with UV protection.",
-      "price": "25",
-      "currency": "USD",
-      "img": "https://img.freepik.com/free-photo/3d-beauty-product-studio_23-2151401472.jpg",
-      "category": "Fashion",
-      "inventory": {
-        "quantity": 150
-      }
-    },
-    {
-      "id": "p9",
-      "name": "Drone Camera",
-      "description": "HD drone camera with remote control and live feed.",
-      "price": "250",
-      "currency": "USD",
-      "img": "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/primary/ProductShowcasesampleimages/JPEG/Product+Showcase-1.jpg",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 40
-      }
-    },
-    {
-      "id": "p10",
-      "name": "Leather Wallet",
-      "description": "Classic leather wallet with multiple compartments.",
-      "price": "30",
-      "currency": "USD",
-      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
-      "category": "Fashion",
-      "inventory": {
-        "quantity": 100
-      }
-    },
-    {
-      "id": "p12",
-      "name": "Smart Light Bulb",
-      "description": "Energy-saving smart bulb with remote control via mobile app.",
-      "price": "15",
-      "currency": "USD",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEw2ce40BkWdXvgMffW8BefaU8jogoAzSNDA&s",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 500
-      }
-    },
-    {
-      "id": "p13",
-      "name": "Waterproof Backpack",
-      "description": "Durable backpack with waterproof fabric and multiple compartments.",
-      "price": "55",
-      "currency": "USD",
-      "img": "https://img.freepik.com/free-photo/3d-beauty-product-studio_23-2151401472.jpg",
-      "category": "Fashion",
-      "inventory": {
-        "quantity": 80
-      }
-    },
-    {
-      "id": "p14",
-      "name": "Wireless Charger",
-      "description": "Fast wireless charger compatible with all Qi-enabled devices.",
-      "price": "25",
-      "currency": "USD",
-      "img": "https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/primary/ProductShowcasesampleimages/JPEG/Product+Showcase-1.jpg",
-      "category": "Electronics",
-      "inventory": {
-        "quantity": 300
-      }
-    },
-    {
-      "id": "p15",
-      "name": "Designer Watch",
-      "description": "Stylish designer watch with leather strap and water resistance.",
-      "price": "120",
-      "currency": "USD",
-      "img": "https://cdn.shopify.com/s/files/1/0657/8569/2375/files/Cosmetic-Skincare-Product-photo-Table-top-setup.jpg?v=1681840139",
-      "category": "Fashion",
-      "inventory": {
-        "quantity": 15
-      }
+      "id": "8d70",
+      "products": []
     }
   ],
+  "orders": [
+    {
+      "id": "8d71",
+      "details": [
+        {
+          "status": "pending",
+          "product": {
+            "id": "p2",
+            "quantity": 1
+          }
+        },
+        {
+          "status": "pending",
+          "product": {
+            "id": "p14",
+            "quantity": 1
+          }
+        },
+        {
+          "status": "pending",
+          "product": {
+            "id": "p4",
+            "quantity": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "8d70",
+      "details": [
+        {
+          "status": "pending",
+          "product": {
+            "id": "p2",
+            "quantity": 1
+          }
+        },
+        {
+          "status": "pending",
+          "product": {
+            "id": "p5",
+            "quantity": 1
+          }
+        }
+      ]
+    }
+  ],
+  "products": [],
   "categories": [
-    {
-      "id": "5ab8",
-      "name": "Electronics"
-    },
     {
       "id": "9999",
       "name": "Fashion"
+    },
+    {
+      "id": "820d",
+      "name": "Hunting"
     }
   ],
   "analytics-data": [
@@ -276,7 +130,12 @@
     },
     {
       "id": "adminSiteName",
-      "data": "Nofal"
+      "data": "SIte"
+    },
+    {
+      "id": "hero",
+      "heroImg": "https://img.freepik.com/free-photo/paper-bags-different-colors-blue-background-top-view_169016-43755.jpg",
+      "heroText": "Welcome to My Website"
     }
   ]
 }

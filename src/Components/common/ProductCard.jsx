@@ -59,7 +59,7 @@ export default function ProductCard({ product, buttons }) {
                         textOverflow: 'ellipsis',
                         fontSize: { sm: '1.35rem', xs: '1rem' }
                     }}>
-                        {product.price}
+                        {product.price}  {product?.currency}
                     </Typography>
                     <Typography variant="body2" sx={{
                         color: 'text.secondary',

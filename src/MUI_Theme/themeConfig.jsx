@@ -16,12 +16,13 @@ export const DashboardTheme = (mode) =>
                             backgroundColor: 'inherit',
                             color: mode === 'dark' ? 'white' : 'red',
                             borderColor: 'red',
-                            
+                            '&:hover': {
+                                backgroundColor: 'red',
+                            },
                         },
                         '&.MuiButton-outlined': {
                             backgroundColor: 'inherit',
-                            color: mode === 'dark' ? 'white' : 'red',
-                            
+                            color: mode === 'dark' ? 'white' : 'black',
                         },
                         '&.MuiButton-containedError': {
                             backgroundColor: 'red',

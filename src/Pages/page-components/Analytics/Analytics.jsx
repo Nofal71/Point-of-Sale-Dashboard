@@ -8,28 +8,31 @@ const Analytics = () => {
   const { setLoader } = useCommon();
   const [productCount, setProductCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
+  const [ordersCount, setOrdersCount] = useState(0);
   const [analyticsData, setAnalyticsData] = useState([]);
 
   const cardData = [
     { name: 'Products Sold', detail: 'N/A' },
     { name: 'Product Count', detail: productCount },
     { name: 'User Count', detail: userCount },
-    { name: 'Orders', detail: 'N/A' },
+    { name: 'Orders', detail: ordersCount },
   ];
 
   useEffect(() => {
     const getData = async () => {
       setLoader(true);
       try {
-        const [productResponse, usersResponse , analyticsResponse] = await Promise.all([
+        const [productResponse, usersResponse, analyticsResponse, ordersDetails] = await Promise.all([
           makeRequest('GET', '/products'),
           makeRequest('GET', '/user'),
-          makeRequest('GET' , 'analytics-data')
+          makeRequest('GET', 'analytics-data'),
+          makeRequest('GET', '/orders')
         ]);
 
         setProductCount(productResponse.length);
         setUserCount(usersResponse.length);
-        setAnalyticsData(analyticsResponse); 
+        setAnalyticsData(analyticsResponse);
+        setOrdersCount(ordersDetails.length)
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -56,6 +59,7 @@ const Analytics = () => {
         mt: 5,
       }}
     >
+      <Typography variant='h4' sx={{ width: 1 }}>Example Data :</Typography>
       {cardData.map((e, index) => (
         <Paper
           key={index}
@@ -68,9 +72,10 @@ const Analytics = () => {
         </Paper>
       ))}
 
+
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
-          data={analyticsData}  
+          data={analyticsData}
           margin={{
             top: 5,
             right: 30,
@@ -79,7 +84,7 @@ const Analytics = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" /> 
+          <XAxis dataKey="date" />
           <YAxis />
           <Tooltip />
           <Legend />

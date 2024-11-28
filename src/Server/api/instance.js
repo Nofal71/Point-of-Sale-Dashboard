@@ -15,6 +15,18 @@ export const instance = axios.create({
 
 export const makeRequest = async (type, path = '', body = null, options = {}) => {
     try {
+
+        const headers = {
+            ...options.headers,
+        };
+
+        if (body instanceof FormData) {
+            headers['Content-Type'] = 'multipart/form-data';
+            console.log('formData')
+        } else if (body) {
+            headers['Content-Type'] = 'application/json';
+        }
+
         const config = {
             timeout: 30000,
             ...options,

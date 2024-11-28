@@ -5,14 +5,16 @@ import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
 import { useCommon } from '../../../Hooks/common/useCommon';
 import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const PaperMotion = motion(Paper)
 
-const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
+const UpdateProducts = ({ setCurrentComponent, value }) => {
     const { setLoader, setAlert, setConfirm } = useCommon();
     const [categories, setCat] = useState(null)
     const [imagePreview, setImagePreview] = useState(() => value?.img || null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+    const [file, setFile] = useState(null)
     const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm({
         defaultValues: {
             name: value?.name || '',
@@ -20,25 +22,29 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
             price: value?.price || '',
             img: value?.img || '',
             category: value?.category || '',
+            currency: value?.currency || '',
             quantity: value?.inventory?.quantity || 0
         }
     });
 
-    const uploadImage = useCallback(async (file) => {
-        try {
-            const imgUrl = await uploadImageToCloudinary(file);
-            setValue('img', imgUrl);
-        } catch (error) {
-            console.error('Upload failed', error);
+    const uploadImage = async () => {
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file)
+            await makeRequest('POST', '/test', formData)
+        } else {
+            //
         }
-    }, [setValue]);
+    }
 
     const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
+        setFile(file)
         setHasUnsavedChanges(true);
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImagePreview(imageUrl);
+            uploadImage()
         }
     }, []);
 
@@ -50,6 +56,7 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
             "price": formData.price,
             "img": formData.img,
             "category": formData.category,
+            "currency": formData.currency,
             "inventory": {
                 "quantity": Number(formData.quantity)
             }
@@ -255,27 +262,53 @@ const UpdateProducts = ({ setCurrentComponent, value, nestation }) => {
                             <input style={{ display: 'none', width: 0, padding: 0 }} {...register('img', { required: 'Image is Required' })} value={imagePreview || ''} />
                         </Box>
                     </Container>
-                    {
-                        categories && (
-                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                                <InputLabel id="demo-simple-select-standard-label">Categories</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
-                                    {...register('category')}
-                                    label="category"
-                                    defaultValue={value?.category ? value.category : 'No Category Selected'}
-                                >
-                                    <MenuItem value=''>None</MenuItem>
-                                    {
-                                        categories && categories.map((e, i) => (
-                                            <MenuItem key={i} value={e.name}>{e.name}</MenuItem>
-                                        ))
-                                    }
-                                </Select>
-                            </FormControl>
-                        )
-                    }
+                    <Box>
+                        {
+                            categories && (
+                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                    <InputLabel id="demo-simple-select-standard-label">Categories</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        {...register('category', { required: 'Please Add Category' })}
+                                        label="category"
+                                        defaultValue={value?.category ? value.category : 'No Category Selected'}
+                                    >
+                                        <MenuItem value=''>None</MenuItem>
+                                        {
+                                            categories && categories.map((e, i) => (
+                                                <MenuItem key={i} value={e.name}>{e.name}</MenuItem>
+                                            ))
+                                        }
+                                    </Select>
+                                    {errors.category && (
+                                        <Typography mt={1} color="error" variant="body2">
+                                            {errors.category.message}
+                                        </Typography>
+                                    )}
+                                </FormControl>
+                            )
+                        }
+                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                            <InputLabel id="demo-simple-select-standard-label">Currency</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                id="demo-simple-select-standard"
+                                {...register('currency', { required: 'Please Select Currency' })}
+                                label="currency"
+                                defaultValue={value?.currency && value.currency }
+                            >
+                                <MenuItem value=''>None</MenuItem>
+                                <MenuItem value={'PKR'}>PKR</MenuItem>
+                                <MenuItem value={'USD'}>USD</MenuItem>
+                            </Select>
+                            {errors.currency && (
+                                <Typography mt={1} color="error" variant="body2">
+                                    {errors.currency.message}
+                                </Typography>
+                            )}
+                        </FormControl>
+                    </Box>
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} gap={3}>
                         <Button onClick={handleCancel} type='button' variant="contained" sx={{ marginTop: '20px', textWrap: 'nowrap' }}>
                             Cancel
