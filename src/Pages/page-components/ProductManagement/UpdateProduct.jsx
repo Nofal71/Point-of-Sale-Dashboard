@@ -1,11 +1,8 @@
 import { Avatar, Box, Button, Container, FormControl, Input, InputLabel, MenuItem, Paper, Select, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { makeRequest } from '../../../Server/api/instance';
 import { useForm } from 'react-hook-form';
-import { uploadImageToCloudinary } from '../../../Server/api/imageDb';
-import { useCommon } from '../../../Hooks/common/useCommon';
 import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 
 const PaperMotion = motion(Paper)
 
@@ -27,15 +24,6 @@ const UpdateProducts = ({ setCurrentComponent, value }) => {
         }
     });
 
-    const uploadImage = async () => {
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', file)
-            await makeRequest('POST', '/test', formData)
-        } else {
-            //
-        }
-    }
 
     const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
@@ -44,7 +32,6 @@ const UpdateProducts = ({ setCurrentComponent, value }) => {
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImagePreview(imageUrl);
-            uploadImage()
         }
     }, []);
 

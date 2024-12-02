@@ -125,7 +125,7 @@ const Users = ({ setValues, setCurrentComponent }) => {
 
         <TransitionGroup>
           {!isPending && userList &&
-            userList.map((e, i) => {
+            userList?.map((e, i) => {
               if (e.id !== getUser.id) {
                 return (
                   <Collapse
