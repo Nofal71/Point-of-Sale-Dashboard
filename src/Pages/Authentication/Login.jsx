@@ -1,14 +1,17 @@
-import { Button, Card, CardContent, Container, Stack, TextField, Typography, Divider, Box, InputLabel, OutlinedInput, IconButton, InputAdornment, ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { Button, Stack, TextField, Typography, Box, InputLabel, IconButton, InputAdornment, ThemeProvider, CssBaseline, Paper, Avatar } from '@mui/material';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Facebook, Google, Visibility, VisibilityOff } from '@mui/icons-material';
 import { authUser, getUserDetials } from '../../Server/Authentication/Login';
 import { AuthTheme } from '../../MUI_Theme/themeConfig';
 import { useCommon } from '../../Hooks/common/useCommon';
 import { useUser } from '../../Hooks/custom/useUser';
 import { motion } from 'framer-motion';
+import backDrop from '../../../public/Backdrop.png';
 
+
+const MotionForm = motion.form
 
 
 const LoginForm = () => {
@@ -35,7 +38,6 @@ const LoginForm = () => {
             } else {
                 const userDetails = await getUserDetials(data.email)
                 updateUser(userDetails)
-                console.log(userDetails)
                 setAlert('Login Success', 'success')
                 navigate('/')
             }
@@ -52,96 +54,170 @@ const LoginForm = () => {
 
     return (
         <ThemeProvider theme={() => AuthTheme(theme)}>
-            <CssBaseline />
-            <motion.form
-                initial={{ opacity: 0, y: -500 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                    duration: 0.6,
-                    ease: 'easeIn',
+            <Box
+                sx={{
+                    height: '100dvh',
+                    width: '100%',
+                    backgroundImage: `url(${backDrop})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    overflow:'hidden'
                 }}
-                onSubmit={handleSubmit(onSubmit)}>
-                <Container sx={{ width: '100%', height: '100vh', placeItems: 'center', display: 'grid' }}>
-                    <Card>
-                        <Typography variant='h4' align='center' gutterBottom>Login</Typography>
-                        <CardContent>
-                            <Stack spacing={3} direction='column'>
-                                <Stack direction={'column'} spacing={1}>
-                                    <InputLabel>Email</InputLabel>
-                                    <TextField
-                                        {...register('email', {
-                                            required: "Email is Required",
-                                        })}
-                                        placeholder='Enter Your Email'
-                                        variant='outlined'
-                                        fullWidth
-                                    />
-                                    {
-                                        errors.email && (
-                                            <Typography color="error" variant="body2">
-                                                {errors.email.message}
-                                            </Typography>
-                                        )
-                                    }
-                                </Stack>
-                                <Stack direction={'column'} spacing={1}>
-                                    <InputLabel>Password</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        placeholder='Enter Password'
-                                        fullWidth
-                                        type={showPassword ? 'text' : 'password'}
-                                        {...register("password", { required: "Password must contain 4 Letters", minLength: 4 })}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    onMouseUp={handleMouseUpPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                    {
-                                        errors.password && (
-                                            <Typography color="error" variant="body2">
-                                                {errors.password.message}
-                                            </Typography>
-                                        )
-                                    }
-                                </Stack>
-                                {
-                                    errors.root && (
-                                        <Typography color="error" variant="body2">
-                                            {errors.root.message}
-                                        </Typography>
-                                    )
-                                }
-                                <Divider />
-                                <Typography variant='subtitle2' align='center'>
-                                    Don't have an account? <Link to='/register'>Signup</Link>
-                                </Typography>
-                                <Button
-                                    variant='contained'
-                                    type='submit'
-                                    size='large'
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? 'Logging in...' : 'Login'}
-                                </Button>
-                                {isSubmitting && <Box display={'flex'} justifyContent={'center'}><l-dot-stream style={{ flexGrow: '1' }} size="90" speed="1" color="black" /></Box>}
-                            </Stack>
+            >
+                <CssBaseline />
 
-
-                        </CardContent>
-                    </Card>
-                </Container>
-            </motion.form>
-        </ThemeProvider>
+                <Paper
+                    component={MotionForm}
+                    initial={{ opacity: 0, y: -500 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: 0.6,
+                        ease: 'easeIn',
+                    }}
+                    elevation={3}
+                    onSubmit={handleSubmit(onSubmit)}
+                    sx={{
+                        borderRadius: '20px',
+                        minHeight: '80vh',
+                        maxHeight: '90vh',
+                        minWidth: '30dvw',
+                        maxWidth: '80dvw',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        p: 4,
+                        overflowY:'auto'
+                    }}
+                >
+                    <Stack direction={'column'} spacing={2} my={1} alignItems={'center'} >
+                        <Avatar />
+                        <Typography variant='h5' align='center'>Login</Typography>
+                    </Stack>
+                    <Stack direction="column" spacing={2} sx={{ width: '100%' }}>
+                        <Button
+                            startIcon={<Facebook />}
+                            variant="outlined"
+                            sx={{
+                                borderRadius: '30px',
+                                p: 1,
+                            }}
+                        >
+                            Login with Facebook
+                        </Button>
+                        <Button
+                            startIcon={<Google />}
+                            variant="outlined"
+                            sx={{
+                                borderRadius: '30px',
+                                p: 1,
+                            }}
+                        >
+                            Login with Google
+                        </Button>
+                    </Stack>
+                    <Box
+                        sx={{
+                            width: '100%',
+                            textAlign: 'center',
+                            color: 'gray',
+                            py: 1
+                        }}
+                    >
+                        --------------------- OR ---------------------
+                    </Box>
+                    <Stack spacing={2} direction={'column'} sx={{ width: '100%' }}>
+                        <div>
+                            <InputLabel sx={{ mb: 1 }}>Email</InputLabel>
+                            <TextField
+                                {...register('email', {
+                                    required: "Email is Required",
+                                })}
+                                placeholder="Enter Your Email"
+                                variant="outlined"
+                                fullWidth
+                                error={!!errors.email}
+                                helperText={errors.email?.message || ''}
+                            />
+                        </div>
+                        <div>
+                            <InputLabel sx={{ mb: 1 }}>Password</InputLabel>
+                            <TextField
+                                placeholder="Enter Your Password"
+                                variant="outlined"
+                                fullWidth
+                                type={showPassword ? 'text' : 'password'}
+                                {...register("password", {
+                                    required: "Password must contain 4 Letters",
+                                    minLength: {
+                                        value: 4,
+                                        message: "Password must be at least 4 characters",
+                                    },
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password?.message || ''}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                onMouseUp={handleMouseUpPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                sx={{
+                                    borderRadius: '30px',
+                                    mb: 2,
+                                }}
+                            />
+                        </div>
+                        <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
+                            <Typography
+                                sx={{
+                                    opacity: errors.root?.message ? 1 : 0,
+                                    height: '20px',
+                                }}
+                                color="error"
+                                variant="body2"
+                            >
+                                {errors.root?.message || ''}
+                            </Typography>
+                            <Typography
+                                component={Link}
+                                variant="body2"
+                            >
+                                Forgot Password ?
+                            </Typography>
+                        </Stack>
+                    </Stack>
+                    <Stack direction={'column'} pt={2} spacing={2} justifySelf={'flex-end'}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type='submit'
+                            sx={{
+                                borderRadius: '30px',
+                                width: '100%',
+                            }}
+                        >
+                            {isSubmitting ? 'Logging in...' : 'Login'}
+                        </Button>
+                        <Typography variant='body2' > Don't have account ? Lets
+                            <Link to={'/register'}> register</Link> yourself
+                        </Typography>
+                    </Stack>
+                </Paper>
+            </Box>
+        </ThemeProvider >
     )
 }
 

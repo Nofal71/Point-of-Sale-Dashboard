@@ -19,6 +19,15 @@
       "role": "customer",
       "status": "active",
       "contact": "+12345678901"
+    },
+    {
+      "id": "bc60",
+      "email": "nofal76@gmail.com",
+      "username": "nofal8888",
+      "password": "nofal123",
+      "contact": "827498378947239874",
+      "firstname": "najnsja",
+      "lastname": "nofasla"
     }
   ],
   "carts": [
@@ -80,7 +89,20 @@
       ]
     }
   ],
-  "products": [],
+  "products": [
+    {
+      "id": "c6b6",
+      "name": "Test Product",
+      "description": "Description Data\n",
+      "price": "300",
+      "img": "blob:https://point-of-sale-dashboard-pkd31ahon-nofals-projects-cee6861e.vercel.app/605f0e13-0163-483a-9d85-44879b697e40",
+      "category": "Fashion",
+      "currency": "PKR",
+      "inventory": {
+        "quantity": 0
+      }
+    }
+  ],
   "categories": [
     {
       "id": "9999",
@@ -130,7 +152,7 @@
     },
     {
       "id": "adminSiteName",
-      "data": "SIte"
+      "data": "Dashboard"
     },
     {
       "id": "hero",
