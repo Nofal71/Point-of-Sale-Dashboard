@@ -21,13 +21,14 @@
       "contact": "+12345678901"
     },
     {
-      "id": "bc60",
-      "email": "nofal76@gmail.com",
-      "username": "nofal8888",
+      "id": "61c1",
+      "email": "nofal763@gmail.com",
+      "username": "Nofal123",
+      "name": "Nofal Hassan",
       "password": "nofal123",
-      "contact": "827498378947239874",
-      "firstname": "najnsja",
-      "lastname": "nofasla"
+      "contact": "039193872828",
+      "role": "customer",
+      "status": "active"
     }
   ],
   "carts": [
@@ -301,30 +302,6 @@
       "inventory": {
         "quantity": 1
       }
-    },
-    {
-      "id": "2f02",
-      "name": "name",
-      "description": "nsniasn",
-      "price": "333",
-      "img": "blob:http://localhost:4000/4e98122e-e153-4317-8a36-4baa4a205732",
-      "category": "Hunting",
-      "currency": "PKR",
-      "inventory": {
-        "quantity": 1
-      }
-    },
-    {
-      "id": "2f02",
-      "name": "name",
-      "description": "nsniasn",
-      "price": "333",
-      "img": "blob:http://localhost:4000/4e98122e-e153-4317-8a36-4baa4a205732",
-      "category": "Hunting",
-      "currency": "PKR",
-      "inventory": {
-        "quantity": 1
-      }
     }
   ],
   "categories": [
@@ -372,7 +349,7 @@
     },
     {
       "id": "adminSiteName",
-      "data": "Nofal"
+      "data": "Dashboard"
     },
     {
       "id": "hero",

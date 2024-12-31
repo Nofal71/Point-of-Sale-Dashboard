@@ -8,7 +8,6 @@ import { AuthTheme } from '../../MUI_Theme/themeConfig';
 import { useCommon } from '../../Hooks/common/useCommon';
 import { useUser } from '../../Hooks/custom/useUser';
 import { motion } from 'framer-motion';
-import backDrop from '../../../public/Backdrop.png';
 
 
 const MotionForm = motion.form
@@ -58,16 +57,16 @@ const LoginForm = () => {
                 sx={{
                     height: '100dvh',
                     width: '100%',
-                    backgroundImage: `url(${backDrop})`,
+                    backgroundImage: `url(${'/public/Backdrop.png'})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    overflow:'hidden'
+                    overflow: 'hidden'
                 }}
             >
-                <CssBaseline />
+                <CssBaseline /> 
 
                 <Paper
                     component={MotionForm}
@@ -81,16 +80,15 @@ const LoginForm = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     sx={{
                         borderRadius: '20px',
-                        minHeight: '80vh',
-                        maxHeight: '90vh',
-                        minWidth: '30dvw',
-                        maxWidth: '80dvw',
+                        height: {xs:'auto' ,sm: '90dvh'} ,
+                        minWidth:'30dvw',
+                        maxWidth: '90dvw',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'space-around',
-                        p: 4,
-                        overflowY:'auto'
+                        px: 4,
+                        py: 2,
                     }}
                 >
                     <Stack direction={'column'} spacing={2} my={1} alignItems={'center'} >
@@ -104,6 +102,7 @@ const LoginForm = () => {
                             sx={{
                                 borderRadius: '30px',
                                 p: 1,
+                                height: 32
                             }}
                         >
                             Login with Facebook
@@ -114,6 +113,7 @@ const LoginForm = () => {
                             sx={{
                                 borderRadius: '30px',
                                 p: 1,
+                                height: 32
                             }}
                         >
                             Login with Google
@@ -129,10 +129,11 @@ const LoginForm = () => {
                     >
                         --------------------- OR ---------------------
                     </Box>
-                    <Stack spacing={2} direction={'column'} sx={{ width: '100%' }}>
+                    <Stack spacing={1} direction={'column'} sx={{ width: '100%' }}>
                         <div>
-                            <InputLabel sx={{ mb: 1 }}>Email</InputLabel>
+                            <InputLabel>Email</InputLabel>
                             <TextField
+                                size='small'
                                 {...register('email', {
                                     required: "Email is Required",
                                 })}
@@ -144,11 +145,12 @@ const LoginForm = () => {
                             />
                         </div>
                         <div>
-                            <InputLabel sx={{ mb: 1 }}>Password</InputLabel>
+                            <InputLabel>Password</InputLabel>
                             <TextField
                                 placeholder="Enter Your Password"
                                 variant="outlined"
                                 fullWidth
+                                size='small'
                                 type={showPassword ? 'text' : 'password'}
                                 {...register("password", {
                                     required: "Password must contain 4 Letters",
@@ -176,7 +178,6 @@ const LoginForm = () => {
                                 }}
                                 sx={{
                                     borderRadius: '30px',
-                                    mb: 2,
                                 }}
                             />
                         </div>

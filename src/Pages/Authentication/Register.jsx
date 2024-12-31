@@ -7,8 +7,8 @@ import { AuthTheme } from '../../MUI_Theme/themeConfig';
 import { useCommon } from '../../Hooks/common/useCommon';
 import { useUser } from '../../Hooks/custom/useUser';
 import { motion } from 'framer-motion';
-import backDrop from '../../../public/Backdrop.png';
 import { registerUser } from '../../Server/Authentication/Register';
+import { getUserDetials } from '../../Server/Authentication/Login';
 
 const MotionForm = motion.form;
 
@@ -57,7 +57,7 @@ const SignupForm = () => {
                 sx={{
                     height: '100dvh',
                     width: '100%',
-                    backgroundImage: `url(${backDrop})`,
+                    backgroundImage: `url(${'/public/Backdrop.png'})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     display: 'flex',
